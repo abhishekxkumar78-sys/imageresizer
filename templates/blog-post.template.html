@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="{{LANG}}">
+
+<head>
+    <!-- Clarity tracking code for https://freeeimageresizer.com/ -->
+    <script>
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "ymnkk7wd6f");
+    </script>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9352101497153646"
+     crossorigin="anonymous"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FDEYFM6YMD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FDEYFM6YMD');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{META_DESCRIPTION}}">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta property="og:title" content="{{PAGE_TITLE}}">
+    <meta property="og:description" content="{{META_DESCRIPTION}}">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="ImageResizer">
+    <meta property="og:url" content="{{CANONICAL_URL}}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{PAGE_TITLE}}">
+    <meta name="twitter:description" content="{{META_DESCRIPTION}}">
+    <title>{{PAGE_TITLE}}</title>
+    <link rel="canonical" href="{{CANONICAL_URL}}" />
+{{HREFLANG_TAGS}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/style.css">
+{{SCHEMA_JSON_LD}}
+</head>
+
+<body>
+{{HEADER}}
+
+    <!-- Article Content -->
+    <main>
+        <article class="blog-post-article">
+            <a href="{{BLOG_ROOT}}" class="blog-post-nav-back">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                {{BACK_TO_BLOG_TEXT}}
+            </a>
+
+            <header class="blog-post-header">
+                <span class="blog-card-badge">{{CATEGORY}}</span>
+                <h1 class="blog-post-title">{{TITLE}}</h1>
+                <div class="blog-post-meta">
+                    <span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        {{DATE_FORMATTED}}
+                    </span>
+                    <span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        {{READING_TIME}}
+                    </span>
+                    <span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        {{AUTHOR}}
+                    </span>
+                </div>
+            </header>
+
+            <div class="blog-post-body">
+{{CONTENT_HTML}}
+            </div>
+
+{{TOOL_CTA_BOX}}
+
+{{RELATED_POSTS_SECTION}}
+        </article>
+    </main>
+
+{{FOOTER}}
+
+    <script>
+    (function() {
+        const hamburger = document.querySelector('.nav-hamburger');
+        const nav = document.querySelector('.header-nav');
+        if (!hamburger || !nav) return;
+
+        function toggleMenu() {
+            const isOpen = nav.classList.toggle('is-open');
+            hamburger.setAttribute('aria-expanded', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+
+        function closeMenu() {
+            nav.classList.remove('is-open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+        nav.querySelectorAll('a, span').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+        document.addEventListener('click', (e) => {
+            if (nav.classList.contains('is-open') && !nav.contains(e.target) && !hamburger.contains(e.target)) {
+                closeMenu();
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && nav.classList.contains('is-open')) closeMenu();
+        });
+    })();
+    </script>
+</body>
+
+</html>

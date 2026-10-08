@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="{{LANG}}">
+
+<head>
+    <!-- Clarity tracking code for https://freeeimageresizer.com/ -->
+    <script>
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "ymnkk7wd6f");
+    </script>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9352101497153646"
+     crossorigin="anonymous"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FDEYFM6YMD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-FDEYFM6YMD');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{META_DESCRIPTION}}">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta property="og:title" content="{{PAGE_TITLE}}">
+    <meta property="og:description" content="{{META_DESCRIPTION}}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="ImageResizer">
+    <meta property="og:url" content="{{CANONICAL_URL}}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{PAGE_TITLE}}">
+    <meta name="twitter:description" content="{{META_DESCRIPTION}}">
+    <title>{{PAGE_TITLE}}</title>
+    <link rel="canonical" href="{{CANONICAL_URL}}" />
+{{HREFLANG_TAGS}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="/style.css">
+{{SCHEMA_JSON_LD}}
+</head>
+
+<body>
+{{HEADER}}
+
+    <!-- Blog Hero Section -->
+    <section class="blog-hero">
+        <span class="blog-hero-badge">{{HERO_BADGE}}</span>
+        <h1 class="blog-hero-title">{{HERO_TITLE}}</h1>
+        <p class="blog-hero-subtitle">{{HERO_SUBTITLE}}</p>
+    </section>
+
+    <!-- Blog Content Section -->
+    <main class="blog-section">
+        <div class="blog-container">
+            <div class="blog-grid">
+{{POSTS_GRID}}
+            </div>
+{{PAGINATION}}
+        </div>
+    </main>
+
+{{FOOTER}}
+
+    <script>
+    (function() {
+        const hamburger = document.querySelector('.nav-hamburger');
+        const nav = document.querySelector('.header-nav');
+        if (!hamburger || !nav) return;
+
+        function toggleMenu() {
+            const isOpen = nav.classList.toggle('is-open');
+            hamburger.setAttribute('aria-expanded', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+
+        function closeMenu() {
+            nav.classList.remove('is-open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+        nav.querySelectorAll('a, span').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+        document.addEventListener('click', (e) => {
+            if (nav.classList.contains('is-open') && !nav.contains(e.target) && !hamburger.contains(e.target)) {
+                closeMenu();
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && nav.classList.contains('is-open')) closeMenu();
+        });
+    })();
+    </script>
+</body>
+
+</html>
