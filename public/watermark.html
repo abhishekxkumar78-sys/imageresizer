@@ -24,7 +24,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Free online watermark adder. Add custom text watermarks to your photos and images. Control font size, position, opacity, and color right in your browser. 100% private.">
+        content="Free online watermark adder. Add custom text watermarks to your photos, images, and PDF documents. Control font size, position, opacity, and color right in your browser. 100% private.">
     <meta name="keywords" content="watermarkly">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:title" content="Free Watermark Adder Online — Protect Your Photos">
@@ -51,6 +51,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="style.css">
+    <!-- pdf-lib CDN for client-side vector PDF watermarking -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <!-- pdf.js CDN for client-side preview rendering (first 4 pages only) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -130,11 +134,11 @@
                     <circle cx="16" cy="12" r="1" fill="#6366f1" />
                 </svg>
             </div>
-            <p class="dropzone-title" id="dropzoneTitle">Drag &amp; Drop your image to add watermark</p>
-            <p class="dropzone-formats">Supported formats: PNG, JPG, WebP, GIF, BMP, AVIF, HEIC.</p>
+            <p class="dropzone-title" id="dropzoneTitle">Drag &amp; Drop your image or PDF to add watermark</p>
+            <p class="dropzone-formats">Supported formats: PNG, JPG, WebP, GIF, BMP, AVIF, HEIC, PDF.</p>
             <p class="dropzone-limit">Maximum file size: 50MB.</p>
-            <button class="btn-select" id="selectImagesBtn">Select Image</button>
-            <input type="file" id="fileInput" accept="image/*" hidden>
+            <button class="btn-select" id="selectImagesBtn">Select Image or PDF</button>
+            <input type="file" id="fileInput" accept="image/*,application/pdf,.pdf" hidden>
             <p class="dropzone-privacy">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
@@ -155,6 +159,30 @@
                 <div style="text-align:center;">
                     <div style="background:var(--bg-light); border-radius:var(--radius-md); padding:16px; min-height:280px; display:flex; align-items:center; justify-content:center; border:1px dashed var(--border);">
                         <img id="imagePreview" src="" alt="Watermarked Preview" style="max-width:100%; max-height:320px; border-radius:var(--radius-sm); object-fit:contain;">
+                        <div id="pdfPreviewCard" style="display:none; width:100%; max-width:320px; background:var(--bg-white); border:1px solid var(--border); border-radius:var(--radius-md); box-shadow:var(--shadow-md); position:relative; overflow:hidden; flex-direction:column; padding:16px; box-sizing:border-box;">
+                            <button id="removePdfBtn" type="button" aria-label="Remove PDF" title="Remove PDF" style="position:absolute; top:8px; right:8px; width:24px; height:24px; border-radius:50%; background:var(--bg-light); border:1px solid var(--border); color:var(--text-primary); display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0; line-height:1; transition:all 0.15s ease; z-index:10;" onmouseover="this.style.background='var(--primary)';this.style.color='#fff';this.style.borderColor='var(--primary)';" onmouseout="this.style.background='var(--bg-light)';this.style.color='var(--text-primary)';this.style.borderColor='var(--border)';">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:10px; padding-right:24px;">
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--primary);">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    </svg>
+                                    <span id="pdfFileName" style="font-size:13px; font-weight:600; color:var(--text-primary); max-width:130px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Document</span>
+                                </div>
+                                <span id="pdfPageBadge" style="background:var(--primary); color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:var(--radius-full);">1 page</span>
+                            </div>
+                            <div id="pdfPagesContainer" style="margin:12px 0; max-height:420px; overflow-y:auto; display:flex; flex-direction:column; gap:16px; align-items:center; padding:4px;"></div>
+                            <div id="pdfPreviewFootnote" style="font-size:11px; color:var(--text-secondary, #94a3b8); text-align:center; padding-top:8px; border-top:1px solid var(--border); line-height:1.4;">
+                                PDF loaded &bull; Vector watermark applied on save
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -178,6 +206,18 @@
                             <option value="top-right">Top Right</option>
                             <option value="top-left">Top Left</option>
                         </select>
+                    </div>
+
+                    <!-- Apply to Pages (PDF only) -->
+                    <div class="setting-field" id="applyPagesContainer" style="display:none; margin-bottom:16px;">
+                        <label class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Apply to Pages</label>
+                        <select id="applyPagesSelect" class="setting-select" style="width:100%; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px;">
+                            <option value="all" selected>All Pages</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                        <div id="customRangeContainer" style="display:none; margin-top:8px;">
+                            <input type="text" id="pageRangeInput" class="setting-input" placeholder="e.g. 1,3,5-10" style="width:100%; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
+                        </div>
                     </div>
 
                     <!-- Font Size Slider -->
@@ -217,7 +257,7 @@
                         </div>
                     </div>
 
-                    <div class="setting-field" style="margin-bottom:20px;">
+                    <div class="setting-field" id="targetFileSizeContainer" style="margin-bottom:20px;">
                         <label class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:8px;">Target File Size (Optional)</label>
                         <div style="display:flex; gap:8px;">
                             <input type="number" id="targetFileSize" class="setting-input" placeholder="e.g. 100" min="1" step="any" style="flex:1; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
@@ -226,6 +266,16 @@
                                 <option value="MB">MB</option>
                             </select>
                         </div>
+                    </div>
+
+                    <!-- Note for PDF mode -->
+                    <div id="pdfTargetSizeNote" style="display:none; font-size:13px; color:var(--text-secondary, #94a3b8); margin-bottom:20px; padding:10px 14px; background:var(--bg-light); border-radius:var(--radius-md); border:1px solid var(--border);">
+                        Target file size is not applicable for PDF watermarking.
+                    </div>
+
+                    <!-- Notice for large PDF -->
+                    <div id="pdfLargeNotice" style="display:none; font-size:13px; color:#f59e0b; margin-bottom:16px; padding:10px 14px; background:rgba(245, 158, 11, 0.1); border-radius:var(--radius-md); border:1px solid rgba(245, 158, 11, 0.3);">
+                        Large PDF — processing may take a moment
                     </div>
 
                     <button id="downloadBtn" class="btn-process" style="width:100%; padding:14px; border-radius:var(--radius-full); background:var(--primary-gradient); color:#fff; font-weight:700; font-size:15px; border:none; cursor:pointer; box-shadow:0 4px 14px rgba(99, 102, 241, 0.35);">

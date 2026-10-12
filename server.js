@@ -26,8 +26,58 @@ function serveFile(res, filePath, statusCode, ext) {
 }
 
 const server = http.createServer((req, res) => {
-    let url = req.url.split('?')[0];
+    const rawUrl = req.url;
+    const [pathname, search] = rawUrl.split('?');
+    const query = search ? `?${search}` : '';
+    let url = pathname;
 
+    // 1. Normalize duplicate slashes (e.g. //crop -> /crop)
+    if (url.includes('//')) {
+        const cleanUrl = url.replace(/\/+/g, '/');
+        res.writeHead(301, { 'Location': `${cleanUrl}${query}` });
+        res.end();
+        return;
+    }
+
+    // Language roots definitions
+    const langRoots = ['/es', '/pt', '/fr', '/de', '/hi', '/id'];
+    const langDirectoryRoots = ['/es/', '/pt/', '/fr/', '/de/', '/hi/', '/id/'];
+
+    // 2. Trailing slash normalization
+    if (langRoots.includes(url)) {
+        res.writeHead(301, { 'Location': `${url}/${query}` });
+        res.end();
+        return;
+    } else if (url.endsWith('/') && url !== '/' && !langDirectoryRoots.includes(url)) {
+        const cleanUrl = url.replace(/\/+$/, '') || '/';
+        res.writeHead(301, { 'Location': `${cleanUrl}${query}` });
+        res.end();
+        return;
+    }
+
+    // 3. Normalize .html and index to clean URLs in ONE single hop
+    if (url === '/index.html' || url === '/index') {
+        res.writeHead(301, { 'Location': `/${query}` });
+        res.end();
+        return;
+    } else if (url.endsWith('/index.html')) {
+        const parent = url.slice(0, -11);
+        const cleanParent = langRoots.includes(parent) ? `${parent}/` : (parent || '/');
+        res.writeHead(301, { 'Location': `${cleanParent}${query}` });
+        res.end();
+        return;
+    } else if (url.endsWith('/index')) {
+        const parent = url.slice(0, -6);
+        const cleanParent = langRoots.includes(parent) ? `${parent}/` : (parent || '/');
+        res.writeHead(301, { 'Location': `${cleanParent}${query}` });
+        res.end();
+        return;
+    } else if (url.endsWith('.html')) {
+        const cleanUrl = url.slice(0, -5);
+        res.writeHead(301, { 'Location': `${cleanUrl}${query}` });
+        res.end();
+        return;
+    }
 
     // Generic clean URL rewriting
     if (url === '/') {

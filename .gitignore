@@ -1,7 +1,10 @@
-﻿node_modules/
+node_modules/
 .wrangler/
 .env
 .DS_Store
 *.log
 dist/
 build/
+edge-profile-*/
+outputs/
+.kilo/
