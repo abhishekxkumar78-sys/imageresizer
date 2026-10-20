@@ -34,7 +34,7 @@ Some forms also specify a minimum size, such as 10 KB or 20 KB, so verify that t
 
 ## Additional tools for compression
 
-If you already have a photo or a PDF file, you can also use our [Image Compressor](https://www.freeeimageresizer.com/compress), which has the same Target file size field and works with images and PDF files.
+If you already have a photo or a PDF file, you can also use our [Image Compressor](https://www.freeeimageresizer.com/compress), which has the same Target file size field and works with images and PDF files; PDF files are converted page by page into images, so it suits scanned or image-heavy documents best.
 
 If your portal allows a slightly higher file weight, read our guide on [how to resize an image to 100 KB](https://www.freeeimageresizer.com/blog/how-to-resize-image-to-100-kb), which preserves noticeably more visual detail.
 

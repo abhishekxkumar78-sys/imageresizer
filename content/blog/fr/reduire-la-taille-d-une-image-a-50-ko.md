@@ -34,7 +34,7 @@ Certains formulaires précisent également un seuil minimal, comme 10 Ko ou 20 K
 
 ## Outils complémentaires
 
-Si vous disposez déjà d'une photo ou d'un fichier PDF, vous pouvez aussi utiliser notre [Compresseur d'images](https://www.freeeimageresizer.com/compress), qui intègre le même champ Target file size et fonctionne avec les images et les fichiers PDF.
+Sur la version en anglais de notre [Compresseur d'images](https://www.freeeimageresizer.com/compress), vous pouvez aussi compresser un fichier PDF avec ce même champ de taille cible; les fichiers PDF fonctionnent actuellement uniquement sur cette page en anglais et sont convertis page par page en images, ce qui convient surtout aux documents numérisés ou contenant beaucoup d'images.
 
 Si votre portail autorise une limite de poids un peu plus généreuse, vous pouvez consulter notre guide expliquant [comment redimensionner une image à 100 Ko](https://www.freeeimageresizer.com/fr/blog/comment-redimensionner-une-image-a-100-ko), qui permet de conserver un niveau de piqué bien plus élevé.
 

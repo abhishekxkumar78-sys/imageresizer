@@ -34,7 +34,7 @@ Certos formulários exigem também um tamanho mínimo de ficheiro, por exemplo 1
 
 ## Ferramentas complementares
 
-Se já possuir uma fotografia ou um ficheiro PDF, também pode recorrer ao nosso [Compressor de imagens](https://www.freeeimageresizer.com/compress), que disponibiliza o mesmo campo Target file size e funciona com imagens e ficheiros PDF.
+Na versão em inglês do nosso [Compressor de imagens](https://www.freeeimageresizer.com/compress) também pode comprimir um ficheiro PDF com este mesmo campo de tamanho pretendido; os ficheiros PDF atualmente funcionam apenas nessa página em inglês e são convertidos página por página em imagens, pelo que é mais adequada para documentos digitalizados ou com muitas imagens.
 
 Caso o seu formulário admita um limite ligeiramente maior, leia o nosso guia sobre [como redimensionar uma imagem para 100 KB](https://www.freeeimageresizer.com/pt/blog/como-redimensionar-imagem-para-100-kb), onde é possível preservar um nível superior de detalhe visual.
 

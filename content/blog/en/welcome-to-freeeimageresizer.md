@@ -37,9 +37,9 @@ We kept the layout clean so you can get in, finish what you need, and get on wit
 
 A lot of everyday paperwork is PDF, not photos: scanned receipts, contracts, multi-page forms. So we expanded three of our tools to accept PDF files too.
 
-You can now drop full PDF documents directly into [Image Compressor](/compress) to shrink their total size before emailing them. You can open a document in [Watermark Adder](/watermark) to place a confidential or draft stamp across every page. And inside [Image to PDF](/image-to-pdf), you can mix regular images with existing PDF pages, reorder them by dragging thumbnails around, and export a clean consolidated document.
+You can now drop full PDF documents directly into [Image Compressor](/compress) to shrink their total size before emailing them. PDF compression works by turning each page into an image, so selectable text is lost, and text-only PDFs may not get smaller. It suits scanned or image-heavy documents best. You can open a document in [Watermark Adder](/watermark) to place a confidential or draft stamp across every page. And inside [Image to PDF](/image-to-pdf), you can mix regular images with existing PDF pages, reorder them by dragging thumbnails around, and export a clean consolidated document.
 
-We also added a target file size feature across our tools. Instead of guessing quality sliders and hoping the output is small enough, you can type in an exact limit, such as 200 KB or 2 MB. The tool automatically adjusts compression and scaling to stay under that limit. Keep in mind that very large PDFs with many pages can take a bit longer, so give your device a moment to finish.
+We also added a target file size feature to the [Image Resizer](/), [Image Compressor](/compress), [Format Converter](/convert), [Watermark Adder](/watermark) (images only, not PDFs) and [Image to PDF](/image-to-pdf) tools. Instead of guessing quality sliders and hoping the output is small enough, you can type in an exact limit, such as 200 KB or 2 MB. The tool adjusts the compression, and for images also the dimensions if needed, to get as close to that limit as it can. Keep in mind that very large PDFs with many pages can take a bit longer, so give your device a moment to finish.
 
 ## Built for everyone, in seven languages
 

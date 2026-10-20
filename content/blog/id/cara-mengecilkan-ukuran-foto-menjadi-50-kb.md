@@ -34,7 +34,7 @@ Beberapa formulir juga memberlakukan batas minimum, misalnya berkas tidak boleh 
 
 ## Alat kompresi pendukung
 
-Jika Anda sudah memiliki foto atau berkas PDF, Anda juga bisa menggunakan [Kompres Gambar](https://www.freeeimageresizer.com/compress) kami, yang memiliki kolom Target file size serupa dan dapat digunakan untuk berkas gambar maupun PDF.
+Pada versi bahasa Inggris dari [Kompres Gambar](https://www.freeeimageresizer.com/compress) kami, Anda juga dapat mengompresi berkas PDF dengan kolom Target file size yang sama; berkas PDF saat ini hanya bekerja pada halaman bahasa Inggris tersebut dan diubah per halaman menjadi gambar, sehingga paling cocok untuk dokumen hasil pindai atau yang memuat banyak gambar.
 
 Apabila portal Anda memperbolehkan ukuran berkas yang sedikit lebih besar, pelajari panduan kami mengenai [cara mengubah ukuran foto menjadi 100 KB](https://www.freeeimageresizer.com/id/blog/cara-mengubah-ukuran-foto-menjadi-100-kb) untuk mempertahankan detail gambar yang jauh lebih tajam.
 

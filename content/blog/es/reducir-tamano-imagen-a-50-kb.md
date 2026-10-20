@@ -34,7 +34,7 @@ Algunos formularios también establecen un tamaño mínimo permitido, como 10 KB
 
 ## Herramientas complementarias
 
-Si ya dispones de una foto o de un archivo PDF, también puedes utilizar nuestro [Compresor de imágenes](https://www.freeeimageresizer.com/compress), que cuenta con el mismo campo Target file size y funciona con imágenes y archivos PDF.
+En la versión en inglés de nuestro [Compresor de imágenes](https://www.freeeimageresizer.com/compress) también puedes comprimir un archivo PDF con este mismo campo de tamaño deseado; los archivos PDF actualmente solo funcionan en esa página en inglés y se convierten página por página en imágenes, por lo que resulta más adecuada para documentos escaneados o con muchas imágenes.
 
 Si tu trámite admite un límite de peso más holgado, puedes consultar nuestra guía sobre [cómo cambiar el tamaño de una imagen a 100 KB](https://www.freeeimageresizer.com/es/blog/como-cambiar-tamano-imagen-a-100-kb), donde se conserva un nivel de detalle apreciablemente mayor.
 

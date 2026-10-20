@@ -34,7 +34,7 @@ Einige Antragsformulare setzen auch eine Mindestgröße voraus, etwa 10 KB oder 
 
 ## Weitere Werkzeuge zur Komprimierung
 
-Wenn Sie bereits ein Foto oder eine PDF-Datei vorliegen haben, können Sie auch unseren [Bildkomprimierer](https://www.freeeimageresizer.com/compress) nutzen, der dasselbe Feld Target file size bietet und mit Bildern sowie PDF-Dateien funktioniert.
+Auf der englischen Version unseres [Bildkomprimierers](https://www.freeeimageresizer.com/compress) können Sie auch eine PDF-Datei mit demselben Feld für die Zielgröße komprimieren; PDF-Dateien funktionieren derzeit nur auf dieser englischen Seite und werden Seite für Seite in Bilder umgewandelt, weshalb sie sich am besten für eingescannte oder bildlastige Dokumente eignet.
 
 Erlaubt Ihr Portal ein etwas höheres Dateigewicht, lesen Sie unsere Anleitung dazu, wie Sie ein [Bild auf 100 KB verkleinern](https://www.freeeimageresizer.com/de/blog/bild-auf-100-kb-verkleinern), wodurch merklich mehr Details erhalten bleiben.
 
