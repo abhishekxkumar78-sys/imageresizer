@@ -1,3 +1,68 @@
+const LANG_REDIRECT_ENABLED = true;   // kill switch
+const LANG_REDIRECT_HOMEPAGE = true;  // homepage redirect enabled for non-bot visitors with a non-English browser language; bots are never redirected
+
+const SUPPORTED_LANGS = ['en', 'es', 'pt', 'fr', 'de', 'hi', 'id'];
+const BOT_REGEX = /bot|crawler|spider|google|googlebot|bing|bingbot|msnbot|adsbot|yandex|duckduckbot|slurp|baiduspider|facebookexternalhit|twitterbot|linkedinbot|embedly|pinterest|slackbot|whatsapp|telegram|preview|lighthouse|pagespeed|gtmetrix|headless|inspectiontool/i;
+
+function getCookieValue(cookieHeader, name) {
+  if (!cookieHeader) return null;
+  const match = cookieHeader.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]+)'));
+  return match ? decodeURIComponent(match[1].trim()) : null;
+}
+
+function parseAcceptLanguage(header) {
+  if (!header) return null;
+  const items = header.split(',').map((part, index) => {
+    const [tag, ...params] = part.trim().split(';');
+    let q = 1.0;
+    for (const param of params) {
+      const [k, v] = param.trim().split('=');
+      if (k === 'q') {
+        const parsedQ = parseFloat(v);
+        if (!isNaN(parsedQ)) q = parsedQ;
+      }
+    }
+    return { tag: tag.trim(), q, index };
+  });
+
+  const validItems = items.filter(item => item.q > 0);
+  validItems.sort((a, b) => b.q - a.q || a.index - b.index);
+
+  for (const item of validItems) {
+    let primary = item.tag.toLowerCase().split(/[-_]/)[0].trim();
+    if (primary === 'in') primary = 'id';
+    if (SUPPORTED_LANGS.includes(primary)) {
+      return primary;
+    }
+  }
+  return null;
+}
+
+function extractHreflangUrl(htmlChunk, targetLang) {
+  const linkRegex = /<link\b[^>]*>/gi;
+  let match;
+  while ((match = linkRegex.exec(htmlChunk)) !== null) {
+    const tag = match[0];
+    if (/\brel\s*=\s*["']?alternate["']?/i.test(tag)) {
+      const langMatch = tag.match(/\bhreflang\s*=\s*["']?([^"'\s>]+)["']?/i);
+      const hrefMatch = tag.match(/\bhref\s*=\s*["']?([^"'\s>]+)["']?/i);
+      if (langMatch && hrefMatch && langMatch[1].toLowerCase() === targetLang.toLowerCase()) {
+        return hrefMatch[1];
+      }
+    }
+  }
+  return null;
+}
+
+function getPageLanguage(path) {
+  for (const root of ['/es', '/pt', '/fr', '/de', '/hi', '/id']) {
+    if (path === root || path === root + '/' || path.startsWith(root + '/')) {
+      return root.slice(1);
+    }
+  }
+  return 'en';
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -100,11 +165,114 @@ export default {
       htmlUrl.pathname = `${pathname}.html`;
       const htmlAsset = await env.ASSETS.fetch(new Request(htmlUrl, request));
       if (htmlAsset.status === 200) {
-        return htmlAsset;
+        asset = htmlAsset;
       }
     }
 
     if (asset.status !== 404) {
+      // Check if this is an HTML page navigation
+      const isHtmlAsset = asset.status === 200 &&
+        (asset.headers.get('content-type') || '').includes('text/html');
+      const lastSegment = pathname.slice(pathname.lastIndexOf('/') + 1);
+      const hasNonHtmlExt = lastSegment.includes('.') && !lastSegment.endsWith('.html');
+
+      if (isHtmlAsset && !hasNonHtmlExt) {
+        const isSecure = url.protocol === 'https:' || isProduction;
+        const secureFlag = isSecure ? '; Secure' : '';
+        const cookieHeader = request.headers.get('cookie');
+        const prefCookie = getCookieValue(cookieHeader, 'lang_pref');
+
+        // Check for internal navigation
+        const secFetchSite = (request.headers.get('sec-fetch-site') || '').toLowerCase();
+        const isSameSiteFetch = secFetchSite === 'same-origin' || secFetchSite === 'same-site';
+        let isSameHostReferer = false;
+        const referer = request.headers.get('referer');
+        if (referer) {
+          try {
+            const refUrl = new URL(referer);
+            if (refUrl.host.toLowerCase() === url.host.toLowerCase() ||
+                (isProduction && refUrl.hostname.toLowerCase().includes('freeeimageresizer.com'))) {
+              isSameHostReferer = true;
+            }
+          } catch (_) {}
+        }
+        const isInternalNav = isSameSiteFetch || isSameHostReferer;
+
+        // If internal navigation on GET, refresh or set lang_pref cookie if needed
+        if (isInternalNav && request.method === 'GET') {
+          const pageLang = getPageLanguage(pathname);
+          if (prefCookie !== pageLang) {
+            const newHeaders = new Headers(asset.headers);
+            newHeaders.append('Set-Cookie', `lang_pref=${pageLang}; Path=/; Max-Age=31536000; SameSite=Lax${secureFlag}`);
+            return new Response(asset.body, {
+              status: asset.status,
+              statusText: asset.statusText,
+              headers: newHeaders
+            });
+          }
+          return asset;
+        }
+
+        // Automatic language redirect evaluation
+        const isEnglishPath = !langRoots.some(root => pathname === root || pathname.startsWith(root + '/'));
+        const userAgent = request.headers.get('user-agent');
+        const isBot = !userAgent || BOT_REGEX.test(userAgent);
+        const allowHomepage = pathname !== '/' || LANG_REDIRECT_HOMEPAGE;
+
+        if (LANG_REDIRECT_ENABLED &&
+            request.method === 'GET' &&
+            isEnglishPath &&
+            allowHomepage &&
+            !isBot &&
+            !isInternalNav) {
+
+          // Determine target language: check cookie first, then Accept-Language header
+          let targetLang = null;
+          if (prefCookie && SUPPORTED_LANGS.includes(prefCookie.toLowerCase())) {
+            targetLang = prefCookie.toLowerCase();
+          } else {
+            const acceptLang = request.headers.get('accept-language');
+            if (acceptLang) {
+              targetLang = parseAcceptLanguage(acceptLang);
+            }
+          }
+
+          // If target is non-English, check for alternate hreflang URL
+          if (targetLang && targetLang !== 'en') {
+            const cloned = asset.clone();
+            const text = await cloned.text();
+            const headEnd = text.indexOf('</head>');
+            const headContent = headEnd !== -1 ? text.slice(0, headEnd) : text.slice(0, 20000);
+            const targetHref = extractHreflangUrl(headContent, targetLang);
+
+            if (targetHref) {
+              let targetPath;
+              try {
+                const targetParsed = new URL(targetHref);
+                targetPath = targetParsed.pathname;
+              } catch (_) {
+                targetPath = targetHref.startsWith('/') ? targetHref : '/' + targetHref;
+              }
+
+              if (targetPath && targetPath !== pathname) {
+                const targetLocation = `${url.origin}${targetPath}${url.search}`;
+                const setCookie = `lang_pref=${targetLang}; Path=/; Max-Age=31536000; SameSite=Lax${secureFlag}`;
+
+                return new Response(null, {
+                  status: 302,
+                  headers: {
+                    'Location': targetLocation,
+                    'Cache-Control': 'private, no-store, no-cache, max-age=0, must-revalidate',
+                    'Vary': 'Accept-Language, Cookie',
+                    'Set-Cookie': setCookie
+                  }
+                });
+              }
+            }
+          }
+        }
+      }
+
       return asset;
     }
 
