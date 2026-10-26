@@ -136,62 +136,83 @@ a {
 }
 
 .btn-crop-nav {
-  background: var(--primary-gradient);
-  color: var(--text-white);
+  background: transparent;
+  color: var(--text-primary);
   border: none;
   padding: 8px 22px;
   border-radius: var(--radius-full);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition: background var(--transition), color var(--transition);
   font-family: inherit;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  box-shadow: none;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .btn-crop-nav:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+  background: #f3f4f6;
+  color: var(--text-primary);
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-crop-nav.active {
   cursor: default;
   transform: none;
-  box-shadow: none;
-  opacity: 0.85;
-  background: var(--primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  opacity: 1;
+  background: #000000;
+  color: #ffffff;
+}
+
+.btn-crop-nav.active:hover {
+  background: #000000;
+  color: #ffffff;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* Unified nav button style for all tool links */
 .nav-btn {
-  background: var(--primary-gradient);
-  color: var(--text-white);
+  background: transparent;
+  color: var(--text-primary);
   border: none;
   padding: 8px 22px;
   border-radius: var(--radius-full);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition: background var(--transition), color var(--transition);
   font-family: inherit;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  box-shadow: none;
   text-decoration: none;
   display: inline-block;
 }
 
 .nav-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+  background: #f3f4f6;
+  color: var(--text-primary);
+  transform: none;
+  box-shadow: none;
 }
 
-/* Active state for nav buttons - visually distinct */
+/* Active state for nav buttons - visually distinct black pill */
 .nav-btn.active-nav-link {
   cursor: default;
   transform: none;
-  box-shadow: none;
-  opacity: 0.85;
-  background: var(--primary);
-  color: var(--text-white);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  opacity: 1;
+  background: #000000;
+  color: #ffffff;
+}
+
+.nav-btn.active-nav-link:hover {
+  background: #000000;
+  color: #ffffff;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* ============ LANGUAGE SWITCHER ============ */
@@ -1499,20 +1520,43 @@ body.crop-page .lang-icon {
 .nav-link {
   font-size: 14px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   padding: 6px 14px;
   border-radius: var(--radius-full);
-  transition: all var(--transition);
+  transition: background var(--transition), color var(--transition);
   text-decoration: none;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  display: inline-block;
 }
 
 .nav-link:hover {
-  color: var(--primary);
-  background: var(--bg-light);
+  color: var(--text-primary);
+  background: #f3f4f6;
+  transform: none;
+  box-shadow: none;
+}
+
+.nav-link.active-nav-link {
+  cursor: default;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  opacity: 1;
+  background: #000000;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.nav-link.active-nav-link:hover {
+  background: #000000;
+  color: #ffffff;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .active-nav-link {
-  color: var(--primary);
+  color: #ffffff;
   font-weight: 600;
 }
 
@@ -2116,10 +2160,12 @@ body.crop-page .lang-icon {
 
   /* Active state adjustments for mobile */
   .header-nav .nav-btn.active-nav-link,
-  .header-nav .btn-crop-nav.active {
-    background: var(--primary);
-    box-shadow: none;
-    opacity: 0.85;
+  .header-nav .btn-crop-nav.active,
+  .header-nav .nav-link.active-nav-link {
+    background: #000000;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    opacity: 1;
   }
 
   /* Language select touch target */
