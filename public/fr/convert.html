@@ -108,11 +108,11 @@
                     <circle cx="16" cy="12" r="1" fill="#6366f1" />
                 </svg>
             </div>
-            <p class="dropzone-title" id="dropzoneTitle">Glissez-déposez votre image pour convertir le format</p>
-            <p class="dropzone-formats">Formats d'entrée pris en charge : PNG, JPG, WebP, GIF, BMP, AVIF, HEIC.</p>
+            <p class="dropzone-title" id="dropzoneTitle">Glissez-déposez votre image ou audio pour convertir le format</p>
+            <p class="dropzone-formats">Formats pris en charge : Images (PNG, JPG, WebP, GIF, BMP, AVIF) et audio (MP3, WAV, OGG, M4A, FLAC). La prise en charge de l'audio dépend de votre navigateur. Si un fichier ne se charge pas, essayez MP3 ou WAV. Encodage MP3 par <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a>.</p>
             <p class="dropzone-limit">Taille maximale de fichier : 50 Mo.</p>
-            <button class="btn-select" id="selectImagesBtn">Sélectionner une image</button>
-            <input type="file" id="fileInput" accept="image/*" hidden>
+            <button class="btn-select" id="selectImagesBtn">Sélectionner une image ou un audio</button>
+            <input type="file" id="fileInput" accept="image/*,audio/*" hidden>
             <p class="dropzone-privacy">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
@@ -231,6 +231,8 @@
         </div>
     </footer>
 
+    <script src="/media-i18n.js"></script>
+    <script src="/media-ui.js"></script>
     <script src="/convert-tool.js"></script>
     <script>
     (function() {
