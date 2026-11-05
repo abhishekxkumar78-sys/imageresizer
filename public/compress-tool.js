@@ -49,6 +49,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let cachedPreviewPages = []; // [{ pageNum, canvas, unscaledWidth, unscaledHeight, readoutEl }]
     let pdfCompressSeq = 0;
 
+    // Audio State
+    let currentAudioBuffer = null;
+    let currentCompressedAudioBlob = null;
+    let audioWorker = null;
+    let isConvertingAudio = false;
+    let audioCompressionSeq = 0;
+
+    let audioPreviewContainer = null;
+    let audioInputPreview = null;
+    let audioOutputWrapper = null;
+    let audioOutputPreview = null;
+    let bitrateField = null;
+    let audioBitrateSelect = null;
+    let monoField = null;
+    let monoCheckbox = null;
+    let targetSizeNotice = null;
+    let progressContainer = null;
+    let progressComponent = null;
+
     // Trigger file dialog
     if (selectImagesBtn && fileInput) {
         selectImagesBtn.addEventListener('click', () => fileInput.click());
@@ -129,18 +148,199 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function ensureAudioElements() {
+        if (!audioPreviewContainer && imagePreview) {
+            const previewBox = imagePreview.parentNode;
+            if (previewBox) {
+                audioPreviewContainer = document.getElementById('audioPreviewContainer');
+                if (!audioPreviewContainer) {
+                    audioPreviewContainer = document.createElement('div');
+                    audioPreviewContainer.id = 'audioPreviewContainer';
+                    audioPreviewContainer.className = 'media-preview-box';
+                    audioPreviewContainer.style.display = 'none';
+                    audioPreviewContainer.innerHTML = `
+                        <div class="media-audio-player-wrapper">
+                            <div class="media-audio-icon">
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 18V5l12-2v13"></path>
+                                    <circle cx="6" cy="18" r="3"></circle>
+                                    <circle cx="18" cy="16" r="3"></circle>
+                                </svg>
+                            </div>
+                            <div id="audioInputWrapper" style="width:100%; text-align:left;">
+                                <span id="audioInputLabel" style="display:block; font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px;">${window.tMedia ? window.tMedia('originalAudio') : 'Original Audio'}</span>
+                                <audio id="audioInputPreview" class="media-audio-element" controls style="width:100%;"></audio>
+                            </div>
+                            <div id="audioOutputWrapper" style="display:none; width:100%; text-align:left; margin-top:12px;">
+                                <span id="audioOutputLabel" style="display:block; font-size:12px; font-weight:700; color:var(--primary); text-transform:uppercase; margin-bottom:6px;">${window.tMedia ? window.tMedia('compressedAudio') : 'Compressed Audio'}</span>
+                                <audio id="audioOutputPreview" class="media-audio-element" controls style="width:100%;"></audio>
+                            </div>
+                        </div>
+                    `;
+                    previewBox.appendChild(audioPreviewContainer);
+                }
+                audioInputPreview = audioPreviewContainer.querySelector('#audioInputPreview');
+                audioOutputWrapper = audioPreviewContainer.querySelector('#audioOutputWrapper');
+                audioOutputPreview = audioPreviewContainer.querySelector('#audioOutputPreview');
+            }
+        }
+
+        // Bitrate select
+        if (!bitrateField && formatSelect) {
+            const formatField = formatSelect.closest('.setting-field');
+            if (formatField) {
+                bitrateField = document.getElementById('bitrateField');
+                if (!bitrateField) {
+                    bitrateField = document.createElement('div');
+                    bitrateField.id = 'bitrateField';
+                    bitrateField.className = 'setting-field';
+                    bitrateField.style.display = 'none';
+                    bitrateField.style.marginBottom = '20px';
+                    bitrateField.innerHTML = `
+                        <label id="bitrateLabel" class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:8px;">${window.tMedia ? window.tMedia('audioBitrate') : 'Audio Bitrate'}</label>
+                        <select id="audioBitrateSelect" class="setting-select" style="width:100%; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
+                            <option value="192">192 kbps</option>
+                            <option value="160">160 kbps</option>
+                            <option value="128">128 kbps</option>
+                            <option value="112">112 kbps</option>
+                            <option value="96" selected>96 kbps</option>
+                            <option value="80">80 kbps</option>
+                            <option value="64">64 kbps</option>
+                            <option value="56">56 kbps</option>
+                            <option value="48">48 kbps</option>
+                            <option value="40">40 kbps</option>
+                            <option value="32">32 kbps</option>
+                        </select>
+                    `;
+                    formatField.parentNode.insertBefore(bitrateField, formatField.nextSibling);
+                }
+                audioBitrateSelect = bitrateField.querySelector('#audioBitrateSelect');
+                if (audioBitrateSelect) {
+                    audioBitrateSelect.addEventListener('change', () => {
+                        if (currentFileType === 'audio') {
+                            processAudioCompression();
+                        }
+                    });
+                }
+            }
+        }
+
+        // Mono checkbox
+        if (!monoField && bitrateField) {
+            monoField = document.getElementById('monoField');
+            if (!monoField) {
+                monoField = document.createElement('div');
+                monoField.id = 'monoField';
+                monoField.className = 'media-checkbox-field';
+                monoField.style.display = 'none';
+                monoField.style.marginBottom = '20px';
+                monoField.innerHTML = `
+                    <input type="checkbox" id="monoCheckbox" class="media-checkbox-input">
+                    <label for="monoCheckbox" id="monoLabel" class="media-checkbox-label">${window.tMedia ? window.tMedia('mixDownToMono') : 'Mix down to mono'}</label>
+                `;
+                bitrateField.parentNode.insertBefore(monoField, bitrateField.nextSibling);
+            }
+            monoCheckbox = monoField.querySelector('#monoCheckbox');
+            if (monoCheckbox) {
+                monoCheckbox.addEventListener('change', () => {
+                    if (currentFileType === 'audio') {
+                        processAudioCompression();
+                    }
+                });
+            }
+        }
+
+        // Target size notice
+        if (!targetSizeNotice && targetFileSize) {
+            const targetField = targetFileSize.closest('.setting-field');
+            if (targetField) {
+                targetSizeNotice = targetField.querySelector('#targetSizeNotice');
+                if (!targetSizeNotice) {
+                    targetSizeNotice = document.createElement('p');
+                    targetSizeNotice.id = 'targetSizeNotice';
+                    targetSizeNotice.className = 'media-note';
+                    targetSizeNotice.style.display = 'none';
+                    targetField.appendChild(targetSizeNotice);
+                }
+            }
+        }
+
+        // Progress component
+        if (!progressContainer && downloadBtn) {
+            progressContainer = document.getElementById('conversionProgressContainer');
+            if (!progressContainer) {
+                progressContainer = document.createElement('div');
+                progressContainer.id = 'conversionProgressContainer';
+                downloadBtn.parentNode.insertBefore(progressContainer, downloadBtn);
+            }
+            if (!progressComponent && window.MediaUI && window.MediaUI.createProgressComponent) {
+                progressComponent = window.MediaUI.createProgressComponent(progressContainer, {
+                    onCancel: () => {
+                        audioCompressionSeq++;
+                        if (audioWorker) {
+                            try { audioWorker.postMessage({ command: 'cancel' }); } catch (e) {}
+                            audioWorker.terminate();
+                            audioWorker = null;
+                        }
+                        currentAudioBuffer = null;
+                        currentCompressedAudioBlob = null;
+                        isConvertingAudio = false;
+                        if (window.MediaUI && window.MediaUI.releaseWakeLock) {
+                            window.MediaUI.releaseWakeLock();
+                        }
+                        if (progressComponent) progressComponent.hide();
+                        if (downloadBtn) {
+                            downloadBtn.disabled = false;
+                            downloadBtn.textContent = window.tMedia ? window.tMedia('downloadCompressedAudio') : 'Download Compressed Audio';
+                        }
+                    }
+                });
+            }
+        }
+    }
+
     function setUIMode(mode) {
         uploadHero.style.display = 'none';
         settingsSection.style.display = 'block';
+        ensureAudioElements();
 
-        if (mode === 'pdf') {
+        const formatField = formatSelect ? formatSelect.closest('.setting-field') : null;
+        const qualityField = qualitySlider ? qualitySlider.closest('.setting-field') : null;
+
+        if (mode === 'audio') {
+            if (imagePreview) imagePreview.style.display = 'none';
+            if (pdfCompressPreviewCard) pdfCompressPreviewCard.style.display = 'none';
+            if (pdfHonestNotice) pdfHonestNotice.style.display = 'none';
+            if (pdfLargeNotice) pdfLargeNotice.style.display = 'none';
+            if (audioPreviewContainer) audioPreviewContainer.style.display = 'block';
+
+            if (formatField) formatField.style.display = 'none';
+            if (qualityField) qualityField.style.display = 'none';
+            if (bitrateField) bitrateField.style.display = 'block';
+            if (monoField) {
+                monoField.style.display = 'flex';
+                const monoLabel = monoField.querySelector('#monoLabel');
+                if (monoLabel) monoLabel.textContent = window.tMedia ? window.tMedia('mixDownToMono') : 'Mix down to mono';
+            }
+
+            if (downloadBtn) downloadBtn.textContent = window.tMedia ? window.tMedia('downloadCompressedAudio') : 'Download Compressed Audio';
+        } else if (mode === 'pdf') {
             if (imagePreview) imagePreview.style.display = 'none';
             if (pdfCompressPreviewCard) pdfCompressPreviewCard.style.display = 'flex';
             if (pdfHonestNotice) pdfHonestNotice.style.display = 'block';
             if (pdfLargeNotice) {
                 pdfLargeNotice.style.display = pdfPageCount > 50 ? 'block' : 'none';
             }
-            if (downloadBtn) downloadBtn.textContent = 'Download Compressed PDF';
+            if (audioPreviewContainer) audioPreviewContainer.style.display = 'none';
+            if (formatField) formatField.style.display = 'block';
+            if (qualityField) qualityField.style.display = 'block';
+            if (bitrateField) bitrateField.style.display = 'none';
+            if (monoField) monoField.style.display = 'none';
+
+            if (downloadBtn) {
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = 'Download Compressed PDF';
+            }
             if (pdfFileName) pdfFileName.textContent = currentFile ? currentFile.name : 'Document.pdf';
             if (pdfPageBadge) pdfPageBadge.textContent = `${pdfPageCount} page${pdfPageCount === 1 ? '' : 's'}`;
             updateFormatDropdown('pdf');
@@ -149,18 +349,108 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pdfCompressPreviewCard) pdfCompressPreviewCard.style.display = 'none';
             if (pdfHonestNotice) pdfHonestNotice.style.display = 'none';
             if (pdfLargeNotice) pdfLargeNotice.style.display = 'none';
-            if (downloadBtn) downloadBtn.textContent = 'Download Compressed Image';
+            if (audioPreviewContainer) audioPreviewContainer.style.display = 'none';
+            if (formatField) formatField.style.display = 'block';
+            if (qualityField) qualityField.style.display = 'block';
+            if (bitrateField) bitrateField.style.display = 'none';
+            if (monoField) monoField.style.display = 'none';
+
+            if (downloadBtn) {
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = 'Download Compressed Image';
+            }
             updateFormatDropdown('image');
         }
     }
 
     async function handleFile(file) {
+        if (!file) return;
+
+        audioCompressionSeq++;
+        if (audioWorker) {
+            try { audioWorker.postMessage({ command: 'cancel' }); } catch (e) {}
+            audioWorker.terminate();
+            audioWorker = null;
+        }
+        isConvertingAudio = false;
+        if (window.MediaUI && window.MediaUI.releaseWakeLock) {
+            window.MediaUI.releaseWakeLock();
+        }
+        if (progressComponent) progressComponent.hide();
+
+        if (downloadBtn) downloadBtn.disabled = false;
+
+        if (window.MediaUI && window.MediaUI.clearError) {
+            window.MediaUI.clearError();
+        }
+
         const isPdfFile = isPdf(file);
         const isImgFile = file.type.startsWith('image/');
+        const mediaType = (window.MediaUI && window.MediaUI.detectMediaType)
+            ? window.MediaUI.detectMediaType(file)
+            : (isPdfFile ? 'pdf' : (isImgFile ? 'image' : (file.type.startsWith('audio/') ? 'audio' : 'unknown')));
 
-        if (!isPdfFile && !isImgFile) {
-            alert('Please select a valid image or PDF file.');
+        const isAudioFile = (mediaType === 'audio') || (!isPdfFile && !isImgFile && file.type.startsWith('audio/'));
+
+        if (!isPdfFile && !isImgFile && !isAudioFile) {
+            const hasPdf = !!window.PDFLib;
+            const key = hasPdf ? 'unsupportedFileTypeWithPdf' : 'unsupportedFileType';
+            const errMsg = window.tMedia ? window.tMedia(key) : (hasPdf ? 'This file type is not supported here. Please select an image, PDF or audio file.' : 'This file type is not supported here. Please select an image or audio file.');
+            if (window.MediaUI && window.MediaUI.showError) {
+                window.MediaUI.showError(uploadDropzone, errMsg);
+            }
             return;
+        }
+
+        // Check if PDF on localized page
+        if (isPdfFile && (!window.PDFLib || !window.pdfjsLib)) {
+            const errMsg = window.tMedia ? window.tMedia('unsupportedFileType') : 'PDF compression is only supported on the English page.';
+            if (window.MediaUI && window.MediaUI.showError) {
+                window.MediaUI.showError(uploadDropzone, errMsg);
+            }
+            return;
+        }
+
+        // Audio pre-flight checks
+        if (isAudioFile) {
+            if (window.MediaUI && window.MediaUI.checkFileSizeLimit) {
+                const sizeCheck = window.MediaUI.checkFileSizeLimit(file, 'audio');
+                if (!sizeCheck.ok) {
+                    if (window.MediaUI.showError) {
+                        window.MediaUI.showError(uploadDropzone, sizeCheck.error);
+                    }
+                    return;
+                }
+            } else if (file.size > 50 * 1024 * 1024) {
+                if (window.MediaUI && window.MediaUI.showError) {
+                    window.MediaUI.showError(uploadDropzone, window.tMedia ? window.tMedia('fileTooLargeAudio') : 'File is too large. Maximum audio size is 50MB.');
+                }
+                return;
+            }
+
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContextClass) {
+                const err = window.tMedia ? window.tMedia('webAudioNotSupported') : 'Web Audio API is not supported by your browser.';
+                window.MediaUI.showError(uploadDropzone, err);
+                return;
+            }
+            if (typeof window.Worker === 'undefined') {
+                const err = window.tMedia ? window.tMedia('webWorkerNotSupported') : 'Web Workers are not supported by your browser.';
+                window.MediaUI.showError(uploadDropzone, err);
+                return;
+            }
+
+            // Duration check BEFORE decoding using metadata
+            if (window.MediaUI && window.MediaUI.getAudioMetadataDuration) {
+                const metaDur = await window.MediaUI.getAudioMetadataDuration(file);
+                const maxMin = window.MAX_AUDIO_MIN || 10;
+                const maxAudioSec = maxMin * 60;
+                if (metaDur !== null && metaDur > (maxAudioSec + 2)) {
+                    const err = window.tMedia ? window.tMedia('audioTooLong', { maxMin }) : `Audio is too long. Maximum audio duration is ${maxMin} minutes.`;
+                    window.MediaUI.showError(uploadDropzone, err);
+                    return;
+                }
+            }
         }
 
         currentFile = file;
@@ -170,7 +460,17 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Image flow (intact)
+        if (isAudioFile) {
+            currentFileType = 'audio';
+            setUIMode('audio');
+            originalSizeEl.textContent = formatBytes(file.size);
+            compressedSizeEl.textContent = '...';
+            savedPercentageEl.textContent = '...';
+            await loadAndProcessAudio(file);
+            return;
+        }
+
+        // Image flow
         currentFileType = 'image';
         setUIMode('image');
         originalSizeEl.textContent = formatBytes(file.size);
@@ -211,7 +511,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('PDF viewer library is loading or failed to load. Please refresh.');
             }
 
-            // CRITICAL: Always use { ignoreEncryption: true } to safely handle owner passwords
             const pdfDoc = await window.PDFLib.PDFDocument.load(
                 arrayBuffer.slice ? arrayBuffer.slice(0) : arrayBuffer,
                 { ignoreEncryption: true }
@@ -222,8 +521,303 @@ document.addEventListener('DOMContentLoaded', () => {
             await renderPdfPagesPreview();
         } catch (err) {
             console.error('Error loading PDF:', err);
-            alert('Could not load the PDF file: ' + (err && err.message ? err.message : 'Unknown error') + '. Please ensure it is a valid, uncorrupted PDF.');
+            const errMsg = 'Could not load the PDF file: ' + (err && err.message ? err.message : 'Unknown error') + '. Please ensure it is a valid, uncorrupted PDF.';
+            if (window.MediaUI && window.MediaUI.showError) {
+                window.MediaUI.showError(uploadHero || settingsSection, errMsg);
+            }
         }
+    }
+
+    async function loadAndProcessAudio(file) {
+        ensureAudioElements();
+        if (audioInputPreview) {
+            if (audioInputPreview.src && audioInputPreview.src.startsWith('blob:')) {
+                URL.revokeObjectURL(audioInputPreview.src);
+            }
+            audioInputPreview.src = URL.createObjectURL(file);
+        }
+
+        if (progressComponent) {
+            progressComponent.show(window.tMedia ? window.tMedia('decodingAudio') : 'Decoding audio...');
+            progressComponent.update(5, window.tMedia ? window.tMedia('decodingAudio') : 'Decoding audio...');
+        }
+
+        const seq = ++audioCompressionSeq;
+        try {
+            if (file.size === 0) {
+                throw new Error('Empty audio file');
+            }
+
+            const arrayBuffer = await file.arrayBuffer();
+            if (seq !== audioCompressionSeq) return;
+
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            const audioCtx = new AudioContextClass();
+            let decoded = null;
+            try {
+                decoded = await audioCtx.decodeAudioData(arrayBuffer);
+            } finally {
+                if (audioCtx && typeof audioCtx.close === 'function') {
+                    try {
+                        const closePromise = audioCtx.close();
+                        if (closePromise && typeof closePromise.catch === 'function') {
+                            closePromise.catch(() => {});
+                        }
+                    } catch (e) {}
+                }
+            }
+
+            if (seq !== audioCompressionSeq) return;
+
+            if (window.MediaUI && window.MediaUI.checkAudioDurationLimit) {
+                const durCheck = window.MediaUI.checkAudioDurationLimit(decoded.duration);
+                if (!durCheck.ok) {
+                    if (progressComponent) progressComponent.hide();
+                    window.MediaUI.showError(settingsSection, durCheck.error);
+                    return;
+                }
+            }
+
+            currentAudioBuffer = await prepareAudioBuffer(decoded);
+            decoded = null;
+            if (seq !== audioCompressionSeq) return;
+
+            processAudioCompression();
+        } catch (err) {
+            console.error('Audio decode error:', err);
+            if (progressComponent) progressComponent.hide();
+            const errMsg = window.tMedia ? window.tMedia('audioDecodeError') : 'Could not decode this audio file.';
+            window.MediaUI.showError(settingsSection, errMsg);
+        }
+    }
+
+    async function prepareAudioBuffer(buffer) {
+        const sr = buffer.sampleRate;
+        const channels = buffer.numberOfChannels;
+        const supportedRates = [44100, 48000, 32000, 24000, 22050, 16000];
+
+        let targetSr = sr;
+        if (sr > 48000) {
+            targetSr = (sr % 48000 === 0) ? 48000 : 44100;
+        } else if (!supportedRates.includes(sr)) {
+            targetSr = 44100;
+        }
+
+        const targetChannels = Math.min(2, channels);
+        const needsResample = (targetSr !== sr);
+        const needsDownmix = (channels > 2);
+
+        if (!needsResample && !needsDownmix) {
+            return buffer;
+        }
+
+        const targetLength = Math.round(buffer.duration * targetSr);
+        const offlineCtx = new OfflineAudioContext(targetChannels, targetLength, targetSr);
+        const source = offlineCtx.createBufferSource();
+        source.buffer = buffer;
+        source.connect(offlineCtx.destination);
+        source.start(0);
+        return await offlineCtx.startRendering();
+    }
+
+    function updateTargetSizeForAudio() {
+        if (!currentAudioBuffer || currentFileType !== 'audio') return;
+        const targetBytes = getTargetBytes();
+        if (!targetBytes || !targetSizeNotice) {
+            if (targetSizeNotice) targetSizeNotice.style.display = 'none';
+            if (audioBitrateSelect) audioBitrateSelect.disabled = false;
+            return;
+        }
+
+        const calc = window.MediaUI.computeTargetBitrate(
+            targetBytes,
+            currentAudioBuffer.duration,
+            [192, 160, 128, 112, 96, 80, 64, 56, 48, 40, 32]
+        );
+
+        if (audioBitrateSelect) {
+            audioBitrateSelect.value = String(calc.bitrate);
+            audioBitrateSelect.disabled = true;
+        }
+
+        const estFormatted = formatBytes(calc.estBytes);
+        if (calc.isUnreachable) {
+            targetSizeNotice.textContent = window.tMedia
+                ? window.tMedia('targetSizeUnreachable', { estSize: estFormatted })
+                : `Target size is below minimum audio bitrate. Using 32 kbps as the closest possible result (estimated size: ${estFormatted}).`;
+        } else {
+            targetSizeNotice.textContent = window.tMedia
+                ? window.tMedia('targetSizeEst', { estSize: estFormatted, kbps: calc.bitrate })
+                : `Estimated size: ${estFormatted} (bitrate: ${calc.bitrate} kbps)`;
+        }
+        targetSizeNotice.style.display = 'block';
+    }
+
+    async function processAudioCompression() {
+        if (!currentAudioBuffer || currentFileType !== 'audio') return;
+        const seq = ++audioCompressionSeq;
+
+        ensureAudioElements();
+
+        let bitrate = 96;
+        let targetBytes = getTargetBytes();
+        let isUnreachable = false;
+
+        if (targetBytes) {
+            const calc = window.MediaUI.computeTargetBitrate(
+                targetBytes,
+                currentAudioBuffer.duration,
+                [192, 160, 128, 112, 96, 80, 64, 56, 48, 40, 32]
+            );
+            bitrate = calc.bitrate;
+            isUnreachable = calc.isUnreachable;
+            if (audioBitrateSelect) {
+                audioBitrateSelect.value = String(bitrate);
+                audioBitrateSelect.disabled = true;
+            }
+            updateTargetSizeForAudio();
+        } else {
+            bitrate = audioBitrateSelect ? parseInt(audioBitrateSelect.value, 10) : 96;
+            if (audioBitrateSelect) audioBitrateSelect.disabled = false;
+            if (targetSizeNotice) targetSizeNotice.style.display = 'none';
+        }
+
+        const isMono = monoCheckbox ? monoCheckbox.checked : false;
+
+        if (audioWorker) {
+            audioWorker.terminate();
+            audioWorker = null;
+        }
+
+        if (window.MediaUI && window.MediaUI.requestWakeLock) {
+            await window.MediaUI.requestWakeLock();
+        }
+
+        isConvertingAudio = true;
+        if (progressComponent) {
+            progressComponent.show(window.tMedia ? window.tMedia('convertingAudio') : 'Compressing audio...');
+            progressComponent.update(10);
+        }
+
+        if (downloadBtn) {
+            downloadBtn.disabled = true;
+        }
+
+        // Lazy load worker
+        try {
+            audioWorker = new Worker('/audio-worker.js');
+        } catch (err) {
+            isConvertingAudio = false;
+            if (window.MediaUI && window.MediaUI.releaseWakeLock) window.MediaUI.releaseWakeLock();
+            if (progressComponent) progressComponent.hide();
+            if (downloadBtn) downloadBtn.disabled = false;
+            const errMsg = window.tMedia ? window.tMedia('audioProcessError') : 'Audio compression error.';
+            window.MediaUI.showError(settingsSection, errMsg);
+            return;
+        }
+
+        const channels = currentAudioBuffer.numberOfChannels;
+        const channelData = [];
+        for (let ch = 0; ch < channels; ch++) {
+            const f32 = new Float32Array(currentAudioBuffer.length);
+            currentAudioBuffer.copyFromChannel(f32, ch);
+            channelData.push(f32);
+        }
+
+        audioWorker.onmessage = function (e) {
+            if (seq !== audioCompressionSeq || currentFileType !== 'audio') return;
+            const msg = e.data;
+            if (!msg) return;
+
+            if (msg.type === 'progress') {
+                if (progressComponent) {
+                    progressComponent.update(msg.percent, window.tMedia ? window.tMedia('convertingAudio') : 'Compressing audio...');
+                }
+            } else if (msg.type === 'complete') {
+                isConvertingAudio = false;
+                if (window.MediaUI && window.MediaUI.releaseWakeLock) {
+                    window.MediaUI.releaseWakeLock();
+                }
+                if (progressComponent) progressComponent.hide();
+
+                const blob = new Blob([msg.buffer], { type: msg.mimeType || 'audio/mpeg' });
+                currentCompressedAudioBlob = blob;
+
+                compressedSizeEl.textContent = formatBytes(blob.size);
+
+                const saved = Math.round(((currentFile.size - blob.size) / currentFile.size) * 100);
+                if (saved >= 0) {
+                    savedPercentageEl.textContent = saved + '% Saved';
+                    savedPercentageEl.style.background = '#10b981';
+                } else {
+                    savedPercentageEl.textContent = Math.abs(saved) + '% Larger';
+                    savedPercentageEl.style.background = '#6b7280';
+                }
+
+                if (audioOutputPreview) {
+                    if (audioOutputPreview.src && audioOutputPreview.src.startsWith('blob:')) {
+                        URL.revokeObjectURL(audioOutputPreview.src);
+                    }
+                    audioOutputPreview.src = URL.createObjectURL(blob);
+                    if (audioOutputWrapper) audioOutputWrapper.style.display = 'block';
+                }
+
+                if (targetBytes && targetSizeNotice) {
+                    const realFormatted = formatBytes(blob.size);
+                    const chosenBitrate = audioBitrateSelect ? audioBitrateSelect.value : bitrate;
+                    if (isUnreachable) {
+                        targetSizeNotice.textContent = window.tMedia
+                            ? window.tMedia('targetSizeUnreachable', { estSize: realFormatted })
+                            : `Target size is below minimum audio bitrate. Using 32 kbps as the closest possible result (achieved size: ${realFormatted}).`;
+                    } else if (blob.size <= targetBytes * 1.03) {
+                        targetSizeNotice.textContent = window.tMedia
+                            ? window.tMedia('targetSizeAchieved', { realSize: realFormatted, kbps: chosenBitrate })
+                            : `Achieved size: ${realFormatted} (${chosenBitrate} kbps)`;
+                    } else {
+                        targetSizeNotice.textContent = window.tMedia
+                            ? window.tMedia('targetSizeExceeded', { realSize: realFormatted, kbps: chosenBitrate })
+                            : `Achieved size: ${realFormatted} (${chosenBitrate} kbps). Note: slightly exceeds target due to audio frame structure.`;
+                    }
+                    targetSizeNotice.style.display = 'block';
+                }
+
+                if (downloadBtn) {
+                    downloadBtn.disabled = false;
+                    downloadBtn.textContent = window.tMedia ? window.tMedia('downloadCompressedAudio') : 'Download Compressed Audio';
+                }
+            } else if (msg.type === 'error') {
+                isConvertingAudio = false;
+                if (window.MediaUI && window.MediaUI.releaseWakeLock) {
+                    window.MediaUI.releaseWakeLock();
+                }
+                if (progressComponent) progressComponent.hide();
+                if (downloadBtn) downloadBtn.disabled = false;
+                const errMsg = window.tMedia ? window.tMedia('audioProcessError') : (msg.message || 'Error processing audio.');
+                window.MediaUI.showError(settingsSection, errMsg);
+            }
+        };
+
+        audioWorker.onerror = function (e) {
+            if (seq !== audioCompressionSeq || currentFileType !== 'audio') return;
+            isConvertingAudio = false;
+            if (window.MediaUI && window.MediaUI.releaseWakeLock) {
+                window.MediaUI.releaseWakeLock();
+            }
+            if (progressComponent) progressComponent.hide();
+            if (downloadBtn) downloadBtn.disabled = false;
+            const errMsg = window.tMedia ? window.tMedia('audioProcessError') : 'Audio compression error.';
+            window.MediaUI.showError(settingsSection, errMsg);
+        };
+
+        audioWorker.postMessage({
+            command: 'convert',
+            format: 'mp3',
+            sampleRate: currentAudioBuffer.sampleRate,
+            channels: currentAudioBuffer.numberOfChannels,
+            bitrate: bitrate,
+            mono: isMono,
+            channelData: channelData
+        }, channelData.map(b => b.buffer));
     }
 
     async function renderPdfPagesPreview() {
@@ -584,7 +1178,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pdfHonestNotice) pdfHonestNotice.style.display = 'none';
             if (pdfLargeNotice) pdfLargeNotice.style.display = 'none';
             updateFormatDropdown('image');
-            if (downloadBtn) downloadBtn.textContent = 'Download Compressed Image';
+            if (downloadBtn) {
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = 'Download Compressed Image';
+            }
             if (originalSizeEl) originalSizeEl.textContent = '0 KB';
             if (compressedSizeEl) compressedSizeEl.textContent = '0 KB';
             if (savedPercentageEl) {
@@ -695,7 +1292,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (targetFileSize) {
         const onTargetChange = () => {
-            if (currentFileType === 'pdf') {
+            if (currentFileType === 'audio') {
+                updateTargetSizeForAudio();
+                processAudioCompression();
+            } else if (currentFileType === 'pdf') {
                 updatePdfPreview();
             } else {
                 processCompression();
@@ -706,7 +1306,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (targetFileSizeUnit) {
         targetFileSizeUnit.addEventListener('change', () => {
-            if (currentFileType === 'pdf') {
+            if (currentFileType === 'audio') {
+                updateTargetSizeForAudio();
+                processAudioCompression();
+            } else if (currentFileType === 'pdf') {
                 updatePdfPreview();
             } else {
                 processCompression();
@@ -716,6 +1319,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (downloadBtn) {
         downloadBtn.addEventListener('click', async () => {
+            if (currentFileType === 'audio') {
+                if (!currentCompressedAudioBlob || !currentFile) return;
+                const originalName = currentFile.name.substring(0, currentFile.name.lastIndexOf('.')) || 'audio';
+                const fileName = `${originalName}-compressed.mp3`;
+                if (window.MediaUI && window.MediaUI.triggerDownload) {
+                    window.MediaUI.triggerDownload(currentCompressedAudioBlob, fileName);
+                } else {
+                    const url = URL.createObjectURL(currentCompressedAudioBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                }
+                return;
+            }
+
             if (currentFileType === 'pdf') {
                 await compressPdfAndDownload();
                 return;

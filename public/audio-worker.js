@@ -14,6 +14,11 @@ self.onmessage = function (e) {
     return;
   }
 
+  if (data.command !== 'convert') {
+    self.postMessage({ type: 'error', message: 'Unknown worker command: ' + data.command });
+    return;
+  }
+
   if (data.command === 'convert') {
     isCancelled = false;
     const format = (data.format || 'mp3').toLowerCase();
@@ -21,6 +26,7 @@ self.onmessage = function (e) {
     const numberOfChannels = data.channels || (data.channelData ? data.channelData.length : 1);
     const channelData = data.channelData; // array of transferred Float32Arrays
     const bitrate = data.bitrate || 128; // kbps
+    const isMono = Boolean(data.mono);
 
     if (!channelData || channelData.length === 0) {
       self.postMessage({ type: 'error', message: 'No audio channel data provided.' });
@@ -31,7 +37,7 @@ self.onmessage = function (e) {
       if (format === 'wav') {
         convertWav(numberOfChannels, sampleRate, channelData);
       } else if (format === 'mp3') {
-        convertMp3(numberOfChannels, sampleRate, channelData, bitrate);
+        convertMp3(numberOfChannels, sampleRate, channelData, bitrate, isMono);
       } else {
         self.postMessage({ type: 'error', message: 'Unsupported output audio format: ' + format });
       }
@@ -129,7 +135,7 @@ function convertWav(numChannels, sampleRate, channelBuffers) {
   }, [headerBuffer, ...pcmChunks]);
 }
 
-function convertMp3(numChannels, sampleRate, channelBuffers, bitrate) {
+function convertMp3(numChannels, sampleRate, channelBuffers, bitrate, isMono) {
   self.postMessage({ type: 'progress', percent: 5 });
 
   if (typeof self.lamejs === 'undefined') {
@@ -141,7 +147,7 @@ function convertMp3(numChannels, sampleRate, channelBuffers, bitrate) {
     throw new Error('LAME MP3 encoder library could not be loaded.');
   }
 
-  const actualChannels = Math.min(2, Math.max(1, numChannels));
+  const actualChannels = isMono ? 1 : Math.min(2, Math.max(1, numChannels));
   const numSamples = channelBuffers[0].length;
   const encoder = new Lame.Mp3Encoder(actualChannels, sampleRate, bitrate);
   const mp3Data = [];
@@ -173,13 +179,25 @@ function convertMp3(numChannels, sampleRate, channelBuffers, bitrate) {
     const count = Math.min(CHUNK_SAMPLES, numSamples - offset);
 
     // Convert Float to Int16 in chunk
-    for (let i = 0; i < count; i++) {
-      const sampleIdx = offset + i;
-      const sl = Math.max(-1, Math.min(1, leftFloat[sampleIdx]));
-      leftInt16[i] = sl < 0 ? sl * 0x8000 : sl * 0x7FFF;
-      if (rightInt16 && rightFloat) {
-        const sr = Math.max(-1, Math.min(1, rightFloat[sampleIdx]));
-        rightInt16[i] = sr < 0 ? sr * 0x8000 : sr * 0x7FFF;
+    if (isMono && channelBuffers.length > 1) {
+      for (let i = 0; i < count; i++) {
+        const sampleIdx = offset + i;
+        let sum = 0;
+        for (let ch = 0; ch < channelBuffers.length; ch++) {
+          sum += channelBuffers[ch][sampleIdx];
+        }
+        const sMono = Math.max(-1, Math.min(1, sum / channelBuffers.length));
+        leftInt16[i] = sMono < 0 ? sMono * 0x8000 : sMono * 0x7FFF;
+      }
+    } else {
+      for (let i = 0; i < count; i++) {
+        const sampleIdx = offset + i;
+        const sl = Math.max(-1, Math.min(1, leftFloat[sampleIdx]));
+        leftInt16[i] = sl < 0 ? sl * 0x8000 : sl * 0x7FFF;
+        if (rightInt16 && rightFloat) {
+          const sr = Math.max(-1, Math.min(1, rightFloat[sampleIdx]));
+          rightInt16[i] = sr < 0 ? sr * 0x8000 : sr * 0x7FFF;
+        }
       }
     }
 

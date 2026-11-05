@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <audio id="audioInputPreview" class="media-audio-element" controls style="width:100%;"></audio>
                         </div>
                         <div id="audioOutputWrapper" style="display:none; width:100%; text-align:left; margin-top:12px;">
-                            <span id="audioOutputLabel" style="display:block; font-size:12px; font-weight:700; color:var(--primary); text-transform:uppercase; margin-bottom:6px;">${window.tMedia ? window.tMedia('downloadAudio') : 'Converted Audio'}</span>
+                            <span id="audioOutputLabel" style="display:block; font-size:12px; font-weight:700; color:var(--primary); text-transform:uppercase; margin-bottom:6px;">${window.tMedia ? window.tMedia('convertedAudio') : 'Converted Audio'}</span>
                             <audio id="audioOutputPreview" class="media-audio-element" controls style="width:100%;"></audio>
                         </div>
                     </div>
@@ -420,6 +420,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // whose estimated size (bitrate x duration / 8) is <= target.
     // If even 32 kbps is above target, use 32 kbps and note it's unreachable.
     function computeTargetBitrate(targetBytes, durationSec) {
+        if (window.MediaUI && window.MediaUI.computeTargetBitrate) {
+            return window.MediaUI.computeTargetBitrate(targetBytes, durationSec);
+        }
         const bitrates = [320, 256, 192, 160, 128, 112, 96, 80, 64, 56, 48, 40, 32];
         let chosen = null;
         let isUnreachable = false;

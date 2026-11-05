@@ -203,12 +203,46 @@ const MediaUI = (function () {
   }
 
   function clearError(container) {
-    if (!container) return;
+    if (!container) {
+      document.querySelectorAll('.media-error-message').forEach(el => {
+        el.textContent = '';
+        el.style.display = 'none';
+      });
+      return;
+    }
     const errEl = container.querySelector('.media-error-message');
     if (errEl) {
       errEl.textContent = '';
       errEl.style.display = 'none';
     }
+  }
+
+  function computeTargetBitrate(targetBytes, durationSec, customBitrates) {
+    const bitrates = (customBitrates && Array.isArray(customBitrates) && customBitrates.length > 0)
+      ? customBitrates
+      : [320, 256, 192, 160, 128, 112, 96, 80, 64, 56, 48, 40, 32];
+    let chosen = null;
+    let isUnreachable = false;
+
+    for (const b of bitrates) {
+      const estBytes = (b * 1000 / 8) * durationSec;
+      if (estBytes <= targetBytes) {
+        chosen = b;
+        break;
+      }
+    }
+
+    if (!chosen) {
+      chosen = bitrates[bitrates.length - 1] || 32;
+      isUnreachable = true;
+    }
+
+    const estBytes = Math.round((chosen * 1000 / 8) * durationSec);
+    return {
+      bitrate: chosen,
+      estBytes: estBytes,
+      isUnreachable: isUnreachable
+    };
   }
 
   return {
@@ -223,7 +257,8 @@ const MediaUI = (function () {
     triggerDownload,
     createProgressComponent,
     showError,
-    clearError
+    clearError,
+    computeTargetBitrate
   };
 })();
 
