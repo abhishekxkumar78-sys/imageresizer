@@ -108,11 +108,11 @@
                     <circle cx="16" cy="12" r="1" fill="#6366f1" />
                 </svg>
             </div>
-            <p class="dropzone-title" id="dropzoneTitle">फॉर्मेट बदलने के लिए इमेज या ऑडियो को यहाँ खींचें और छोड़ें</p>
-            <p class="dropzone-formats">समर्थित फॉर्मेट: इमेज (PNG, JPG, WebP, GIF, BMP, AVIF) और ऑडियो (MP3, WAV, OGG, M4A, FLAC)। ऑडियो सपोर्ट आपके ब्राउज़र पर निर्भर करता है। अगर कोई फाइल लोड न हो, तो MP3 या WAV आज़माएं। <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a> द्वारा MP3 एन्कोडिंग।</p>
-            <p class="dropzone-limit">अधिकतम फाइल साइज: 50MB।</p>
-            <button class="btn-select" id="selectImagesBtn">फोटो या ऑडियो चुनें</button>
-            <input type="file" id="fileInput" accept="image/*,audio/*" hidden>
+            <p class="dropzone-title" id="dropzoneTitle">फॉर्मेट बदलने के लिए इमेज, ऑडियो या वीडियो को यहाँ खींचें और छोड़ें</p>
+            <p class="dropzone-formats">समर्थित फॉर्मेट: इमेज (PNG, JPG, WebP, GIF, BMP, AVIF), ऑडियो (MP3, WAV, OGG, M4A, FLAC) और वीडियो (MP4, WebM, MOV, MKV, AVI)। ऑडियो और वीडियो सपोर्ट आपके ब्राउज़र पर निर्भर करता है। अगर कोई फाइल लोड न हो, तो MP3, WAV, MP4 या WebM आज़माएं। पहली वीडियो कन्वर्शन में लगभग 31 MB का कन्वर्शन इंजन डाउनलोड होता है। <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a> द्वारा वीडियो प्रोसेसिंग। <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a> द्वारा MP3 एन्कोडिंग।</p>
+            <p class="dropzone-limit">अधिकतम फाइल साइज: इमेज और ऑडियो के लिए 50MB, वीडियो के लिए 100MB (अधिकतम 5 मिनट)।</p>
+            <button class="btn-select" id="selectImagesBtn">फोटो, ऑडियो या वीडियो चुनें</button>
+            <input type="file" id="fileInput" accept="image/*,audio/*,video/*,.mkv,.mov,.m4v,.avi" hidden>
             <p class="dropzone-privacy">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />

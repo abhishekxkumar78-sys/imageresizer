@@ -33,7 +33,7 @@ const MediaUI = (function () {
       return { ok: false, error: window.tMedia ? window.tMedia('fileTooLargeAudio') : 'File is too large. Maximum audio size is 50MB.' };
     }
     if (mediaType === 'video' && file.size > maxVideoBytes) {
-      return { ok: false, error: 'File is too large. Maximum video size is 100MB.' };
+      return { ok: false, error: window.tMedia ? window.tMedia('fileTooLargeVideo') : 'File is too large. Maximum video size is 100MB.' };
     }
     return { ok: true };
   }
@@ -84,6 +84,47 @@ const MediaUI = (function () {
       };
 
       audio.src = url;
+    });
+  }
+
+  // Read video metadata (duration, width, height) cheaply without loading ffmpeg
+  function getVideoMetadata(file) {
+    return new Promise((resolve) => {
+      const video = document.createElement('video');
+      video.preload = 'metadata';
+      const url = URL.createObjectURL(file);
+      let finished = false;
+
+      function done(meta) {
+        if (!finished) {
+          finished = true;
+          URL.revokeObjectURL(url);
+          video.removeAttribute('src');
+          video.load();
+          resolve(meta);
+        }
+      }
+
+      const timer = setTimeout(() => done(null), 2500);
+
+      video.onloadedmetadata = function () {
+        clearTimeout(timer);
+        const d = video.duration;
+        const w = video.videoWidth;
+        const h = video.videoHeight;
+        if (typeof d === 'number' && !isNaN(d) && isFinite(d) && d > 0 && w > 0 && h > 0) {
+          done({ duration: d, width: w, height: h });
+        } else {
+          done(null);
+        }
+      };
+
+      video.onerror = function () {
+        clearTimeout(timer);
+        done(null);
+      };
+
+      video.src = url;
     });
   }
 
@@ -250,6 +291,7 @@ const MediaUI = (function () {
     checkFileSizeLimit,
     checkAudioDurationLimit,
     getAudioMetadataDuration,
+    getVideoMetadata,
     requestWakeLock,
     releaseWakeLock,
     formatBytes,

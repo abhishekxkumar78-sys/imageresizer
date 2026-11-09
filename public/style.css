@@ -3051,3 +3051,20 @@ body.crop-page .lang-icon {
   color: var(--text-primary);
   cursor: pointer;
 }
+
+.media-video-container {
+  width: 100%;
+  text-align: left;
+}
+
+.media-video-preview {
+  width: 100%;
+  max-height: 320px;
+  border-radius: var(--radius-sm);
+  object-fit: contain;
+  background: #000;
+}
+
+.media-video-output-wrapper {
+  margin-top: 12px;
+}

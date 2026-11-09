@@ -1,4 +1,4 @@
-// Converter Tool (Images & Audio) - 100% Browser-Only
+// Converter Tool (Images, Audio & Video) - 100% Browser-Only
 // freeeimageresizer.com
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -27,13 +27,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let bitrateField = document.getElementById('bitrateField');
     let bitrateSelect = document.getElementById('bitrateSelect');
     let targetSizeNotice = document.getElementById('targetSizeNotice');
-    let licenseCreditNotice = document.getElementById('licenseCreditNotice');
     let progressContainer = document.getElementById('conversionProgressContainer');
 
-    ensureAudioUIElements();
+    // Video-specific elements
+    let videoPreviewContainer = document.getElementById('videoPreviewContainer');
+    let videoInputPreview = document.getElementById('videoInputPreview');
+    let videoOutputWrapper = document.getElementById('videoOutputWrapper');
+    let videoOutputPreview = document.getElementById('videoOutputPreview');
+    let videoQualityField = document.getElementById('videoQualityField');
+    let videoQualitySelect = document.getElementById('videoQualitySelect');
+    let reduce720pField = document.getElementById('reduce720pField');
+    let reduce720pCheckbox = document.getElementById('reduce720pCheckbox');
+    let fullResolutionNotice = document.getElementById('fullResolutionNotice');
+
+    ensureMediaUIElements();
 
     let currentFile = null;
-    let currentMediaType = null; // 'image' or 'audio'
+    let currentMediaType = null; // 'image', 'audio', or 'video'
     let imgElement = null;
     let currentBlob = null;
     let currentConvertedBlob = null;
@@ -41,9 +51,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let audioWorker = null;
     let isConvertingAudio = false;
 
+    // Video conversion state
+    let currentVideoMetadata = null; // { duration, width, height, hasAudio }
+    let isConvertingVideo = false;
+    let activeConversionSeq = 0;
+
+    // Unified cancel callback for progress component
+    function onCancelConversion() {
+        if (currentMediaType === 'video') {
+            cancelVideoConversion();
+        } else if (currentMediaType === 'audio') {
+            cancelAudioConversion();
+        }
+    }
+
     // Progress component via MediaUI
     const progressComponent = (window.MediaUI && window.MediaUI.createProgressComponent)
-        ? window.MediaUI.createProgressComponent(progressContainer, cancelAudioConversion)
+        ? window.MediaUI.createProgressComponent(progressContainer, onCancelConversion)
         : null;
 
     if (selectImagesBtn && fileInput) {
@@ -86,7 +110,26 @@ document.addEventListener('DOMContentLoaded', () => {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
-    function ensureAudioUIElements() {
+    function throttle(fn, delayMs) {
+        let last = 0;
+        let timer = null;
+        return function (...args) {
+            const now = Date.now();
+            if (now - last >= delayMs) {
+                last = now;
+                if (timer) { clearTimeout(timer); timer = null; }
+                fn.apply(this, args);
+            } else if (!timer) {
+                timer = setTimeout(() => {
+                    last = Date.now();
+                    timer = null;
+                    fn.apply(this, args);
+                }, delayMs - (now - last));
+            }
+        };
+    }
+
+    function ensureMediaUIElements() {
         if (!settingsSection) return;
 
         // 1. Audio preview container
@@ -124,7 +167,35 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 2. Audio Bitrate select field with all 13 standard MP3 bitrates
+        // 2. Video preview container
+        if (!videoPreviewContainer && imagePreview) {
+            const previewBox = imagePreview.parentElement;
+            if (previewBox) {
+                videoPreviewContainer = document.createElement('div');
+                videoPreviewContainer.id = 'videoPreviewContainer';
+                videoPreviewContainer.className = 'media-preview-box';
+                videoPreviewContainer.style.display = 'none';
+
+                videoPreviewContainer.innerHTML = `
+                    <div class="media-video-container">
+                        <div style="width:100%; text-align:left;">
+                            <span id="videoInputLabel" style="display:block; font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px;">${window.tMedia ? window.tMedia('originalVideo') : 'Original Video'}</span>
+                            <video id="videoInputPreview" class="media-video-preview" controls preload="metadata"></video>
+                        </div>
+                        <div id="videoOutputWrapper" class="media-video-output-wrapper" style="display:none; width:100%; text-align:left; margin-top:12px;">
+                            <span id="videoOutputLabel" style="display:block; font-size:12px; font-weight:700; color:var(--primary); text-transform:uppercase; margin-bottom:6px;">${window.tMedia ? window.tMedia('convertedVideo') : 'Converted Video'}</span>
+                            <video id="videoOutputPreview" class="media-video-preview" controls preload="metadata"></video>
+                        </div>
+                    </div>
+                `;
+                previewBox.appendChild(videoPreviewContainer);
+                videoInputPreview = videoPreviewContainer.querySelector('#videoInputPreview');
+                videoOutputWrapper = videoPreviewContainer.querySelector('#videoOutputWrapper');
+                videoOutputPreview = videoPreviewContainer.querySelector('#videoOutputPreview');
+            }
+        }
+
+        // 3. Audio Bitrate select field
         if (!bitrateField && formatSelect) {
             const formatField = formatSelect.closest('.setting-field');
             if (formatField) {
@@ -157,7 +228,67 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // 3. Target size notice
+        // 4. Video Quality select field
+        if (!videoQualityField && formatSelect) {
+            const formatField = formatSelect.closest('.setting-field');
+            if (formatField) {
+                videoQualityField = document.createElement('div');
+                videoQualityField.id = 'videoQualityField';
+                videoQualityField.className = 'setting-field';
+                videoQualityField.style.display = 'none';
+                videoQualityField.style.marginBottom = '20px';
+
+                videoQualityField.innerHTML = `
+                    <label id="videoQualityLabel" class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:8px;">${window.tMedia ? window.tMedia('videoQuality') : 'Video quality'}</label>
+                    <select id="videoQualitySelect" class="setting-select" style="width:100%; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
+                        <option value="high">${window.tMedia ? window.tMedia('qualityHigh') : 'High'}</option>
+                        <option value="medium" selected>${window.tMedia ? window.tMedia('qualityMedium') : 'Medium'}</option>
+                        <option value="low">${window.tMedia ? window.tMedia('qualityLow') : 'Low'}</option>
+                    </select>
+                `;
+                formatField.parentNode.insertBefore(videoQualityField, formatField.nextSibling);
+                videoQualitySelect = videoQualityField.querySelector('#videoQualitySelect');
+            }
+        }
+
+        // 5. Reduce to 720p Checkbox field
+        if (!reduce720pField && videoQualityField) {
+            reduce720pField = document.createElement('div');
+            reduce720pField.id = 'reduce720pField';
+            reduce720pField.className = 'setting-field';
+            reduce720pField.style.display = 'none';
+            reduce720pField.style.marginBottom = '20px';
+
+            reduce720pField.innerHTML = `
+                <label class="media-checkbox-field">
+                    <input type="checkbox" id="reduce720pCheckbox" class="media-checkbox-input" checked>
+                    <span id="reduce720pLabel" class="media-checkbox-label">${window.tMedia ? window.tMedia('reduce720p') : 'Reduce to 720p (faster, uses less memory)'}</span>
+                </label>
+                <p id="fullResolutionNotice" class="media-note" style="display:none; color:#b45309; margin-top:6px; font-size:13px;"></p>
+            `;
+            videoQualityField.parentNode.insertBefore(reduce720pField, videoQualityField.nextSibling);
+            reduce720pCheckbox = reduce720pField.querySelector('#reduce720pCheckbox');
+            fullResolutionNotice = reduce720pField.querySelector('#fullResolutionNotice');
+
+            reduce720pCheckbox.addEventListener('change', () => {
+                if (!reduce720pCheckbox.checked && currentVideoMetadata && currentVideoMetadata.duration > 60) {
+                    reduce720pCheckbox.checked = true;
+                    if (fullResolutionNotice) {
+                        fullResolutionNotice.textContent = window.tMedia
+                            ? window.tMedia('fullResolutionNotice')
+                            : 'Full resolution is limited to 60 seconds. Keep 720p for longer videos.';
+                        fullResolutionNotice.style.display = 'block';
+                    }
+                } else {
+                    if (fullResolutionNotice) {
+                        fullResolutionNotice.style.display = 'none';
+                    }
+                }
+                onVideoSettingChanged();
+            });
+        }
+
+        // 6. Target size notice
         if (!targetSizeNotice && targetFileSizeField) {
             targetSizeNotice = document.createElement('p');
             targetSizeNotice.id = 'targetSizeNotice';
@@ -166,14 +297,26 @@ document.addEventListener('DOMContentLoaded', () => {
             targetFileSizeField.appendChild(targetSizeNotice);
         }
 
-        // License credit is permanently in dropzone formats paragraph in HTML (single link per page)
-
-        // 5. Progress container
+        // 7. Progress container
         if (!progressContainer && downloadBtn) {
             progressContainer = document.createElement('div');
             progressContainer.id = 'conversionProgressContainer';
             downloadBtn.parentNode.insertBefore(progressContainer, downloadBtn);
         }
+    }
+
+    async function ensureFFmpegLoaded(onProgress) {
+        if (!window.FFmpegLoader) {
+            await new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = '/ffmpeg/ffmpeg-loader.js';
+                script.async = true;
+                script.onload = () => resolve();
+                script.onerror = () => reject(new Error('Failed to load /ffmpeg/ffmpeg-loader.js'));
+                document.head.appendChild(script);
+            });
+        }
+        return await window.FFmpegLoader.load(onProgress);
     }
 
     async function handleFile(file) {
@@ -184,6 +327,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (currentConvertedBlob) currentConvertedBlob = null;
         if (currentBlob) currentBlob = null;
+        currentVideoMetadata = null;
+
         if (audioInputPreview && audioInputPreview.src && audioInputPreview.src.startsWith('blob:')) {
             URL.revokeObjectURL(audioInputPreview.src);
             audioInputPreview.src = '';
@@ -192,13 +337,21 @@ document.addEventListener('DOMContentLoaded', () => {
             URL.revokeObjectURL(audioOutputPreview.src);
             audioOutputPreview.src = '';
         }
+        if (videoInputPreview && videoInputPreview.src && videoInputPreview.src.startsWith('blob:')) {
+            URL.revokeObjectURL(videoInputPreview.src);
+            videoInputPreview.src = '';
+        }
+        if (videoOutputPreview && videoOutputPreview.src && videoOutputPreview.src.startsWith('blob:')) {
+            URL.revokeObjectURL(videoOutputPreview.src);
+            videoOutputPreview.src = '';
+        }
 
         const mediaType = (window.MediaUI && window.MediaUI.detectMediaType)
             ? window.MediaUI.detectMediaType(file)
-            : (file.type.startsWith('audio/') ? 'audio' : 'image');
+            : (file.type.startsWith('audio/') ? 'audio' : (file.type.startsWith('video/') ? 'video' : 'image'));
 
-        if (mediaType !== 'image' && mediaType !== 'audio') {
-            const errMsg = window.tMedia ? window.tMedia('unsupportedFileType') : 'This file type is not supported here. Please select an image or audio file.';
+        if (mediaType !== 'image' && mediaType !== 'audio' && mediaType !== 'video') {
+            const errMsg = window.tMedia ? window.tMedia('unsupportedFileType') : 'This file type is not supported here. Please select an image, audio or video file.';
             if (window.MediaUI && window.MediaUI.showError) {
                 window.MediaUI.showError(uploadDropzone, errMsg);
             }
@@ -218,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Check browser capabilities for audio
+        // Audio checks
         if (mediaType === 'audio') {
             const AudioContextClass = window.AudioContext || window.webkitAudioContext;
             if (!AudioContextClass) {
@@ -232,7 +385,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Duration check BEFORE decoding using metadata
             if (window.MediaUI && window.MediaUI.getAudioMetadataDuration) {
                 const metaDur = await window.MediaUI.getAudioMetadataDuration(file);
                 const maxMin = window.MAX_AUDIO_MIN || 10;
@@ -245,10 +397,62 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // Video checks
+        if (mediaType === 'video') {
+            // First check 0-byte or empty file
+            if (!file || file.size === 0) {
+                const err = window.tMedia ? window.tMedia('cannotReadVideo') : 'Could not read this video file. The format may not be supported.';
+                window.MediaUI.showError(uploadDropzone, err);
+                return;
+            }
+
+            let meta = null;
+            if (window.MediaUI && window.MediaUI.getVideoMetadata) {
+                meta = await window.MediaUI.getVideoMetadata(file);
+            }
+
+            // Fallback probe using ffmpeg engine if browser metadata fails
+            if (!meta) {
+                try {
+                    meta = await probeVideoWithEngine(file);
+                } catch (probeErr) {
+                    console.error('Video probe error:', probeErr);
+                    const err = probeErr.message || (window.tMedia ? window.tMedia('cannotReadVideo') : 'Could not read this video file. The format may not be supported.');
+                    window.MediaUI.showError(uploadDropzone, err);
+                    return;
+                }
+            }
+
+            if (!meta || !meta.width || !meta.height) {
+                const err = window.tMedia ? window.tMedia('cannotReadVideo') : 'Could not read this video file. The format may not be supported.';
+                window.MediaUI.showError(uploadDropzone, err);
+                return;
+            }
+
+            // Duration check: max 5 minutes (300 s)
+            const maxVideoMin = window.MAX_VIDEO_MIN || 5;
+            if (meta.duration > (maxVideoMin * 60)) {
+                const err = window.tMedia ? window.tMedia('videoTooLong', { maxMin: maxVideoMin }) : `Video is too long. Maximum video length is ${maxVideoMin} minutes.`;
+                window.MediaUI.showError(uploadDropzone, err);
+                return;
+            }
+
+            // Resolution check: long side <= 1920 AND short side <= 1080
+            const longSide = Math.max(meta.width, meta.height);
+            const shortSide = Math.min(meta.width, meta.height);
+            if (longSide > 1920 || shortSide > 1080) {
+                const err = window.tMedia ? window.tMedia('videoResolutionTooHigh') : 'Maximum video resolution is 1920x1080 (Full HD).';
+                window.MediaUI.showError(uploadDropzone, err);
+                return;
+            }
+
+            currentVideoMetadata = meta;
+        }
+
         currentFile = file;
         currentMediaType = mediaType;
         const ext = file.name.split('.').pop().toUpperCase();
-        originalFormatEl.textContent = ext || (mediaType === 'audio' ? 'AUDIO' : 'IMAGE');
+        originalFormatEl.textContent = ext || (mediaType === 'audio' ? 'AUDIO' : (mediaType === 'video' ? 'VIDEO' : 'IMAGE'));
 
         if (mediaType === 'image') {
             setupImageUI();
@@ -268,21 +472,94 @@ document.addEventListener('DOMContentLoaded', () => {
             uploadHero.style.display = 'none';
             settingsSection.style.display = 'block';
             loadAndProcessAudio(file);
+        } else if (mediaType === 'video') {
+            setupVideoUI();
+            uploadHero.style.display = 'none';
+            settingsSection.style.display = 'block';
+            if (videoInputPreview) {
+                videoInputPreview.src = URL.createObjectURL(file);
+            }
+        }
+    }
+
+    async function probeVideoWithEngine(file) {
+        if (progressComponent) {
+            progressComponent.show(window.tMedia ? window.tMedia('engineDownloading') : 'Downloading the conversion engine (first time only, about 31 MB)...');
+            progressComponent.update(0);
+        }
+
+        const throttledProbeProgress = throttle((p) => {
+            if (progressComponent) {
+                progressComponent.update(p, window.tMedia ? window.tMedia('engineDownloading') : 'Downloading the conversion engine (first time only, about 31 MB)...');
+            }
+        }, 150);
+
+        let ffmpeg = null;
+        try {
+            ffmpeg = await ensureFFmpegLoaded(throttledProbeProgress);
+            const ext = '.' + (file.name.split('.').pop().toLowerCase() || 'mp4');
+            const probeName = 'probe_' + Date.now() + ext;
+
+            const buf = await file.arrayBuffer();
+            await ffmpeg.writeFile(probeName, new Uint8Array(buf));
+
+            const logs = [];
+            const handler = ({ message }) => logs.push(message);
+            ffmpeg.on('log', handler);
+
+            try {
+                await ffmpeg.exec(['-i', probeName]);
+            } catch (e) {}
+
+            ffmpeg.off('log', handler);
+            try { await ffmpeg.deleteFile(probeName); } catch (e) {}
+            await window.FFmpegLoader.terminate();
+
+            if (progressComponent) progressComponent.hide();
+
+            const fullLog = logs.join('\n');
+            const durMatch = fullLog.match(/Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)/);
+            const dur = durMatch ? (parseInt(durMatch[1], 10) * 3600 + parseInt(durMatch[2], 10) * 60 + parseFloat(durMatch[3])) : null;
+            const vidMatch = fullLog.match(/Stream #\d+:\d+.*?: Video:.*?,\s*(\d+)x(\d+)/);
+            const hasAudio = /Stream #\d+:\d+.*?: Audio:/.test(fullLog);
+
+            if (!vidMatch) {
+                if (hasAudio) {
+                    throw new Error(window.tMedia ? window.tMedia('noVideoStream') : 'No video stream found in this file.');
+                }
+                throw new Error(window.tMedia ? window.tMedia('cannotReadVideo') : 'Could not read this video file. The format may not be supported.');
+            }
+
+            return {
+                duration: dur || 0,
+                width: parseInt(vidMatch[1], 10),
+                height: parseInt(vidMatch[2], 10),
+                hasAudio
+            };
+        } catch (err) {
+            if (window.FFmpegLoader) {
+                try { await window.FFmpegLoader.terminate(); } catch (e) {}
+            }
+            if (progressComponent) progressComponent.hide();
+            throw err;
         }
     }
 
     function setupImageUI() {
         if (imagePreview) imagePreview.style.display = 'block';
         if (audioPreviewContainer) audioPreviewContainer.style.display = 'none';
+        if (videoPreviewContainer) videoPreviewContainer.style.display = 'none';
         if (bitrateField) bitrateField.style.display = 'none';
+        if (videoQualityField) videoQualityField.style.display = 'none';
+        if (reduce720pField) reduce720pField.style.display = 'none';
         if (bitrateSelect) bitrateSelect.disabled = false;
+
         if (targetFileSizeField) {
             targetFileSizeField.style.display = 'block';
             if (targetFileSize) targetFileSize.disabled = false;
             if (targetFileSizeUnit) targetFileSizeUnit.disabled = false;
         }
         if (targetSizeNotice) targetSizeNotice.style.display = 'none';
-        // licenseCreditNotice removed
         if (downloadBtn) {
             downloadBtn.textContent = 'Download Converted File';
             downloadBtn.style.display = 'block';
@@ -298,8 +575,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupAudioUI() {
         if (imagePreview) imagePreview.style.display = 'none';
         if (audioPreviewContainer) audioPreviewContainer.style.display = 'block';
+        if (videoPreviewContainer) videoPreviewContainer.style.display = 'none';
+        if (videoQualityField) videoQualityField.style.display = 'none';
+        if (reduce720pField) reduce720pField.style.display = 'none';
         if (audioOutputWrapper) audioOutputWrapper.style.display = 'none';
-        // licenseCreditNotice removed
 
         formatSelect.innerHTML = `
             <option value="audio/mpeg" selected>MP3 (.mp3)</option>
@@ -307,6 +586,54 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         updateAudioFieldVisibility();
+    }
+
+    function setupVideoUI() {
+        if (imagePreview) imagePreview.style.display = 'none';
+        if (audioPreviewContainer) audioPreviewContainer.style.display = 'none';
+        if (bitrateField) bitrateField.style.display = 'none';
+
+        if (videoPreviewContainer) videoPreviewContainer.style.display = 'block';
+        if (videoOutputWrapper) videoOutputWrapper.style.display = 'none';
+        if (videoQualityField) {
+            videoQualityField.style.display = 'block';
+            if (videoQualitySelect) videoQualitySelect.value = 'medium';
+        }
+
+        // Reduce to 720p checkbox: shown ONLY when source height > 720 (or width > 1280)
+        if (reduce720pField) {
+            const needs720 = currentVideoMetadata && (currentVideoMetadata.height > 720 || currentVideoMetadata.width > 1280);
+            reduce720pField.style.display = needs720 ? 'block' : 'none';
+            if (reduce720pCheckbox) reduce720pCheckbox.checked = true;
+            if (fullResolutionNotice) fullResolutionNotice.style.display = 'none';
+        }
+
+        formatSelect.innerHTML = `
+            <option value="video/mp4" selected>MP4 (.mp4)</option>
+            <option value="video/webm">WebM (.webm)</option>
+        `;
+
+        targetFormatEl.textContent = 'MP4';
+        convertedSizeEl.textContent = '0 KB';
+
+        // Target File Size field disabled in video mode with translated hint
+        if (targetFileSizeField) {
+            targetFileSizeField.style.display = 'block';
+            if (targetFileSize) targetFileSize.disabled = true;
+            if (targetFileSizeUnit) targetFileSizeUnit.disabled = true;
+        }
+        if (targetSizeNotice) {
+            targetSizeNotice.textContent = window.tMedia
+                ? window.tMedia('videoNoTargetSize')
+                : 'Target file size cannot be set for video. Use the video quality setting to control size.';
+            targetSizeNotice.style.color = '#b45309';
+            targetSizeNotice.style.display = 'block';
+        }
+
+        if (downloadBtn) {
+            downloadBtn.textContent = window.tMedia ? window.tMedia('convertVideo') : 'Convert Video';
+            downloadBtn.style.display = 'block';
+        }
     }
 
     function updateAudioFieldVisibility() {
@@ -344,6 +671,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         targetFormatEl.textContent = isMp3 ? 'MP3' : 'WAV';
+    }
+
+    function onVideoSettingChanged() {
+        if (currentMediaType !== 'video') return;
+        targetFormatEl.textContent = formatSelect.value === 'video/webm' ? 'WEBM' : 'MP4';
+        if (currentConvertedBlob) {
+            currentConvertedBlob = null;
+            if (currentBlob) currentBlob = null;
+            if (videoOutputWrapper) videoOutputWrapper.style.display = 'none';
+            if (videoOutputPreview && videoOutputPreview.src && videoOutputPreview.src.startsWith('blob:')) {
+                URL.revokeObjectURL(videoOutputPreview.src);
+                videoOutputPreview.src = '';
+            }
+            convertedSizeEl.textContent = '0 KB';
+            if (downloadBtn) {
+                downloadBtn.textContent = window.tMedia ? window.tMedia('convertVideo') : 'Convert Video';
+            }
+        }
     }
 
     async function loadAndProcessAudio(file) {
@@ -386,7 +731,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Prepare audio buffer: handle non-standard sample rates and downmixing
     async function prepareAudioBuffer(buffer) {
         const sr = buffer.sampleRate;
         const channels = buffer.numberOfChannels;
@@ -416,9 +760,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return await offlineCtx.startRendering();
     }
 
-    // Pick HIGHEST bitrate from [320, 256, 192, 160, 128, 112, 96, 80, 64, 56, 48, 40, 32]
-    // whose estimated size (bitrate x duration / 8) is <= target.
-    // If even 32 kbps is above target, use 32 kbps and note it's unreachable.
     function computeTargetBitrate(targetBytes, durationSec) {
         if (window.MediaUI && window.MediaUI.computeTargetBitrate) {
             return window.MediaUI.computeTargetBitrate(targetBytes, durationSec);
@@ -508,7 +849,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Cancel any existing worker
         if (audioWorker) {
             audioWorker.terminate();
             audioWorker = null;
@@ -524,7 +864,6 @@ document.addEventListener('DOMContentLoaded', () => {
             progressComponent.update(10);
         }
 
-        // LAZY LOADING: Web Worker is loaded ONLY when audio conversion is requested!
         audioWorker = new Worker('/audio-worker.js');
 
         const channels = currentAudioBuffer.numberOfChannels;
@@ -560,7 +899,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentConvertedBlob = blob;
                 convertedSizeEl.textContent = formatBytes(blob.size);
 
-                // Update audio output preview
                 if (audioOutputPreview) {
                     if (audioOutputPreview.src && audioOutputPreview.src.startsWith('blob:')) {
                         URL.revokeObjectURL(audioOutputPreview.src);
@@ -569,7 +907,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (audioOutputWrapper) audioOutputWrapper.style.display = 'block';
                 }
 
-                // Target size achieved notice
                 if (isMp3 && targetBytes && targetSizeNotice) {
                     const realFormatted = formatBytes(blob.size);
                     if (isUnreachable) {
@@ -653,6 +990,228 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- Video Conversion Implementation ---
+
+    async function startVideoConversion() {
+        if (!currentFile || currentMediaType !== 'video' || isConvertingVideo) return;
+
+        if (window.MediaUI && window.MediaUI.clearError) {
+            window.MediaUI.clearError(settingsSection);
+        }
+
+        activeConversionSeq++;
+        const seq = activeConversionSeq;
+        isConvertingVideo = true;
+
+        if (window.MediaUI && window.MediaUI.requestWakeLock) {
+            await window.MediaUI.requestWakeLock();
+        }
+
+        const isWebm = formatSelect.value === 'video/webm';
+        const outExt = isWebm ? '.webm' : '.mp4';
+        targetFormatEl.textContent = isWebm ? 'WEBM' : 'MP4';
+
+        if (progressComponent) {
+            progressComponent.show(window.tMedia ? window.tMedia('engineDownloading') : 'Downloading the conversion engine (first time only, about 31 MB)...');
+            progressComponent.update(0);
+        }
+
+        const throttledDownloadProgress = throttle((p) => {
+            if (seq !== activeConversionSeq) return;
+            if (progressComponent) {
+                progressComponent.update(p, window.tMedia ? window.tMedia('engineDownloading') : 'Downloading the conversion engine (first time only, about 31 MB)...');
+            }
+        }, 150);
+
+        const throttledConvertProgress = throttle((p) => {
+            if (seq !== activeConversionSeq) return;
+            if (progressComponent) {
+                progressComponent.update(p, window.tMedia ? window.tMedia('convertingVideo') : 'Converting video...');
+            }
+        }, 150);
+
+        let ffmpeg = null;
+        let inFileName = null;
+        let outFileName = null;
+
+        try {
+            ffmpeg = await ensureFFmpegLoaded(throttledDownloadProgress);
+            if (seq !== activeConversionSeq) return;
+
+            if (progressComponent) {
+                progressComponent.update(0, window.tMedia ? window.tMedia('convertingVideo') : 'Converting video...');
+            }
+
+            const inExt = '.' + (currentFile.name.split('.').pop().toLowerCase() || 'mp4');
+            inFileName = 'in' + inExt;
+            outFileName = 'out' + outExt;
+
+            const fileBuf = await currentFile.arrayBuffer();
+            if (seq !== activeConversionSeq) return;
+            await ffmpeg.writeFile(inFileName, new Uint8Array(fileBuf));
+
+            // Probe input for audio stream existence if not known
+            let hasAudio = currentVideoMetadata ? currentVideoMetadata.hasAudio : true;
+            if (hasAudio === undefined) {
+                const probeLogs = [];
+                const probeHandler = ({ message }) => probeLogs.push(message);
+                ffmpeg.on('log', probeHandler);
+                try { await ffmpeg.exec(['-i', inFileName]); } catch (e) {}
+                ffmpeg.off('log', probeHandler);
+                hasAudio = /Stream #\d+:\d+.*?: Audio:/.test(probeLogs.join('\n'));
+            }
+
+            // Build arguments
+            const args = ['-i', inFileName];
+
+            // Scale argument if 720p reduction requested
+            const is720pChecked = reduce720pField && (reduce720pField.style.display !== 'none') && reduce720pCheckbox && reduce720pCheckbox.checked;
+            if (is720pChecked && currentVideoMetadata) {
+                const isPortrait = currentVideoMetadata.height > currentVideoMetadata.width;
+                if (isPortrait) {
+                    args.push('-vf', "scale='min(720,iw)':-2");
+                } else {
+                    args.push('-vf', "scale=-2:'min(720,ih)'");
+                }
+            }
+
+            const quality = videoQualitySelect ? videoQualitySelect.value : 'medium';
+
+            if (!isWebm) {
+                // MP4 encoding: libx264, veryfast, crf Q
+                const crfMap = { high: 23, medium: 28, low: 32 };
+                const q = crfMap[quality] || 28;
+                args.push(
+                    '-c:v', 'libx264',
+                    '-preset', 'veryfast',
+                    '-crf', String(q),
+                    '-pix_fmt', 'yuv420p',
+                    '-movflags', '+faststart'
+                );
+                if (hasAudio) {
+                    args.push('-c:a', 'aac', '-b:a', '128k');
+                } else {
+                    args.push('-an');
+                }
+            } else {
+                // WebM encoding: libvpx, realtime, cpu-used 4, -b:v B, -crf C
+                const webmConfig = {
+                    high: { b: '1800k', crf: '18' },
+                    medium: { b: '900k', crf: '26' },
+                    low: { b: '450k', crf: '36' }
+                };
+                const cfg = webmConfig[quality] || webmConfig.medium;
+                args.push(
+                    '-c:v', 'libvpx',
+                    '-deadline', 'realtime',
+                    '-cpu-used', '4',
+                    '-b:v', cfg.b,
+                    '-crf', cfg.crf
+                );
+                if (hasAudio) {
+                    args.push('-c:a', 'libvorbis', '-b:a', '128k');
+                } else {
+                    args.push('-an');
+                }
+            }
+
+            args.push(outFileName);
+
+            const progressHandler = ({ progress }) => {
+                if (seq !== activeConversionSeq) return;
+                const percent = Math.max(0, Math.min(100, Math.round(progress * 100)));
+                throttledConvertProgress(percent);
+            };
+            ffmpeg.on('progress', progressHandler);
+
+            const code = await ffmpeg.exec(args);
+            ffmpeg.off('log', () => {});
+            ffmpeg.off('progress', progressHandler);
+
+            if (seq !== activeConversionSeq) return;
+
+            if (code !== 0) {
+                throw new Error(window.tMedia ? window.tMedia('cannotReadVideo') : 'Video conversion failed.');
+            }
+
+            const outData = await ffmpeg.readFile(outFileName);
+            if (seq !== activeConversionSeq) return;
+
+            // Delete virtual files
+            try { await ffmpeg.deleteFile(inFileName); } catch (e) {}
+            try { await ffmpeg.deleteFile(outFileName); } catch (e) {}
+
+            // Always terminate engine after conversion to free memory
+            await window.FFmpegLoader.terminate();
+
+            if (window.MediaUI && window.MediaUI.releaseWakeLock) {
+                window.MediaUI.releaseWakeLock();
+            }
+
+            isConvertingVideo = false;
+            if (progressComponent) progressComponent.hide();
+
+            const mime = isWebm ? 'video/webm' : 'video/mp4';
+            const blob = new Blob([outData.buffer], { type: mime });
+            currentConvertedBlob = blob;
+            currentBlob = blob;
+
+            convertedSizeEl.textContent = formatBytes(blob.size);
+
+            if (videoOutputPreview) {
+                if (videoOutputPreview.src && videoOutputPreview.src.startsWith('blob:')) {
+                    URL.revokeObjectURL(videoOutputPreview.src);
+                }
+                videoOutputPreview.src = URL.createObjectURL(blob);
+                if (videoOutputWrapper) videoOutputWrapper.style.display = 'block';
+            }
+
+            if (downloadBtn) {
+                downloadBtn.textContent = window.tMedia ? window.tMedia('downloadConvertedVideo') : 'Download Converted Video';
+                downloadBtn.style.display = 'block';
+            }
+        } catch (err) {
+            console.error('Video conversion error:', err);
+            if (seq === activeConversionSeq) {
+                isConvertingVideo = false;
+                if (window.FFmpegLoader) {
+                    try { await window.FFmpegLoader.terminate(); } catch (e) {}
+                }
+                if (window.MediaUI && window.MediaUI.releaseWakeLock) {
+                    window.MediaUI.releaseWakeLock();
+                }
+                if (progressComponent) progressComponent.hide();
+
+                const errMsg = err.message || (window.tMedia ? window.tMedia('cannotReadVideo') : 'Video conversion failed.');
+                if (window.MediaUI && window.MediaUI.showError) {
+                    window.MediaUI.showError(settingsSection, errMsg);
+                }
+            }
+        }
+    }
+
+    function cancelVideoConversion() {
+        activeConversionSeq++;
+        isConvertingVideo = false;
+
+        if (window.FFmpegLoader) {
+            try { window.FFmpegLoader.terminate(); } catch (e) {}
+        }
+
+        if (window.MediaUI && window.MediaUI.releaseWakeLock) {
+            window.MediaUI.releaseWakeLock();
+        }
+
+        if (progressComponent) {
+            progressComponent.update(0, window.tMedia ? window.tMedia('conversionCancelled') : 'Conversion cancelled.');
+            setTimeout(() => progressComponent.hide(), 1000);
+        }
+
+        if (downloadBtn) {
+            downloadBtn.textContent = window.tMedia ? window.tMedia('convertVideo') : 'Convert Video';
+        }
+    }
+
     // --- Image Processing (Preserved Exactly) ---
     async function processImageConversion() {
         if (!imgElement) return;
@@ -698,6 +1257,8 @@ document.addEventListener('DOMContentLoaded', () => {
             processAudioConversion();
         } else if (currentMediaType === 'image') {
             processImageConversion();
+        } else if (currentMediaType === 'video') {
+            onVideoSettingChanged();
         }
     }
 
@@ -711,6 +1272,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (videoQualitySelect) {
+        videoQualitySelect.addEventListener('change', onVideoSettingChanged);
+    }
+
     if (targetFileSize) {
         targetFileSize.addEventListener('input', onFormatOrSettingsChanged);
         targetFileSize.addEventListener('change', onFormatOrSettingsChanged);
@@ -721,6 +1286,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (downloadBtn) {
         downloadBtn.addEventListener('click', () => {
+            if (currentMediaType === 'video') {
+                if (currentConvertedBlob) {
+                    // Result exists: download converted video
+                    const isWebm = formatSelect.value === 'video/webm';
+                    const ext = isWebm ? '.webm' : '.mp4';
+                    const originalName = currentFile.name.substring(0, currentFile.name.lastIndexOf('.')) || 'converted-video';
+                    const fileName = originalName + '-converted' + ext;
+
+                    if (window.MediaUI && window.MediaUI.triggerDownload) {
+                        window.MediaUI.triggerDownload(currentConvertedBlob, fileName);
+                    } else {
+                        const a = document.createElement('a');
+                        a.href = URL.createObjectURL(currentConvertedBlob);
+                        a.download = fileName;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    }
+                } else {
+                    // No result yet: trigger video conversion
+                    startVideoConversion();
+                }
+                return;
+            }
+
             if (!currentBlob || !currentFile) return;
 
             let ext = '.jpg';

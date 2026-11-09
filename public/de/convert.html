@@ -108,11 +108,11 @@
                     <circle cx="16" cy="12" r="1" fill="#6366f1" />
                 </svg>
             </div>
-            <p class="dropzone-title" id="dropzoneTitle">Ziehen Sie Ihr Bild oder Audio hierher, um das Format zu konvertieren</p>
-            <p class="dropzone-formats">Unterstützte Formate: Bilder (PNG, JPG, WebP, GIF, BMP, AVIF) &amp; Audio (MP3, WAV, OGG, M4A, FLAC). Die Audio-Unterstützung hängt von Ihrem Browser ab. Wenn eine Datei nicht geladen wird, versuchen Sie es mit MP3 oder WAV. MP3-Kodierung durch <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a>.</p>
-            <p class="dropzone-limit">Maximale Dateigröße: 50MB.</p>
-            <button class="btn-select" id="selectImagesBtn">Bild oder Audiodatei auswählen</button>
-            <input type="file" id="fileInput" accept="image/*,audio/*" hidden>
+            <p class="dropzone-title" id="dropzoneTitle">Ziehen Sie Ihr Bild, Audio oder Video hierher, um das Format zu konvertieren</p>
+            <p class="dropzone-formats">Unterstützte Formate: Bilder (PNG, JPG, WebP, GIF, BMP, AVIF), Audio (MP3, WAV, OGG, M4A, FLAC) und Video (MP4, WebM, MOV, MKV, AVI). Die Audio- und Video-Unterstützung hängt von Ihrem Browser ab. Wenn eine Datei nicht geladen wird, versuchen Sie es mit MP3, WAV, MP4 oder WebM. Bei der ersten Videokonvertierung wird eine Konvertierungs-Engine von ca. 31 MB heruntergeladen. Videoverarbeitung durch <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>. MP3-Kodierung durch <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a>.</p>
+            <p class="dropzone-limit">Maximale Dateigröße: 50MB für Bilder und Audio, 100MB (bis zu 5 Minuten) für Video.</p>
+            <button class="btn-select" id="selectImagesBtn">Bild, Audio oder Video auswählen</button>
+            <input type="file" id="fileInput" accept="image/*,audio/*,video/*,.mkv,.mov,.m4v,.avi" hidden>
             <p class="dropzone-privacy">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
