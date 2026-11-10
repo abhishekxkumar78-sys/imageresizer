@@ -68,6 +68,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let progressContainer = null;
     let progressComponent = null;
 
+    // Video State
+    let currentVideoMetadata = null;
+    let currentCompressedVideoBlob = null;
+    let isCompressingVideo = false;
+    let videoCompressionSeq = 0;
+
+    let videoPreviewContainer = null;
+    let videoInputPreview = null;
+    let videoOutputWrapper = null;
+    let videoOutputPreview = null;
+    let videoCompressionLevelField = null;
+    let videoCompressionLevel = null;
+    let reduce720pField = null;
+    let reduce720pCheckbox = null;
+    let fullResolutionNotice = null;
+    let videoNotSmallerNotice = null;
+
     // Trigger file dialog
     if (selectImagesBtn && fileInput) {
         selectImagesBtn.addEventListener('click', () => fileInput.click());
@@ -274,28 +291,269 @@ document.addEventListener('DOMContentLoaded', () => {
                 downloadBtn.parentNode.insertBefore(progressContainer, downloadBtn);
             }
             if (!progressComponent && window.MediaUI && window.MediaUI.createProgressComponent) {
-                progressComponent = window.MediaUI.createProgressComponent(progressContainer, {
-                    onCancel: () => {
-                        audioCompressionSeq++;
-                        if (audioWorker) {
-                            try { audioWorker.postMessage({ command: 'cancel' }); } catch (e) {}
-                            audioWorker.terminate();
-                            audioWorker = null;
+                progressComponent = window.MediaUI.createProgressComponent(progressContainer, () => {
+                    if (currentFileType === 'video') {
+                        cancelVideoCompression();
+                        return;
+                    }
+                    audioCompressionSeq++;
+                    if (audioWorker) {
+                        try { audioWorker.postMessage({ command: 'cancel' }); } catch (e) {}
+                        audioWorker.terminate();
+                        audioWorker = null;
+                    }
+                    currentAudioBuffer = null;
+                    currentCompressedAudioBlob = null;
+                    isConvertingAudio = false;
+                    if (window.MediaUI && window.MediaUI.releaseWakeLock) {
+                        window.MediaUI.releaseWakeLock();
+                    }
+                    if (progressComponent) progressComponent.hide();
+                    if (downloadBtn) {
+                        downloadBtn.disabled = false;
+                        downloadBtn.textContent = window.tMedia ? window.tMedia('downloadCompressedAudio') : 'Download Compressed Audio';
+                    }
+                });
+            }
+        }
+    }
+
+    function ensureVideoElements() {
+        if (!videoPreviewContainer && imagePreview) {
+            const previewBox = imagePreview.parentNode;
+            if (previewBox) {
+                videoPreviewContainer = document.getElementById('videoPreviewContainer');
+                if (!videoPreviewContainer) {
+                    videoPreviewContainer = document.createElement('div');
+                    videoPreviewContainer.id = 'videoPreviewContainer';
+                    videoPreviewContainer.className = 'media-preview-box';
+                    videoPreviewContainer.style.display = 'none';
+                    videoPreviewContainer.innerHTML = `
+                        <div class="media-video-container">
+                            <div style="width:100%; text-align:left;">
+                                <span id="videoInputLabel" style="display:block; font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px;">${window.tMedia ? window.tMedia('originalVideo') : 'Original Video'}</span>
+                                <video id="videoInputPreview" class="media-video-preview" controls preload="metadata"></video>
+                            </div>
+                            <div id="videoOutputWrapper" class="media-video-output-wrapper" style="display:none; width:100%; text-align:left; margin-top:12px;">
+                                <span id="videoOutputLabel" style="display:block; font-size:12px; font-weight:700; color:var(--primary); text-transform:uppercase; margin-bottom:6px;">${window.tMedia ? window.tMedia('compressedVideo') : 'Compressed Video'}</span>
+                                <video id="videoOutputPreview" class="media-video-preview" controls preload="metadata"></video>
+                            </div>
+                        </div>
+                    `;
+                    previewBox.appendChild(videoPreviewContainer);
+                }
+                videoInputPreview = videoPreviewContainer.querySelector('#videoInputPreview');
+                videoOutputWrapper = videoPreviewContainer.querySelector('#videoOutputWrapper');
+                videoOutputPreview = videoPreviewContainer.querySelector('#videoOutputPreview');
+            }
+        }
+
+        if (!videoCompressionLevelField && formatSelect) {
+            const formatField = formatSelect.closest('.setting-field');
+            if (formatField) {
+                videoCompressionLevelField = document.getElementById('videoCompressionLevelField');
+                if (!videoCompressionLevelField) {
+                    videoCompressionLevelField = document.createElement('div');
+                    videoCompressionLevelField.id = 'videoCompressionLevelField';
+                    videoCompressionLevelField.className = 'setting-field';
+                    videoCompressionLevelField.style.display = 'none';
+                    videoCompressionLevelField.style.marginBottom = '20px';
+                    videoCompressionLevelField.innerHTML = `
+                        <label id="compressionLevelLabel" for="videoCompressionLevel" class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:8px;">${window.tMedia ? window.tMedia('compressionLevel') : 'Compression level'}</label>
+                        <select id="videoCompressionLevel" class="setting-select" style="width:100%; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
+                            <option value="light">${window.tMedia ? window.tMedia('levelLight') : 'Light (best quality)'}</option>
+                            <option value="balanced" selected>${window.tMedia ? window.tMedia('levelBalanced') : 'Balanced (recommended)'}</option>
+                            <option value="strong">${window.tMedia ? window.tMedia('levelStrong') : 'Strong (smallest file)'}</option>
+                        </select>
+                    `;
+                    formatField.parentNode.insertBefore(videoCompressionLevelField, formatField.nextSibling);
+                }
+                videoCompressionLevel = videoCompressionLevelField.querySelector('#videoCompressionLevel');
+                if (videoCompressionLevel) {
+                    videoCompressionLevel.addEventListener('change', () => {
+                        if (currentFileType === 'video') {
+                            currentCompressedVideoBlob = null;
+                            if (downloadBtn) downloadBtn.textContent = window.tMedia ? window.tMedia('compressVideo') : 'Compress Video';
+                            if (videoOutputWrapper) videoOutputWrapper.style.display = 'none';
+                            if (videoNotSmallerNotice) videoNotSmallerNotice.style.display = 'none';
+                            if (compressedSizeEl) compressedSizeEl.textContent = '0 KB';
+                            if (savedPercentageEl) {
+                                savedPercentageEl.textContent = '0% Saved';
+                                savedPercentageEl.style.background = '#10b981';
+                            }
                         }
-                        currentAudioBuffer = null;
-                        currentCompressedAudioBlob = null;
-                        isConvertingAudio = false;
-                        if (window.MediaUI && window.MediaUI.releaseWakeLock) {
-                            window.MediaUI.releaseWakeLock();
-                        }
-                        if (progressComponent) progressComponent.hide();
-                        if (downloadBtn) {
-                            downloadBtn.disabled = false;
-                            downloadBtn.textContent = window.tMedia ? window.tMedia('downloadCompressedAudio') : 'Download Compressed Audio';
+                    });
+                }
+            }
+        }
+
+        if (!reduce720pField && videoCompressionLevelField) {
+            reduce720pField = document.getElementById('reduce720pField');
+            if (!reduce720pField) {
+                reduce720pField = document.createElement('div');
+                reduce720pField.id = 'reduce720pField';
+                reduce720pField.className = 'media-checkbox-field';
+                reduce720pField.style.display = 'none';
+                reduce720pField.style.marginBottom = '20px';
+                reduce720pField.innerHTML = `
+                    <input type="checkbox" id="reduce720pCheckbox" class="media-checkbox-input" checked>
+                    <label for="reduce720pCheckbox" id="reduce720pLabel" class="media-checkbox-label">${window.tMedia ? window.tMedia('reduce720p') : 'Reduce to 720p (faster, uses less memory)'}</label>
+                    <p id="fullResolutionNotice" class="media-note" style="display:none; color:#b45309; margin-top:8px; width:100%;">${window.tMedia ? window.tMedia('fullResolutionNotice') : 'Full resolution is limited to 60 seconds. Keep 720p for longer videos.'}</p>
+                `;
+                videoCompressionLevelField.parentNode.insertBefore(reduce720pField, videoCompressionLevelField.nextSibling);
+            }
+            reduce720pCheckbox = reduce720pField.querySelector('#reduce720pCheckbox');
+            fullResolutionNotice = reduce720pField.querySelector('#fullResolutionNotice');
+            if (reduce720pCheckbox) {
+                reduce720pCheckbox.addEventListener('change', () => {
+                    if (!reduce720pCheckbox.checked && currentVideoMetadata && currentVideoMetadata.duration > 60) {
+                        reduce720pCheckbox.checked = true;
+                        if (fullResolutionNotice) fullResolutionNotice.style.display = 'block';
+                    } else {
+                        if (fullResolutionNotice) fullResolutionNotice.style.display = 'none';
+                    }
+                    if (currentFileType === 'video') {
+                        currentCompressedVideoBlob = null;
+                        if (downloadBtn) downloadBtn.textContent = window.tMedia ? window.tMedia('compressVideo') : 'Compress Video';
+                        if (videoOutputWrapper) videoOutputWrapper.style.display = 'none';
+                        if (videoNotSmallerNotice) videoNotSmallerNotice.style.display = 'none';
+                        if (compressedSizeEl) compressedSizeEl.textContent = '0 KB';
+                        if (savedPercentageEl) {
+                            savedPercentageEl.textContent = '0% Saved';
+                            savedPercentageEl.style.background = '#10b981';
                         }
                     }
                 });
             }
+        }
+
+        if (!videoNotSmallerNotice && originalSizeEl) {
+            const badgeWrapper = originalSizeEl.closest('div[style*="display:flex"]');
+            if (badgeWrapper && badgeWrapper.parentNode) {
+                videoNotSmallerNotice = document.getElementById('videoNotSmallerNotice');
+                if (!videoNotSmallerNotice) {
+                    videoNotSmallerNotice = document.createElement('div');
+                    videoNotSmallerNotice.id = 'videoNotSmallerNotice';
+                    videoNotSmallerNotice.className = 'media-note';
+                    videoNotSmallerNotice.style.display = 'none';
+                    videoNotSmallerNotice.style.color = '#b45309';
+                    videoNotSmallerNotice.style.background = 'rgba(245, 158, 11, 0.1)';
+                    videoNotSmallerNotice.style.border = '1px solid rgba(245, 158, 11, 0.3)';
+                    videoNotSmallerNotice.style.padding = '10px 14px';
+                    videoNotSmallerNotice.style.borderRadius = 'var(--radius-md)';
+                    videoNotSmallerNotice.style.marginBottom = '16px';
+                    badgeWrapper.parentNode.insertBefore(videoNotSmallerNotice, badgeWrapper.nextSibling);
+                }
+            }
+        }
+    }
+
+    async function processVideoCompression() {
+        if (!currentFile || currentFileType !== 'video') return;
+        videoCompressionSeq++;
+        const seq = videoCompressionSeq;
+        isCompressingVideo = true;
+
+        if (downloadBtn) {
+            downloadBtn.disabled = true;
+        }
+        if (videoNotSmallerNotice) videoNotSmallerNotice.style.display = 'none';
+
+        const level = videoCompressionLevel ? videoCompressionLevel.value : 'balanced';
+        const is720pChecked = reduce720pField && (reduce720pField.style.display !== 'none') && reduce720pCheckbox && reduce720pCheckbox.checked;
+
+        try {
+            const result = await window.MediaVideo.compressVideo({
+                file: currentFile,
+                metadata: currentVideoMetadata,
+                compressionLevel: level,
+                reduce720p: is720pChecked,
+                progressComponent: progressComponent,
+                signal: {
+                    get cancelled() { return seq !== videoCompressionSeq; }
+                }
+            });
+
+            if (seq !== videoCompressionSeq) return;
+
+            isCompressingVideo = false;
+            currentCompressedVideoBlob = result.blob;
+            currentBlob = result.blob;
+
+            if (compressedSizeEl) compressedSizeEl.textContent = formatBytes(result.size);
+
+            const origBytes = currentFile.size;
+            const newBytes = result.size;
+            const saved = Math.round(((origBytes - newBytes) / origBytes) * 100);
+            if (savedPercentageEl) {
+                if (saved >= 0) {
+                    savedPercentageEl.textContent = saved + '% Saved';
+                    savedPercentageEl.style.background = '#10b981';
+                } else {
+                    savedPercentageEl.textContent = Math.abs(saved) + '% Larger';
+                    savedPercentageEl.style.background = '#6b7280';
+                }
+            }
+
+            if (newBytes >= origBytes && videoNotSmallerNotice) {
+                videoNotSmallerNotice.textContent = window.tMedia
+                    ? window.tMedia('videoNotSmaller')
+                    : 'This video is already well compressed, so the result is not smaller. Try a stronger compression level.';
+                videoNotSmallerNotice.style.display = 'block';
+            } else if (videoNotSmallerNotice) {
+                videoNotSmallerNotice.style.display = 'none';
+            }
+
+            if (videoOutputPreview) {
+                if (videoOutputPreview.src && videoOutputPreview.src.startsWith('blob:')) {
+                    URL.revokeObjectURL(videoOutputPreview.src);
+                }
+                videoOutputPreview.src = URL.createObjectURL(result.blob);
+                if (videoOutputWrapper) videoOutputWrapper.style.display = 'block';
+            }
+
+            if (downloadBtn) {
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = window.tMedia ? window.tMedia('downloadCompressedVideo') : 'Download Compressed Video';
+            }
+        } catch (err) {
+            console.error('Video compression error:', err);
+            if (seq === videoCompressionSeq) {
+                isCompressingVideo = false;
+                if (downloadBtn) {
+                    downloadBtn.disabled = false;
+                    downloadBtn.textContent = window.tMedia ? window.tMedia('compressVideo') : 'Compress Video';
+                }
+                if (progressComponent) progressComponent.hide();
+                if (err.message !== 'Cancelled') {
+                    const msg = err.message || (window.tMedia ? window.tMedia('cannotReadVideo') : 'Video compression failed.');
+                    if (window.MediaUI && window.MediaUI.showError) {
+                        window.MediaUI.showError(settingsSection, msg);
+                    }
+                }
+            }
+        }
+    }
+
+    function cancelVideoCompression() {
+        videoCompressionSeq++;
+        isCompressingVideo = false;
+
+        if (window.FFmpegLoader) {
+            try { window.FFmpegLoader.terminate(); } catch (e) {}
+        }
+        if (window.MediaVideo && window.MediaVideo.cancel) {
+            window.MediaVideo.cancel();
+        }
+
+        if (progressComponent) {
+            progressComponent.update(0, window.tMedia ? window.tMedia('conversionCancelled') : 'Conversion cancelled.');
+            setTimeout(() => progressComponent.hide(), 1000);
+        }
+
+        if (downloadBtn) {
+            downloadBtn.disabled = false;
+            downloadBtn.textContent = window.tMedia ? window.tMedia('compressVideo') : 'Compress Video';
         }
     }
 
@@ -303,11 +561,65 @@ document.addEventListener('DOMContentLoaded', () => {
         uploadHero.style.display = 'none';
         settingsSection.style.display = 'block';
         ensureAudioElements();
+        ensureVideoElements();
 
         const formatField = formatSelect ? formatSelect.closest('.setting-field') : null;
         const qualityField = qualitySlider ? qualitySlider.closest('.setting-field') : null;
+        const targetFileSizeField = targetFileSize ? targetFileSize.closest('.setting-field') : null;
 
-        if (mode === 'audio') {
+        // Reset target file size disabled state
+        if (targetFileSize) targetFileSize.disabled = false;
+        if (targetFileSizeUnit) targetFileSizeUnit.disabled = false;
+        if (targetSizeNotice) targetSizeNotice.style.display = 'none';
+        if (videoNotSmallerNotice) videoNotSmallerNotice.style.display = 'none';
+
+        if (mode === 'video') {
+            if (imagePreview) imagePreview.style.display = 'none';
+            if (pdfCompressPreviewCard) pdfCompressPreviewCard.style.display = 'none';
+            if (pdfHonestNotice) pdfHonestNotice.style.display = 'none';
+            if (pdfLargeNotice) pdfLargeNotice.style.display = 'none';
+            if (audioPreviewContainer) audioPreviewContainer.style.display = 'none';
+            if (videoPreviewContainer) videoPreviewContainer.style.display = 'block';
+
+            if (formatField) formatField.style.display = 'none';
+            if (qualityField) qualityField.style.display = 'none';
+            if (bitrateField) bitrateField.style.display = 'none';
+            if (monoField) monoField.style.display = 'none';
+
+            if (videoCompressionLevelField) videoCompressionLevelField.style.display = 'block';
+            if (videoCompressionLevel) videoCompressionLevel.value = 'balanced';
+
+            if (reduce720pField) {
+                const needs720 = currentVideoMetadata && (currentVideoMetadata.height > 720 || currentVideoMetadata.width > 1280);
+                reduce720pField.style.display = needs720 ? 'flex' : 'none';
+                if (reduce720pCheckbox) reduce720pCheckbox.checked = true;
+                if (fullResolutionNotice) fullResolutionNotice.style.display = 'none';
+            }
+
+            if (videoOutputWrapper) videoOutputWrapper.style.display = 'none';
+
+            if (targetFileSizeField) {
+                targetFileSizeField.style.display = 'block';
+                if (targetFileSize) targetFileSize.disabled = true;
+                if (targetFileSizeUnit) targetFileSizeUnit.disabled = true;
+            }
+            if (targetSizeNotice) {
+                targetSizeNotice.textContent = window.tMedia
+                    ? window.tMedia('videoNoTargetSize')
+                    : 'Target file size cannot be set for video. Use the video quality setting to control size.';
+                targetSizeNotice.style.color = '#b45309';
+                targetSizeNotice.style.display = 'block';
+            }
+
+            if (downloadBtn) {
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = window.tMedia ? window.tMedia('compressVideo') : 'Compress Video';
+            }
+        } else if (mode === 'audio') {
+            if (videoPreviewContainer) videoPreviewContainer.style.display = 'none';
+            if (videoCompressionLevelField) videoCompressionLevelField.style.display = 'none';
+            if (reduce720pField) reduce720pField.style.display = 'none';
+
             if (imagePreview) imagePreview.style.display = 'none';
             if (pdfCompressPreviewCard) pdfCompressPreviewCard.style.display = 'none';
             if (pdfHonestNotice) pdfHonestNotice.style.display = 'none';
@@ -325,6 +637,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (downloadBtn) downloadBtn.textContent = window.tMedia ? window.tMedia('downloadCompressedAudio') : 'Download Compressed Audio';
         } else if (mode === 'pdf') {
+            if (videoPreviewContainer) videoPreviewContainer.style.display = 'none';
+            if (videoCompressionLevelField) videoCompressionLevelField.style.display = 'none';
+            if (reduce720pField) reduce720pField.style.display = 'none';
+
             if (imagePreview) imagePreview.style.display = 'none';
             if (pdfCompressPreviewCard) pdfCompressPreviewCard.style.display = 'flex';
             if (pdfHonestNotice) pdfHonestNotice.style.display = 'block';
@@ -345,6 +661,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pdfPageBadge) pdfPageBadge.textContent = `${pdfPageCount} page${pdfPageCount === 1 ? '' : 's'}`;
             updateFormatDropdown('pdf');
         } else {
+            if (videoPreviewContainer) videoPreviewContainer.style.display = 'none';
+            if (videoCompressionLevelField) videoCompressionLevelField.style.display = 'none';
+            if (reduce720pField) reduce720pField.style.display = 'none';
+
             if (imagePreview) imagePreview.style.display = 'block';
             if (pdfCompressPreviewCard) pdfCompressPreviewCard.style.display = 'none';
             if (pdfHonestNotice) pdfHonestNotice.style.display = 'none';
@@ -373,6 +693,13 @@ document.addEventListener('DOMContentLoaded', () => {
             audioWorker = null;
         }
         isConvertingAudio = false;
+
+        videoCompressionSeq++;
+        if (isCompressingVideo) {
+            cancelVideoCompression();
+        }
+        isCompressingVideo = false;
+
         if (window.MediaUI && window.MediaUI.releaseWakeLock) {
             window.MediaUI.releaseWakeLock();
         }
@@ -388,16 +715,81 @@ document.addEventListener('DOMContentLoaded', () => {
         const isImgFile = file.type.startsWith('image/');
         const mediaType = (window.MediaUI && window.MediaUI.detectMediaType)
             ? window.MediaUI.detectMediaType(file)
-            : (isPdfFile ? 'pdf' : (isImgFile ? 'image' : (file.type.startsWith('audio/') ? 'audio' : 'unknown')));
+            : (isPdfFile ? 'pdf' : (isImgFile ? 'image' : (file.type.startsWith('audio/') ? 'audio' : (file.type.startsWith('video/') ? 'video' : 'unknown'))));
 
         const isAudioFile = (mediaType === 'audio') || (!isPdfFile && !isImgFile && file.type.startsWith('audio/'));
+        const isVideoFile = (mediaType === 'video') || (!isPdfFile && !isImgFile && !isAudioFile && (file.type.startsWith('video/') || /\.(mp4|webm|mov|mkv|avi|m4v)$/i.test(file.name || '')));
 
-        if (!isPdfFile && !isImgFile && !isAudioFile) {
+        if (!isPdfFile && !isImgFile && !isAudioFile && !isVideoFile) {
             const hasPdf = !!window.PDFLib;
             const key = hasPdf ? 'unsupportedFileTypeWithPdf' : 'unsupportedFileType';
-            const errMsg = window.tMedia ? window.tMedia(key) : (hasPdf ? 'This file type is not supported here. Please select an image, PDF or audio file.' : 'This file type is not supported here. Please select an image or audio file.');
+            const errMsg = window.tMedia ? window.tMedia(key) : (hasPdf ? 'This file type is not supported here. Please select an image, PDF, audio or video file.' : 'This file type is not supported here. Please select an image, audio or video file.');
             if (window.MediaUI && window.MediaUI.showError) {
                 window.MediaUI.showError(uploadDropzone, errMsg);
+            }
+            return;
+        }
+
+        // Check if PDF on localized page
+        if (isPdfFile && (!window.PDFLib || !window.pdfjsLib)) {
+            const errMsg = window.tMedia ? window.tMedia('unsupportedFileType') : 'PDF compression is only supported on the English page.';
+            if (window.MediaUI && window.MediaUI.showError) {
+                window.MediaUI.showError(uploadDropzone, errMsg);
+            }
+            return;
+        }
+
+        // Video pre-flight checks
+        if (isVideoFile) {
+            if (window.MediaUI && window.MediaUI.checkFileSizeLimit) {
+                const sizeCheck = window.MediaUI.checkFileSizeLimit(file, 'video');
+                if (!sizeCheck.ok) {
+                    if (window.MediaUI.showError) {
+                        window.MediaUI.showError(uploadDropzone, sizeCheck.error);
+                    }
+                    return;
+                }
+            } else if (file.size > 100 * 1024 * 1024) {
+                if (window.MediaUI && window.MediaUI.showError) {
+                    window.MediaUI.showError(uploadDropzone, window.tMedia ? window.tMedia('fileTooLargeVideo') : 'File is too large. Maximum video size is 100MB.');
+                }
+                return;
+            }
+
+            let meta = null;
+            try {
+                if (!window.MediaVideo || !window.MediaVideo.probeVideo) {
+                    throw new Error('Video processing library is not loaded.');
+                }
+                meta = await window.MediaVideo.probeVideo(file, progressComponent);
+            } catch (probeErr) {
+                console.error('Video probe error:', probeErr);
+                const err = probeErr.message || (window.tMedia ? window.tMedia('cannotReadVideo') : 'Could not read this video file. The format may not be supported.');
+                if (window.MediaUI && window.MediaUI.showError) {
+                    window.MediaUI.showError(uploadDropzone, err);
+                }
+                return;
+            }
+
+            currentFile = file;
+            currentFileType = 'video';
+            currentVideoMetadata = meta;
+            currentCompressedVideoBlob = null;
+
+            setUIMode('video');
+
+            if (videoInputPreview) {
+                if (videoInputPreview.src && videoInputPreview.src.startsWith('blob:')) {
+                    URL.revokeObjectURL(videoInputPreview.src);
+                }
+                videoInputPreview.src = URL.createObjectURL(file);
+            }
+
+            if (originalSizeEl) originalSizeEl.textContent = formatBytes(file.size);
+            if (compressedSizeEl) compressedSizeEl.textContent = '0 KB';
+            if (savedPercentageEl) {
+                savedPercentageEl.textContent = '0% Saved';
+                savedPercentageEl.style.background = '#10b981';
             }
             return;
         }
@@ -1319,6 +1711,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (downloadBtn) {
         downloadBtn.addEventListener('click', async () => {
+            if (currentFileType === 'video') {
+                if (currentCompressedVideoBlob && currentFile) {
+                    const originalName = currentFile.name.substring(0, currentFile.name.lastIndexOf('.')) || 'video';
+                    const fileName = `${originalName}-compressed.mp4`;
+                    if (window.MediaUI && window.MediaUI.triggerDownload) {
+                        window.MediaUI.triggerDownload(currentCompressedVideoBlob, fileName);
+                    } else {
+                        const url = URL.createObjectURL(currentCompressedVideoBlob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = fileName;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        setTimeout(() => URL.revokeObjectURL(url), 1000);
+                    }
+                } else {
+                    await processVideoCompression();
+                }
+                return;
+            }
+
             if (currentFileType === 'audio') {
                 if (!currentCompressedAudioBlob || !currentFile) return;
                 const originalName = currentFile.name.substring(0, currentFile.name.lastIndexOf('.')) || 'audio';

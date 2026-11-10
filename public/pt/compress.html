@@ -108,11 +108,11 @@
                     <circle cx="16" cy="12" r="1" fill="#6366f1" />
                 </svg>
             </div>
-            <p class="dropzone-title" id="dropzoneTitle">Arraste e solte sua imagem ou áudio para comprimi-los</p>
-            <p class="dropzone-formats">Formatos suportados: Imagens (PNG, JPG, WebP, GIF, BMP, AVIF) e áudio (MP3, WAV, OGG, M4A, FLAC). O suporte a áudio depende do seu navegador. Se um arquivo não carregar, tente MP3 ou WAV. Codificação MP3 por <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a>.</p>
-            <p class="dropzone-limit">Tamanho máximo do arquivo: 50MB.</p>
-            <button class="btn-select" id="selectImagesBtn">Selecionar imagem ou áudio</button>
-            <input type="file" id="fileInput" accept="image/*,audio/*" hidden>
+            <p class="dropzone-title" id="dropzoneTitle">Arraste e solte sua imagem, áudio ou vídeo para comprimi-los</p>
+            <p class="dropzone-formats">Formatos suportados: Imagens (PNG, JPG, WebP, GIF, BMP, AVIF), áudio (MP3, WAV, OGG, M4A, FLAC) e vídeo (MP4, WebM, MOV, MKV, AVI). O suporte a áudio e vídeo depende do seu navegador. Se um arquivo não carregar, tente MP3, WAV, MP4 ou WebM. A primeira compressão de vídeo baixa um motor de compressão de cerca de 31 MB. Processamento de vídeo por <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>. Codificação MP3 por <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a>.</p>
+            <p class="dropzone-limit">Tamanho máximo do arquivo: 50MB para imagens e áudio, 100MB (até 5 minutos) para vídeo.</p>
+            <button class="btn-select" id="selectImagesBtn">Selecionar imagem, áudio ou vídeo</button>
+            <input type="file" id="fileInput" accept="image/*,audio/*,video/*,.mp4,.webm,.mov,.mkv,.avi" hidden>
             <p class="dropzone-privacy">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
@@ -239,7 +239,8 @@
 
     <script src="/media-i18n.js"></script>
     <script src="/media-ui.js"></script>
-    <script src="/compress-tool.js"></script>
+        <script src="/media-video.js"></script>
+<script src="/compress-tool.js"></script>
     <script>
     (function() {
         const hamburger = document.querySelector('.nav-hamburger');
