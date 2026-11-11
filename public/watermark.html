@@ -65,6 +65,23 @@
       "operatingSystem": "All"
     }
     </script>
+    <style>
+        #settingsSection.video-mode div[style*="grid-template-columns"] > div {
+            min-width: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #settingsSection.video-mode div[style*="grid-template-columns"] > div:first-child > div:first-child {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #settingsSection.video-mode #imagePreview {
+            max-width: 100%;
+            height: auto;
+            max-height: 320px;
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
@@ -134,11 +151,11 @@
                     <circle cx="16" cy="12" r="1" fill="#6366f1" />
                 </svg>
             </div>
-            <p class="dropzone-title" id="dropzoneTitle">Drag &amp; Drop your image or PDF to add watermark</p>
-            <p class="dropzone-formats">Supported formats: PNG, JPG, WebP, GIF, BMP, AVIF, HEIC, PDF.</p>
-            <p class="dropzone-limit">Maximum file size: 50MB.</p>
-            <button class="btn-select" id="selectImagesBtn">Select Image or PDF</button>
-            <input type="file" id="fileInput" accept="image/*,application/pdf,.pdf" hidden>
+            <p class="dropzone-title" id="dropzoneTitle">Drag &amp; Drop your image, PDF or video to add watermark</p>
+            <p class="dropzone-formats">Supported formats: Images (PNG, JPG, WebP, GIF, BMP, AVIF, HEIC), PDF &amp; Video (MP4, WebM, MOV, MKV, AVI). Video support depends on your browser. If a file does not load, try MP4 or WebM. The first video watermarking downloads a processing engine of about 31 MB. Video processing by <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>.</p>
+            <p class="dropzone-limit">Maximum file size: 50MB for images and PDF, 100MB (up to 5 minutes) for video.</p>
+            <button class="btn-select" id="selectImagesBtn">Select Image, PDF or Video</button>
+            <input type="file" id="fileInput" accept="image/*,application/pdf,.pdf,video/*,.mp4,.webm,.mov,.mkv,.avi" hidden>
             <p class="dropzone-privacy">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
@@ -182,6 +199,22 @@
                             <div id="pdfPreviewFootnote" style="font-size:11px; color:var(--text-secondary, #4b5563); text-align:center; padding-top:8px; border-top:1px solid var(--border); line-height:1.4;">
                                 PDF loaded &bull; Vector watermark applied on save
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Original Video Player (Video mode) -->
+                    <div id="videoInputWrapper" class="media-video-container" style="display:none; margin-top:16px; text-align:left; width:100%; box-sizing:border-box;">
+                        <h4 id="videoInputTitle" style="font-size:14px; font-weight:700; color:var(--text-primary); margin-bottom:6px;">Original Video</h4>
+                        <video id="videoInputPreview" class="media-video-preview" controls preload="metadata" style="width:100%; max-width:100%; max-height:240px; border-radius:var(--radius-sm); background:#000; display:block; box-sizing:border-box;"></video>
+                    </div>
+
+                    <!-- Watermarked Video Result Player -->
+                    <div id="videoOutputWrapper" class="media-video-container media-video-output-wrapper" style="display:none; margin-top:16px; text-align:left; width:100%; box-sizing:border-box;">
+                        <h4 id="videoOutputTitle" style="font-size:14px; font-weight:700; color:var(--text-primary); margin-bottom:6px;">Watermarked Video</h4>
+                        <video id="videoOutputPreview" class="media-video-preview" controls preload="metadata" style="width:100%; max-width:100%; max-height:240px; border-radius:var(--radius-sm); background:#000; display:block; box-sizing:border-box;"></video>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding:6px 12px; background:var(--bg-light); border-radius:var(--radius-md); font-size:13px; font-weight:600; color:var(--text-secondary); width:100%; box-sizing:border-box;">
+                            <span>Original: <strong id="videoOriginalSize">0 KB</strong></span>
+                            <span>Watermarked: <strong id="videoWatermarkedSize" style="color:var(--primary);">0 KB</strong></span>
                         </div>
                     </div>
                 </div>
@@ -268,6 +301,32 @@
                         </div>
                     </div>
 
+                    <!-- Video Quality Selector -->
+                    <div class="setting-field" id="videoQualityField" style="display:none; margin-bottom:16px;">
+                        <label class="setting-label" id="videoQualityLabel" for="videoQualitySelect" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Video quality</label>
+                        <select id="videoQualitySelect" class="setting-select" style="width:100%; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px;">
+                            <option value="high" id="optQualityHigh" selected>High</option>
+                            <option value="medium" id="optQualityMedium">Medium</option>
+                            <option value="low" id="optQualityLow">Low</option>
+                        </select>
+                    </div>
+
+                    <!-- Reduce to 720p checkbox -->
+                    <div class="setting-field" id="reduce720pField" style="display:none; margin-bottom:16px;">
+                        <label style="display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; color:var(--text-primary); cursor:pointer;">
+                            <input type="checkbox" id="reduce720pCheckbox" checked style="width:16px; height:16px; accent-color:var(--primary);">
+                            <span id="reduce720pLabel">Reduce to 720p (faster, uses less memory)</span>
+                        </label>
+                    </div>
+                    <div id="fullResolutionNotice" class="media-note" style="display:none; margin-bottom:16px; color:#b45309; background:rgba(245, 158, 11, 0.1); border:1px solid rgba(245, 158, 11, 0.3); padding:10px 14px; border-radius:var(--radius-md);">
+                        Full resolution is limited to 60 seconds. Keep 720p for longer videos.
+                    </div>
+
+                    <!-- Video Target Size Note -->
+                    <div id="videoTargetSizeNote" style="display:none; font-size:13px; color:#b45309; margin-bottom:16px; padding:10px 14px; background:rgba(245, 158, 11, 0.1); border-radius:var(--radius-md); border:1px solid rgba(245, 158, 11, 0.3);">
+                        Target file size cannot be set for video. Use the video quality setting to control size.
+                    </div>
+
                     <!-- Note for PDF mode -->
                     <div id="pdfTargetSizeNote" style="display:none; font-size:13px; color:var(--text-secondary, #4b5563); margin-bottom:20px; padding:10px 14px; background:var(--bg-light); border-radius:var(--radius-md); border:1px solid var(--border);">
                         Target file size is not applicable for PDF watermarking.
@@ -342,6 +401,9 @@
         </div>
     </footer>
 
+        <script src="/media-i18n.js"></script>
+    <script src="/media-ui.js"></script>
+    <script src="/media-video.js"></script>
     <script src="watermark-tool.js"></script>
     <script>
     (function() {

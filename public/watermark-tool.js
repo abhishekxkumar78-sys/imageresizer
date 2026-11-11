@@ -36,14 +36,78 @@ document.addEventListener('DOMContentLoaded', () => {
     const pdfTargetSizeNote = document.getElementById('pdfTargetSizeNote');
     const pdfLargeNotice = document.getElementById('pdfLargeNotice');
 
+    // Video-specific DOM elements
+    const videoInputWrapper = document.getElementById('videoInputWrapper');
+    const videoInputTitle = document.getElementById('videoInputTitle');
+    const videoInputPreview = document.getElementById('videoInputPreview');
+    const videoOutputWrapper = document.getElementById('videoOutputWrapper');
+    const videoOutputTitle = document.getElementById('videoOutputTitle');
+    const videoOutputPreview = document.getElementById('videoOutputPreview');
+    const videoOriginalSize = document.getElementById('videoOriginalSize');
+    const videoWatermarkedSize = document.getElementById('videoWatermarkedSize');
+    const videoQualityField = document.getElementById('videoQualityField');
+    const videoQualityLabel = document.getElementById('videoQualityLabel');
+    const videoQualitySelect = document.getElementById('videoQualitySelect');
+    const optQualityHigh = document.getElementById('optQualityHigh');
+    const optQualityMedium = document.getElementById('optQualityMedium');
+    const optQualityLow = document.getElementById('optQualityLow');
+    const reduce720pField = document.getElementById('reduce720pField');
+    const reduce720pCheckbox = document.getElementById('reduce720pCheckbox');
+    const reduce720pLabel = document.getElementById('reduce720pLabel');
+    const fullResolutionNotice = document.getElementById('fullResolutionNotice');
+    const videoTargetSizeNote = document.getElementById('videoTargetSizeNote');
+
     const PREVIEW_PAGE_LIMIT = 4;
 
     let currentFile = null;
     let currentFileType = 'image';
     let imgElement = null;
+    let videoFrameCanvas = null;
     let currentCanvas = null;
     let originalPdfBytes = null;
     let pdfPageCount = 0;
+
+    let currentVideoMetadata = null;
+    let currentWatermarkedVideoBlob = null;
+    let isWatermarkingVideo = false;
+    let activeWatermarkSeq = 0;
+
+    // Progress component creation
+    let progressComponent = null;
+    function cancelWatermark() {
+        activeWatermarkSeq++;
+        isWatermarkingVideo = false;
+        if (window.MediaVideo && window.MediaVideo.cancel) {
+            window.MediaVideo.cancel();
+        }
+        if (progressComponent) {
+            progressComponent.hide();
+        }
+        if (downloadBtn) {
+            downloadBtn.disabled = false;
+            downloadBtn.textContent = window.tMedia ? window.tMedia('watermarkVideo') : 'Watermark Video';
+        }
+    }
+
+    if (window.MediaUI && window.MediaUI.createProgressComponent && settingsSection) {
+        // Place progress component right before downloadBtn
+        const targetContainer = (downloadBtn && downloadBtn.parentNode) || settingsSection;
+        progressComponent = window.MediaUI.createProgressComponent(targetContainer, cancelWatermark);
+        if (downloadBtn && progressComponent && progressComponent.element) {
+            targetContainer.insertBefore(progressComponent.element, downloadBtn);
+        }
+    }
+
+    function formatBytes(bytes) {
+        if (window.MediaUI && window.MediaUI.formatBytes) {
+            return window.MediaUI.formatBytes(bytes);
+        }
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
 
     if (selectImagesBtn && fileInput) {
         selectImagesBtn.addEventListener('click', () => fileInput.click());
@@ -76,6 +140,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function isPdf(file) {
         return file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+    }
+
+    function isVideo(file) {
+        return (file.type && file.type.startsWith('video/')) || /\.(mp4|webm|mov|mkv|avi|m4v)$/i.test(file.name);
     }
 
     function parsePageRange(str, pageCount) {
@@ -141,9 +209,76 @@ document.addEventListener('DOMContentLoaded', () => {
         return (r * 299 + g * 587 + b * 114) / 1000 > 180;
     }
 
+    function updateVideoUIStrings() {
+        if (videoQualityLabel) videoQualityLabel.textContent = window.tMedia ? window.tMedia('videoQuality') : 'Video quality';
+        if (optQualityHigh) optQualityHigh.textContent = window.tMedia ? window.tMedia('qualityHigh') : 'High';
+        if (optQualityMedium) optQualityMedium.textContent = window.tMedia ? window.tMedia('qualityMedium') : 'Medium';
+        if (optQualityLow) optQualityLow.textContent = window.tMedia ? window.tMedia('qualityLow') : 'Low';
+        if (reduce720pLabel) reduce720pLabel.textContent = window.tMedia ? window.tMedia('reduce720p') : 'Reduce to 720p (faster, uses less memory)';
+        if (fullResolutionNotice) fullResolutionNotice.textContent = window.tMedia ? window.tMedia('fullResolutionNotice') : 'Full resolution is limited to 60 seconds. Keep 720p for longer videos.';
+        if (videoTargetSizeNote) videoTargetSizeNote.textContent = window.tMedia ? window.tMedia('watermarkNoTargetSize') : 'Target file size cannot be set for video. Use the video quality setting to control size.';
+        if (videoInputTitle) videoInputTitle.textContent = window.tMedia ? window.tMedia('originalVideo') : 'Original Video';
+        if (videoOutputTitle) videoOutputTitle.textContent = window.tMedia ? window.tMedia('watermarkedVideo') : 'Watermarked Video';
+    }
+
+    function update720pVisibility() {
+        if (!reduce720pField) return;
+        const sw = currentVideoMetadata ? currentVideoMetadata.width : 0;
+        const sh = currentVideoMetadata ? currentVideoMetadata.height : 0;
+        const needs720 = sw > 1280 || sh > 720;
+        reduce720pField.style.display = needs720 ? 'block' : 'none';
+        if (reduce720pCheckbox) {
+            reduce720pCheckbox.checked = needs720;
+        }
+        if (fullResolutionNotice) {
+            fullResolutionNotice.style.display = 'none';
+        }
+    }
+
+    function getOutputVideoDimensions() {
+        if (!currentVideoMetadata) return { width: 1280, height: 720, reduce: false };
+        const sw = currentVideoMetadata.width;
+        const sh = currentVideoMetadata.height;
+        const needs720 = sw > 1280 || sh > 720;
+        const isReduceChecked = reduce720pCheckbox && reduce720pCheckbox.checked && needs720;
+
+        if (isReduceChecked) {
+            if (sh > sw) {
+                // Portrait
+                const outW = 720;
+                let outH = Math.round((sh * 720) / sw);
+                outH = outH - (outH % 2);
+                return { width: outW, height: outH, reduce: true };
+            } else {
+                // Landscape or square
+                const outH = 720;
+                let outW = Math.round((sw * 720) / sh);
+                outW = outW - (outW % 2);
+                return { width: outW, height: outH, reduce: true };
+            }
+        } else {
+            return {
+                width: sw - (sw % 2),
+                height: sh - (sh % 2),
+                reduce: false
+            };
+        }
+    }
+
     function setUIMode(mode) {
+        currentFileType = mode;
         uploadHero.style.display = 'none';
         settingsSection.style.display = 'block';
+
+        if (mode === 'video') {
+            settingsSection.classList.add('video-mode');
+        } else {
+            settingsSection.classList.remove('video-mode');
+        }
+
+        if (progressComponent) {
+            progressComponent.hide();
+        }
 
         if (mode === 'pdf') {
             if (imagePreview) imagePreview.style.display = 'none';
@@ -151,21 +286,59 @@ document.addEventListener('DOMContentLoaded', () => {
             if (applyPagesContainer) applyPagesContainer.style.display = 'block';
             if (targetFileSizeContainer) targetFileSizeContainer.style.display = 'none';
             if (pdfTargetSizeNote) pdfTargetSizeNote.style.display = 'block';
-            if (downloadBtn) downloadBtn.textContent = 'Download Watermarked PDF';
+            if (videoTargetSizeNote) videoTargetSizeNote.style.display = 'none';
+            if (videoQualityField) videoQualityField.style.display = 'none';
+            if (reduce720pField) reduce720pField.style.display = 'none';
+            if (fullResolutionNotice) fullResolutionNotice.style.display = 'none';
+            if (videoInputWrapper) videoInputWrapper.style.display = 'none';
+            if (videoOutputWrapper) videoOutputWrapper.style.display = 'none';
+            if (downloadBtn) {
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = 'Download Watermarked PDF';
+            }
             if (pdfLargeNotice) {
                 pdfLargeNotice.style.display = pdfPageCount > 50 ? 'block' : 'none';
             }
             if (pdfFileName) pdfFileName.textContent = currentFile ? currentFile.name : 'Document.pdf';
             if (pdfPageBadge) pdfPageBadge.textContent = `${pdfPageCount} page${pdfPageCount === 1 ? '' : 's'}`;
             updatePdfFootnote();
+        } else if (mode === 'video') {
+            if (imagePreview) imagePreview.style.display = 'block';
+            if (pdfPreviewCard) pdfPreviewCard.style.display = 'none';
+            if (applyPagesContainer) applyPagesContainer.style.display = 'none';
+            if (pdfTargetSizeNote) pdfTargetSizeNote.style.display = 'none';
+            if (pdfLargeNotice) pdfLargeNotice.style.display = 'none';
+            if (targetFileSizeContainer) targetFileSizeContainer.style.display = 'none';
+            if (videoTargetSizeNote) videoTargetSizeNote.style.display = 'block';
+            if (videoQualityField) videoQualityField.style.display = 'block';
+            if (videoInputWrapper) videoInputWrapper.style.display = 'block';
+            if (videoOutputWrapper) videoOutputWrapper.style.display = currentWatermarkedVideoBlob ? 'block' : 'none';
+            updateVideoUIStrings();
+            update720pVisibility();
+            if (downloadBtn) {
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = currentWatermarkedVideoBlob
+                    ? (window.tMedia ? window.tMedia('downloadWatermarkedVideo') : 'Download Watermarked Video')
+                    : (window.tMedia ? window.tMedia('watermarkVideo') : 'Watermark Video');
+            }
         } else {
+            // Image mode
             if (imagePreview) imagePreview.style.display = 'block';
             if (pdfPreviewCard) pdfPreviewCard.style.display = 'none';
             if (applyPagesContainer) applyPagesContainer.style.display = 'none';
             if (targetFileSizeContainer) targetFileSizeContainer.style.display = 'block';
             if (pdfTargetSizeNote) pdfTargetSizeNote.style.display = 'none';
             if (pdfLargeNotice) pdfLargeNotice.style.display = 'none';
-            if (downloadBtn) downloadBtn.textContent = 'Download Watermarked Image';
+            if (videoTargetSizeNote) videoTargetSizeNote.style.display = 'none';
+            if (videoQualityField) videoQualityField.style.display = 'none';
+            if (reduce720pField) reduce720pField.style.display = 'none';
+            if (fullResolutionNotice) fullResolutionNotice.style.display = 'none';
+            if (videoInputWrapper) videoInputWrapper.style.display = 'none';
+            if (videoOutputWrapper) videoOutputWrapper.style.display = 'none';
+            if (downloadBtn) {
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = 'Download Watermarked Image';
+            }
         }
     }
 
@@ -368,12 +541,150 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPdfWatermarkOverlays();
     }
 
-    async function handleFile(file) {
-        const isPdfFile = isPdf(file);
-        const isImgFile = file.type.startsWith('image/');
+    function captureVideoFrame(file) {
+        return new Promise((resolve) => {
+            const video = document.createElement('video');
+            video.preload = 'auto';
+            video.muted = true;
+            video.playsInline = true;
+            const url = URL.createObjectURL(file);
+            let finished = false;
 
-        if (!isPdfFile && !isImgFile) {
-            alert('Please select a valid image or PDF file.');
+            function done(canvas) {
+                if (!finished) {
+                    finished = true;
+                    URL.revokeObjectURL(url);
+                    video.removeAttribute('src');
+                    video.load();
+                    resolve(canvas);
+                }
+            }
+
+            const timer = setTimeout(() => {
+                done(null);
+            }, 3000);
+
+            video.onloadedmetadata = () => {
+                const seekTime = video.duration > 1.2 ? 1.0 : Math.max(0, video.duration / 2);
+                video.currentTime = seekTime;
+            };
+
+            video.onseeked = () => {
+                clearTimeout(timer);
+                try {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    done(canvas);
+                } catch (e) {
+                    done(null);
+                }
+            };
+
+            video.onerror = () => {
+                clearTimeout(timer);
+                done(null);
+            };
+
+            video.src = url;
+        });
+    }
+
+    async function handleFile(file) {
+        if (!file) return;
+
+        if (window.MediaUI && window.MediaUI.clearError) {
+            window.MediaUI.clearError(uploadDropzone);
+            window.MediaUI.clearError(settingsSection);
+        }
+
+        const isPdfFile = isPdf(file);
+        const isVideoFile = isVideo(file);
+        const isImgFile = (file.type && file.type.startsWith('image/')) || /\.(jpe?g|png|webp|gif|bmp|avif|heic)$/i.test(file.name);
+
+        if (!isPdfFile && !isImgFile && !isVideoFile) {
+            const msg = window.tMedia ? window.tMedia('unsupportedFileTypeWithPdf') : 'Please select a valid image, PDF, or video file.';
+            if (window.MediaUI && window.MediaUI.showError) {
+                window.MediaUI.showError(uploadDropzone, msg);
+            } else {
+                alert(msg);
+            }
+            return;
+        }
+
+        // Check if PDF on localized page where PDF is not supported
+        if (isPdfFile && (!window.PDFLib || !window.pdfjsLib)) {
+            const errMsg = window.tMedia ? window.tMedia('unsupportedFileType') : 'PDF watermarking is only supported on the English page.';
+            if (window.MediaUI && window.MediaUI.showError) {
+                window.MediaUI.showError(uploadDropzone, errMsg);
+            } else {
+                alert(errMsg);
+            }
+            return;
+        }
+
+        if (isVideoFile) {
+            // Video size preflight check
+            if (window.MediaUI && window.MediaUI.checkFileSizeLimit) {
+                const check = window.MediaUI.checkFileSizeLimit(file, 'video');
+                if (!check.ok) {
+                    window.MediaUI.showError(uploadDropzone, check.error);
+                    return;
+                }
+            } else if (file.size > 100 * 1024 * 1024) {
+                const msg = window.tMedia ? window.tMedia('fileTooLargeVideo') : 'File is too large. Maximum video size is 100MB.';
+                if (window.MediaUI && window.MediaUI.showError) {
+                    window.MediaUI.showError(uploadDropzone, msg);
+                } else {
+                    alert(msg);
+                }
+                return;
+            }
+
+            let meta = null;
+            try {
+                if (!window.MediaVideo || !window.MediaVideo.probeVideo) {
+                    throw new Error('Video processing library is not loaded.');
+                }
+                meta = await window.MediaVideo.probeVideo(file, progressComponent);
+            } catch (probeErr) {
+                console.error('Video probe error:', probeErr);
+                const msg = probeErr.message || (window.tMedia ? window.tMedia('cannotReadVideo') : 'Could not read this video file.');
+                if (window.MediaUI && window.MediaUI.showError) {
+                    window.MediaUI.showError(uploadDropzone, msg);
+                } else {
+                    alert(msg);
+                }
+                return;
+            }
+
+            currentFile = file;
+            currentFileType = 'video';
+            currentVideoMetadata = meta;
+            currentWatermarkedVideoBlob = null;
+
+            // Frame extraction for preview
+            videoFrameCanvas = await captureVideoFrame(file);
+            if (!videoFrameCanvas && meta) {
+                videoFrameCanvas = document.createElement('canvas');
+                videoFrameCanvas.width = meta.width;
+                videoFrameCanvas.height = meta.height;
+                const ctx = videoFrameCanvas.getContext('2d');
+                ctx.fillStyle = '#0f172a';
+                ctx.fillRect(0, 0, videoFrameCanvas.width, videoFrameCanvas.height);
+            }
+
+            if (videoInputPreview) {
+                if (videoInputPreview.src && videoInputPreview.src.startsWith('blob:')) {
+                    URL.revokeObjectURL(videoInputPreview.src);
+                }
+                videoInputPreview.src = URL.createObjectURL(file);
+            }
+
+            setUIMode('video');
+            renderWatermark();
             return;
         }
 
@@ -424,17 +735,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function renderWatermark() {
-        if (!imgElement) return;
-
-        const canvas = document.createElement('canvas');
-        canvas.width = imgElement.naturalWidth;
-        canvas.height = imgElement.naturalHeight;
-        const ctx = canvas.getContext('2d');
-
-        // Draw original image
-        ctx.drawImage(imgElement, 0, 0);
-
+    function drawWatermarkText(ctx, canvasWidth, canvasHeight) {
         const text = textInput.value || '© Watermark';
         const fontSize = parseInt(fontSizeSlider.value, 10);
         const opacity = parseInt(opacitySlider.value, 10) / 100;
@@ -455,8 +756,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Position math
         const margin = fontSize;
-        let x = canvas.width / 2;
-        let y = canvas.height / 2;
+        let x = canvasWidth / 2;
+        let y = canvasHeight / 2;
 
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -467,18 +768,18 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
         } else if (position === 'top-right') {
-            x = canvas.width - margin;
+            x = canvasWidth - margin;
             y = margin;
             ctx.textAlign = 'right';
             ctx.textBaseline = 'top';
         } else if (position === 'bottom-left') {
             x = margin;
-            y = canvas.height - margin;
+            y = canvasHeight - margin;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'bottom';
         } else if (position === 'bottom-right') {
-            x = canvas.width - margin;
-            y = canvas.height - margin;
+            x = canvasWidth - margin;
+            y = canvasHeight - margin;
             ctx.textAlign = 'right';
             ctx.textBaseline = 'bottom';
         }
@@ -487,17 +788,73 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.shadowColor = opacity > 0.5 ? 'rgba(0, 0, 0, 0.4)' : 'transparent';
         ctx.shadowBlur = 6;
         ctx.fillText(text, x, y);
+    }
+
+    function generateWatermarkPngBlob() {
+        const { width: outW, height: outH } = getOutputVideoDimensions();
+        const canvas = document.createElement('canvas');
+        canvas.width = outW;
+        canvas.height = outH;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, outW, outH);
+        drawWatermarkText(ctx, outW, outH);
+        return new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+    }
+
+    function renderWatermark() {
+        if (currentFileType === 'video') {
+            if (!videoFrameCanvas && !currentVideoMetadata) return;
+            const { width: outW, height: outH } = getOutputVideoDimensions();
+            const canvas = document.createElement('canvas');
+            canvas.width = outW;
+            canvas.height = outH;
+            const ctx = canvas.getContext('2d');
+
+            if (videoFrameCanvas) {
+                ctx.drawImage(videoFrameCanvas, 0, 0, outW, outH);
+            } else {
+                ctx.fillStyle = '#0f172a';
+                ctx.fillRect(0, 0, outW, outH);
+            }
+
+            drawWatermarkText(ctx, outW, outH);
+
+            currentCanvas = canvas;
+            imagePreview.src = canvas.toDataURL('image/png');
+
+            if (fontSizeValue) fontSizeValue.textContent = (fontSizeSlider ? fontSizeSlider.value : 48) + 'px';
+            if (opacityValue) opacityValue.textContent = (opacitySlider ? opacitySlider.value : 70) + '%';
+            return;
+        }
+
+        if (!imgElement) return;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = imgElement.naturalWidth;
+        canvas.height = imgElement.naturalHeight;
+        const ctx = canvas.getContext('2d');
+
+        // Draw original image
+        ctx.drawImage(imgElement, 0, 0);
+
+        drawWatermarkText(ctx, canvas.width, canvas.height);
 
         currentCanvas = canvas;
         imagePreview.src = canvas.toDataURL('image/png');
 
-        fontSizeValue.textContent = fontSize + 'px';
-        opacityValue.textContent = opacitySlider.value + '%';
+        fontSizeValue.textContent = (fontSizeSlider ? fontSizeSlider.value : 48) + 'px';
+        opacityValue.textContent = (opacitySlider ? opacitySlider.value : 70) + '%';
     }
 
     function updatePreview() {
         if (currentFileType === 'pdf') {
             renderPdfPreview();
+        } else if (currentFileType === 'video') {
+            currentWatermarkedVideoBlob = null;
+            if (downloadBtn) {
+                downloadBtn.textContent = window.tMedia ? window.tMedia('watermarkVideo') : 'Watermark Video';
+            }
+            renderWatermark();
         } else {
             renderWatermark();
         }
@@ -547,6 +904,29 @@ document.addEventListener('DOMContentLoaded', () => {
         positionSelect.addEventListener('input', updatePreview);
     }
 
+    if (videoQualitySelect) {
+        videoQualitySelect.addEventListener('change', () => {
+            if (currentFileType === 'video') {
+                currentWatermarkedVideoBlob = null;
+                if (downloadBtn) {
+                    downloadBtn.textContent = window.tMedia ? window.tMedia('watermarkVideo') : 'Watermark Video';
+                }
+            }
+        });
+    }
+
+    if (reduce720pCheckbox) {
+        reduce720pCheckbox.addEventListener('change', () => {
+            if (!reduce720pCheckbox.checked && currentVideoMetadata && currentVideoMetadata.duration > 60) {
+                reduce720pCheckbox.checked = true;
+                if (fullResolutionNotice) fullResolutionNotice.style.display = 'block';
+            } else {
+                if (fullResolutionNotice) fullResolutionNotice.style.display = 'none';
+            }
+            updatePreview();
+        });
+    }
+
     if (applyPagesSelect) {
         applyPagesSelect.addEventListener('change', () => {
             if (customRangeContainer) {
@@ -570,7 +950,10 @@ document.addEventListener('DOMContentLoaded', () => {
             currentFileType = 'image';
             if (pdfPagesContainer) pdfPagesContainer.innerHTML = '';
             if (fileInput) fileInput.value = '';
-            if (settingsSection) settingsSection.style.display = 'none';
+            if (settingsSection) {
+                settingsSection.classList.remove('video-mode');
+                settingsSection.style.display = 'none';
+            }
             if (uploadHero) uploadHero.style.display = 'block';
             if (pdfPreviewCard) pdfPreviewCard.style.display = 'none';
             if (imagePreview) imagePreview.style.display = 'block';
@@ -683,10 +1066,102 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    async function processVideoWatermark() {
+        if (!currentFile || currentFileType !== 'video' || isWatermarkingVideo) return;
+        activeWatermarkSeq++;
+        const seq = activeWatermarkSeq;
+        isWatermarkingVideo = true;
+
+        if (downloadBtn) {
+            downloadBtn.disabled = true;
+        }
+
+        const quality = videoQualitySelect ? videoQualitySelect.value : 'high';
+        const { reduce } = getOutputVideoDimensions();
+
+        try {
+            const wmPngBlob = await generateWatermarkPngBlob();
+            if (seq !== activeWatermarkSeq) return;
+
+            const result = await window.MediaVideo.watermarkVideo({
+                file: currentFile,
+                metadata: currentVideoMetadata,
+                watermarkPngBlob: wmPngBlob,
+                videoQuality: quality,
+                reduce720p: reduce,
+                progressComponent: progressComponent,
+                signal: {
+                    get cancelled() { return seq !== activeWatermarkSeq; }
+                }
+            });
+
+            if (seq !== activeWatermarkSeq) return;
+
+            isWatermarkingVideo = false;
+            currentWatermarkedVideoBlob = result.blob;
+
+            if (videoOriginalSize) videoOriginalSize.textContent = formatBytes(currentFile.size);
+            if (videoWatermarkedSize) videoWatermarkedSize.textContent = formatBytes(result.size);
+
+            if (videoOutputPreview) {
+                if (videoOutputPreview.src && videoOutputPreview.src.startsWith('blob:')) {
+                    URL.revokeObjectURL(videoOutputPreview.src);
+                }
+                videoOutputPreview.src = URL.createObjectURL(result.blob);
+                if (videoOutputWrapper) videoOutputWrapper.style.display = 'block';
+            }
+
+            if (downloadBtn) {
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = window.tMedia ? window.tMedia('downloadWatermarkedVideo') : 'Download Watermarked Video';
+            }
+        } catch (err) {
+            console.error('Video watermarking error:', err);
+            if (seq === activeWatermarkSeq) {
+                isWatermarkingVideo = false;
+                if (downloadBtn) {
+                    downloadBtn.disabled = false;
+                    downloadBtn.textContent = window.tMedia ? window.tMedia('watermarkVideo') : 'Watermark Video';
+                }
+                if (progressComponent) progressComponent.hide();
+                if (err.message !== 'Cancelled') {
+                    const msg = err.message || (window.tMedia ? window.tMedia('cannotReadVideo') : 'Video watermarking failed.');
+                    if (window.MediaUI && window.MediaUI.showError) {
+                        window.MediaUI.showError(uploadHero || settingsSection, msg);
+                    } else {
+                        alert(msg);
+                    }
+                }
+            }
+        }
+    }
+
     if (downloadBtn) {
         downloadBtn.addEventListener('click', async () => {
             if (currentFileType === 'pdf') {
                 await watermarkPdfAndDownload();
+                return;
+            }
+
+            if (currentFileType === 'video') {
+                if (currentWatermarkedVideoBlob && currentFile) {
+                    const originalName = currentFile.name.substring(0, currentFile.name.lastIndexOf('.')) || 'video';
+                    const fileName = `${originalName}-watermarked.mp4`;
+                    if (window.MediaUI && window.MediaUI.triggerDownload) {
+                        window.MediaUI.triggerDownload(currentWatermarkedVideoBlob, fileName);
+                    } else {
+                        const url = URL.createObjectURL(currentWatermarkedVideoBlob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = fileName;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        setTimeout(() => URL.revokeObjectURL(url), 1000);
+                    }
+                } else {
+                    await processVideoWatermark();
+                }
                 return;
             }
 

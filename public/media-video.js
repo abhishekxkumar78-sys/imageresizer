@@ -304,6 +304,167 @@ const MediaVideo = (function () {
     }
   }
 
+  // Watermark video by overlaying a transparent PNG watermark
+  async function watermarkVideo(opts) {
+    const {
+      file,
+      metadata,
+      watermarkPngBlob,
+      videoQuality = 'high',
+      reduce720p = false,
+      progressComponent = null,
+      onProgress = null,
+      signal = null
+    } = opts;
+
+    if (!file) throw new Error('No file provided for watermarking.');
+    if (!watermarkPngBlob) throw new Error('No watermark PNG provided.');
+
+    if (window.MediaUI && window.MediaUI.requestWakeLock) {
+      await window.MediaUI.requestWakeLock();
+    }
+
+    const downloadMsg = window.tMedia ? (window.tMedia('engineDownloadingWatermark') || window.tMedia('engineDownloading')) : 'Downloading the watermarking engine (first time only, about 31 MB)...';
+    const watermarkingMsg = window.tMedia ? window.tMedia('watermarkingVideo') : 'Applying watermark to video...';
+
+    if (progressComponent) {
+      progressComponent.show(downloadMsg);
+      progressComponent.update(0);
+    }
+
+    const throttledProgress = throttle((p, msg) => {
+      if (progressComponent) progressComponent.update(p, msg);
+      if (onProgress) onProgress(p, msg);
+    }, 150);
+
+    let ffmpeg = null;
+    try {
+      if (signal && signal.cancelled) throw new Error('Cancelled');
+
+      ffmpeg = await ensureFFmpegLoaded((p) => {
+        throttledProgress(p, downloadMsg);
+      });
+
+      if (signal && signal.cancelled) throw new Error('Cancelled');
+
+      const ext = '.' + (file.name.split('.').pop().toLowerCase() || 'mp4');
+      const inFileName = 'input_' + Date.now() + ext;
+      const wmFileName = 'wm_' + Date.now() + '.png';
+      const outFileName = 'output_' + Date.now() + '.mp4';
+
+      const [fileBuf, wmBuf] = await Promise.all([
+        file.arrayBuffer(),
+        watermarkPngBlob.arrayBuffer()
+      ]);
+
+      if (signal && signal.cancelled) throw new Error('Cancelled');
+
+      await ffmpeg.writeFile(inFileName, new Uint8Array(fileBuf));
+      await ffmpeg.writeFile(wmFileName, new Uint8Array(wmBuf));
+
+      // Audio stream presence check
+      let hasAudio = metadata ? metadata.hasAudio : undefined;
+      if (hasAudio === undefined) {
+        const probeLogs = [];
+        const probeHandler = ({ message }) => probeLogs.push(message);
+        ffmpeg.on('log', probeHandler);
+        try { await ffmpeg.exec(['-i', inFileName]); } catch (e) {}
+        ffmpeg.off('log', probeHandler);
+        hasAudio = /Stream #\d+:\d+.*?: Audio:/.test(probeLogs.join('\n'));
+      }
+
+      const args = ['-i', inFileName, '-i', wmFileName];
+
+      // Scale argument if 720p reduction requested
+      if (reduce720p && metadata) {
+        const isPortrait = metadata.height > metadata.width;
+        const scaleFilter = isPortrait ? 'scale=720:-2' : 'scale=-2:720';
+        args.push('-filter_complex', `[0:v]${scaleFilter}[v0];[v0][1:v]overlay=0:0:format=auto`);
+      } else {
+        args.push('-filter_complex', '[0:v][1:v]overlay=0:0:format=auto');
+      }
+
+      const crfMap = { high: 23, medium: 28, low: 32 };
+      const crf = crfMap[videoQuality] || 23;
+
+      args.push(
+        '-c:v', 'libx264',
+        '-preset', 'veryfast',
+        '-crf', String(crf),
+        '-pix_fmt', 'yuv420p',
+        '-movflags', '+faststart'
+      );
+
+      if (hasAudio) {
+        args.push('-c:a', 'aac', '-b:a', '128k');
+      } else {
+        args.push('-an');
+      }
+
+      args.push(outFileName);
+
+      if (progressComponent) {
+        progressComponent.update(0, watermarkingMsg);
+      }
+
+      const progressHandler = ({ progress }) => {
+        if (signal && signal.cancelled) return;
+        const percent = Math.max(0, Math.min(100, Math.round(progress * 100)));
+        throttledProgress(percent, watermarkingMsg);
+      };
+      ffmpeg.on('progress', progressHandler);
+
+      const code = await ffmpeg.exec(args);
+      ffmpeg.off('log', () => {});
+      ffmpeg.off('progress', progressHandler);
+
+      if (signal && signal.cancelled) throw new Error('Cancelled');
+
+      if (code !== 0) {
+        throw new Error(window.tMedia ? window.tMedia('cannotReadVideo') : 'Video watermarking failed.');
+      }
+
+      const outData = await ffmpeg.readFile(outFileName);
+      if (signal && signal.cancelled) throw new Error('Cancelled');
+
+      // Cleanup virtual files
+      try { await ffmpeg.deleteFile(inFileName); } catch (e) {}
+      try { await ffmpeg.deleteFile(wmFileName); } catch (e) {}
+      try { await ffmpeg.deleteFile(outFileName); } catch (e) {}
+
+      // Terminate engine after every run
+      await window.FFmpegLoader.terminate();
+
+      if (window.MediaUI && window.MediaUI.releaseWakeLock) {
+        window.MediaUI.releaseWakeLock();
+      }
+      if (progressComponent) progressComponent.hide();
+
+      const blob = new Blob([outData.buffer], { type: 'video/mp4' });
+      return { blob, size: blob.size };
+    } catch (err) {
+      if (window.FFmpegLoader) {
+        try { await window.FFmpegLoader.terminate(); } catch (e) {}
+      }
+      if (window.MediaUI && window.MediaUI.releaseWakeLock) {
+        window.MediaUI.releaseWakeLock();
+      }
+      if (progressComponent) progressComponent.hide();
+      throw err;
+    }
+  }
+
+  return {
+    MAX_VIDEO_MB,
+    MAX_VIDEO_MIN,
+    MAX_FULL_RES_SEC,
+    throttle,
+    probeVideo,
+    compressVideo,
+    watermarkVideo,
+    cancel
+  };
+
   return {
     MAX_VIDEO_MB,
     MAX_VIDEO_MIN,
