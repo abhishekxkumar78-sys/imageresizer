@@ -24,19 +24,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Free online image format converter. Convert images between JPG, PNG, and WebP instantly in your browser. 100% private with no server uploads.">
+        content="Convert images (PNG, JPG, WebP, AVIF, GIF, BMP), audio and video free in your browser. Nothing is uploaded, no signup.">
     <meta name="keywords" content="image converter, img2go">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:title" content="Free Image Format Converter — Convert JPG, PNG, WebP Online">
+    <meta property="og:title" content="Free File Converter: Image, Audio &amp; Video - ImageResizer">
     <meta property="og:description"
-        content="Convert images online for free. Easily switch between JPG, PNG, and WebP formats right in your browser. No signup required.">
+        content="Convert images (PNG, JPG, WebP, AVIF, GIF, BMP), audio and video free in your browser. Nothing is uploaded, no signup.">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.freeeimageresizer.com/convert">
     <meta property="og:site_name" content="ImageResizer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free Image Format Converter — Convert JPG, PNG, WebP Online">
+    <meta name="twitter:title" content="Free File Converter: Image, Audio &amp; Video - ImageResizer">
     <meta name="twitter:description"
-        content="Convert images online for free. Easily switch between JPG, PNG, and WebP formats right in your browser.">
-    <title>Free Image Format Converter — Convert JPG, PNG, WebP Online — ImageResizer</title>
+        content="Convert images (PNG, JPG, WebP, AVIF, GIF, BMP), audio and video free in your browser. Nothing is uploaded, no signup.">
+    <title>Free File Converter: Image, Audio &amp; Video - ImageResizer</title>
     <link rel="canonical" href="https://www.freeeimageresizer.com/convert" />
     <link rel="alternate" hreflang="x-default" href="https://www.freeeimageresizer.com/convert" />
     <link rel="alternate" hreflang="en" href="https://www.freeeimageresizer.com/convert" />
@@ -55,10 +56,74 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Image Format Converter",
+      "name": "Free File Converter",
       "url": "https://www.freeeimageresizer.com/convert",
+      "description": "Convert images (PNG, JPG, WebP, AVIF, GIF, BMP), audio and video free in your browser. Nothing is uploaded, no signup.",
       "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "All"
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires a modern web browser with JavaScript and WebAssembly",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Convert images between PNG, JPG, and WebP formats",
+        "Convert audio tracks to MP3 and WAV with bitrate controls",
+        "Convert video files to MP4 and WebM formats",
+        "100% private in-browser processing with no server uploads",
+        "Target file size controls for compressed image and audio output",
+        "No file watermarks, usage limits, or account registration required"
+      ],
+      "inLanguage": "en"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is the converter free and do you upload my files?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, the converter is completely free to use with no account registration, subscriptions, or watermarks. All processing happens locally in your browser, so your files are never uploaded, stored, or inspected by a remote server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which formats can I convert?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can import images in PNG, JPG, WebP, GIF, BMP, and AVIF formats and save them as PNG, JPG, or WebP. You can import audio in MP3, WAV, OGG, M4A, FLAC, and OPUS formats and save them as MP3 or WAV. You can import video in MP4, WebM, MOV, MKV, AVI, and M4V formats and save them as MP4 or WebM."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a file size limit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There is no fixed size limit for images, but very large images use a lot of browser memory and may fail on low-memory devices. Audio up to 50 MB and 10 minutes. Video up to 100 MB, 5 minutes and 1080p."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will converting reduce quality?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Converting to PNG preserves lossless image quality, while converting to JPG or WebP is lossy and depends on the quality level you select. When converting images with transparent backgrounds to JPG, transparent areas are automatically filled with solid white."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is video conversion slower than images?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Video processing requires substantial computation to decode and encode every frame. Because encoding runs entirely on your device using WebAssembly instead of remote cloud servers, speed depends on your hardware. The video engine also downloads only on your first video conversion (about 31 MB), for the first time only."
+          }
+        }
+      ]
     }
     </script>
 </head>
@@ -212,9 +277,35 @@
     <!-- SEO Content Section -->
     <section class="content-section">
         <div class="content-container">
-            <h2 class="content-heading">Free Online Image Format Converter</h2>
-            <p>Convert your photos and graphics instantly between PNG, JPG, and WebP formats. Whether you need a transparent PNG for logo design, a universally compatible JPG for photo sharing, or a highly optimized WebP file for website page speed, our online format converter handles it all in seconds.</p>
-            <p>Our tool processes <strong>everything directly inside your browser</strong> using client-side HTML5 Canvas. Your files are never uploaded to any remote server, guaranteeing complete privacy for your photos and documents.</p>
+            <h2 class="content-heading">What can this converter do?</h2>
+            <p>ImageResizer's converter changes the format of images, audio and video inside your browser without installing software. Convert images from PNG, JPG, WebP, GIF, BMP, or AVIF into PNG, JPG, or WebP. Convert audio tracks from MP3, WAV, OGG, M4A, FLAC, or OPUS into MP3 or WAV, and convert videos from MP4, WebM, MOV, MKV, AVI, or M4V into MP4 or WebM. Your files are processed entirely on your machine and are never uploaded to a server.</p>
+
+            <h2 class="content-heading">How it works</h2>
+            <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
+                <li style="margin-bottom: 8px;">Choose or drop a file from your device.</li>
+                <li style="margin-bottom: 8px;">Pick the output format and adjust quality or bitrate settings.</li>
+                <li style="margin-bottom: 8px;">Click Convert, then download the result.</li>
+            </ol>
+            <p>Conversions run locally on your device using web standards. Images are processed with your browser's Canvas. Audio is encoded in a background Web Worker using lamejs for MP3 and raw PCM for WAV. Video is converted by FFmpeg running as WebAssembly. The video engine is downloaded only when you start a video conversion, which is a download of about 31 MB that happens for the first time only.</p>
+
+            <h2 class="content-heading">Limits</h2>
+            <p>There is no fixed size limit for images, but very large images use a lot of browser memory and may fail on low-memory devices. Audio up to 50 MB and 10 minutes. Video up to 100 MB, 5 minutes and 1080p. Because video conversion runs on your device rather than a remote cloud server, processing large files depends on your device speed and memory, so keep the tab open until it finishes.</p>
+
+            <h2 class="content-heading">Frequently asked questions</h2>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Is the converter free and do you upload my files?</h3>
+            <p>Yes, the converter is completely free to use with no account registration, subscriptions, or watermarks. All processing happens locally in your browser, so your files are never uploaded, stored, or inspected by a remote server.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Which formats can I convert?</h3>
+            <p>You can import images in PNG, JPG, WebP, GIF, BMP, and AVIF formats and save them as PNG, JPG, or WebP. You can import audio in MP3, WAV, OGG, M4A, FLAC, and OPUS formats and save them as MP3 or WAV. You can import video in MP4, WebM, MOV, MKV, AVI, and M4V formats and save them as MP4 or WebM.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Is there a file size limit?</h3>
+            <p>There is no fixed size limit for images, but very large images use a lot of browser memory and may fail on low-memory devices. Audio up to 50 MB and 10 minutes. Video up to 100 MB, 5 minutes and 1080p.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Will converting reduce quality?</h3>
+            <p>Converting to PNG preserves lossless image quality, while converting to JPG or WebP is lossy and depends on the quality level you select. When converting images with transparent backgrounds to JPG, transparent areas are automatically filled with solid white.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Why is video conversion slower than images?</h3>
+            <p>Video processing requires substantial computation to decode and encode every frame. Because encoding runs entirely on your device using WebAssembly instead of remote cloud servers, speed depends on your hardware. The video engine also downloads only on your first video conversion (about 31 MB), for the first time only.</p>
         </div>
     </section>
 
