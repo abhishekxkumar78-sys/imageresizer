@@ -107,7 +107,7 @@
         },
         {
           "@type": "Question",
-          "name": "Can I reorder images and choose page size or orientation?",
+          "name": "Can I reorder images and choose page orientation or margins?",
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Yes, you can reorder pages using the up and down arrow buttons next to each thumbnail preview. You can set page orientation to Auto, Portrait (Standard A4 Vertical), or Landscape, and choose between No Margin and Small Margin (10mm padding)."
@@ -297,10 +297,10 @@
                 <li style="margin-bottom: 8px;">Reorder page thumbnails with up and down buttons and choose page orientation and margins.</li>
                 <li style="margin-bottom: 8px;">Click Convert to PDF &amp; Download to save your compiled document.</li>
             </ol>
-            <p>Document assembly operates locally using web standards. When you select images, the tool loads them into a client-side queue and renders thumbnail previews. Document creation uses the open-source pdf-lib library to construct a clean PDF structure in device memory, embedding each image on its own page according to your layout preferences. The finished document downloads directly as converted-images.pdf with no network transfers.</p>
+            <p>Document assembly operates locally using web standards. When you select images, the tool loads them into a client-side queue and renders thumbnail previews. Document creation uses the open-source pdf-lib library to construct a clean PDF structure in device memory, embedding each image on its own page according to your layout preferences. When set to Auto orientation, the tool selects Landscape A4 for wide images and Portrait A4 for tall images. The finished document downloads directly as converted-images.pdf with no network transfers.</p>
 
             <h2 class="content-heading">Limits</h2>
-            <p>There is no fixed limit on image count or individual file size in code, and our tests verified converting large images up to 55 MB into PDF pages without errors. Processing multiple high-resolution photos requires adequate device memory, so large batches process sequentially. In addition, small individual pictures may produce a slightly larger PDF file due to PDF document header and structural metadata overhead.</p>
+            <p>There is no fixed limit on image count or individual file size in code, and our tests verified converting large images up to 55 MB into PDF pages without errors. Processing multiple high-resolution photos requires adequate device memory, so large batches process sequentially. In addition, PDF document structure adds about 3 to 5 KB of header and metadata overhead per document, which can produce a slightly larger file for tiny images.</p>
 
             <h2 class="content-heading">Frequently asked questions</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Is the image to PDF converter free and do you upload my files?</h3>
@@ -309,7 +309,7 @@
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Which image formats can I convert to PDF?</h3>
             <p>You can convert images in JPG, PNG, WebP, and BMP formats. You can also mix different image formats together in a single conversion batch.</p>
 
-            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Can I reorder images and choose page size or orientation?</h3>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Can I reorder images and choose page orientation or margins?</h3>
             <p>Yes, you can reorder pages using the up and down arrow buttons next to each thumbnail preview. You can set page orientation to Auto, Portrait (Standard A4 Vertical), or Landscape, and choose between No Margin and Small Margin (10mm padding).</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">How many images can I convert and is there a file size limit?</h3>

@@ -96,7 +96,7 @@
           "name": "What controls and aspect ratio presets are available?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "You can adjust crop width and height by typing exact pixel numbers, moving corner handles, or dragging the selection box. The tool includes aspect ratio presets for Free, 1:1, 4:3, 3:2, 16:9, 9:16, 2:3, and 3:4. You can also specify an optional target file size in KB or MB."
+            "text": "You can adjust crop width and height by typing exact pixel numbers, moving corner handles, or dragging the selection box. The tool includes aspect ratio presets for Free, 1:1, 4:3, 3:2, 16:9, 9:16, 2:3, and 3:4. You can also enter an optional target file size in KB or MB, which scales down dimensions to approximate your target."
           }
         },
         {
@@ -341,10 +341,10 @@
                 <li style="margin-bottom: 8px;">Adjust the crop box using drag handles, type exact pixel dimensions, or pick an aspect ratio preset.</li>
                 <li style="margin-bottom: 8px;">Click Download Crop to export your finished cropped image.</li>
             </ol>
-            <p>Cropping operates on your device using web standards. When you import an image, your browser renders it onto an internal 2D canvas. Moving the handles updates the crop coordinates in real time. Clicking download extracts the selected rectangular region and exports it as a PNG image file. If you set a target file size, the export is automatically optimized to match your target threshold.</p>
+            <p>Cropping operates on your device using web standards. When you import an image, your browser renders it onto an internal 2D canvas. Moving the handles updates the crop coordinates in real time. Clicking download extracts the selected rectangular region and exports it as a PNG image file. If you set an optional target file size, the tool iteratively scales down image dimensions to approximate the target, though the resulting PNG can remain larger than the requested threshold.</p>
 
             <h2 class="content-heading">Limits</h2>
-            <p>There is no fixed file size limit for images in code, and our tests processed images up to 55 MB without errors. However, very large images consume significant browser memory, so performance depends on your device hardware. Output files are exported as PNG images, which means small or compressed inputs like WebP or tiny JPEGs can yield larger output file sizes when re-encoded.</p>
+            <p>There is no fixed file size limit for images in code, and our tests processed images up to 55 MB without errors. However, very large images consume significant browser memory, so performance depends on your device hardware. Output files are exported as PNG images. Because PNG is lossless, a cropped JPG or WebP photo usually becomes noticeably larger than the original (about 3 times in our test).</p>
 
             <h2 class="content-heading">Frequently asked questions</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Is the cropper free and do you upload my files?</h3>
@@ -354,7 +354,7 @@
             <p>You can import and crop images in PNG, JPG, WebP, GIF, BMP, and AVIF formats. All cropped images download directly as PNG files.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">What controls and aspect ratio presets are available?</h3>
-            <p>You can adjust crop width and height by typing exact pixel numbers, moving corner handles, or dragging the selection box. The tool includes aspect ratio presets for Free, 1:1, 4:3, 3:2, 16:9, 9:16, 2:3, and 3:4. You can also specify an optional target file size in KB or MB.</p>
+            <p>You can adjust crop width and height by typing exact pixel numbers, moving corner handles, or dragging the selection box. The tool includes aspect ratio presets for Free, 1:1, 4:3, 3:2, 16:9, 9:16, 2:3, and 3:4. You can also enter an optional target file size in KB or MB, which scales down dimensions to approximate your target.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Is there an image file size limit?</h3>
             <p>There is no strict image file size limit in code, and our tests verified loading and cropping high-resolution images up to 55 MB. Processing speed and capacity depend on your available device memory.</p>

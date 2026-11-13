@@ -100,7 +100,7 @@
           "name": "Which file types can I compress?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "You can compress images in PNG, JPG, WebP, GIF, BMP, and AVIF formats into WebP, JPG, or PNG. You can compress PDF documents into optimized PDF files. You can compress audio in WAV, MP3, OGG, M4A, FLAC, and OPUS formats into MP3. You can compress videos in MP4, WebM, MOV, MKV, AVI, and M4V formats into MP4."
+            "text": "You can compress images in PNG, JPG, WebP, GIF, BMP, and AVIF formats into WebP, JPG, or PNG. You can compress PDF documents into compressed PDF files that work best for scanned or image-heavy documents. Compressed PDF pages are image-based, so text can no longer be selected or searched. You can compress audio in WAV, MP3, OGG, M4A, FLAC, and OPUS formats into MP3. You can compress videos in MP4, WebM, MOV, MKV, AVI, and M4V formats into MP4."
           }
         },
         {
@@ -210,7 +210,7 @@
             </div>
             <p class="dropzone-title" id="dropzoneTitle">Drag &amp; Drop your image, PDF, audio or video to compress</p>
             <p class="dropzone-formats">Supported formats: Images (PNG, JPG, WebP, GIF, BMP, AVIF), PDF, Audio (MP3, WAV, OGG, M4A, FLAC) &amp; Video (MP4, WebM, MOV, MKV, AVI). Audio and video support depends on your browser. If a file does not load, try MP3, WAV, MP4 or WebM. The first video compression downloads a compression engine of about 31 MB. Video processing by <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>. MP3 encoding by <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a>.</p>
-            <p class="dropzone-limit">Maximum file size: 50MB for images, PDF and audio, 100MB (up to 5 minutes) for video.</p>
+            <p class="dropzone-limit">Images have no fixed size limit, PDF has no page cap, audio 50MB (up to 10 minutes), video 100MB (up to 5 minutes).</p>
             <button class="btn-select" id="selectImagesBtn">Select Image, PDF, Audio or Video</button>
             <input type="file" id="fileInput" accept="image/*,application/pdf,.pdf,audio/*,video/*,.mp4,.webm,.mov,.mkv,.avi" hidden>
             <p class="dropzone-privacy">
@@ -361,7 +361,7 @@
     <section class="content-section">
         <div class="content-container">
             <h2 class="content-heading">What can this compressor do?</h2>
-            <p>ImageResizer's compressor reduces the file size of images, PDF documents, audio tracks, and video clips in your browser. Compress photos and graphics in PNG, JPG, WebP, GIF, BMP, or AVIF formats into WebP, JPG, or PNG. Compress multi-page PDF documents with adjustable page rendering quality. Compress audio in WAV, MP3, OGG, M4A, FLAC, or OPUS formats into space-saving MP3 files with bitrate controls and optional mono mixdown. Compress video in MP4, WebM, MOV, MKV, AVI, or M4V formats into compact MP4 files. All files are processed locally on your machine and are never uploaded to an external server.</p>
+            <p>ImageResizer's compressor compresses images, PDF documents, audio tracks, and video clips in your browser. Compress photos and graphics in PNG, JPG, WebP, GIF, BMP, or AVIF formats into WebP, JPG, or PNG. Compress multi-page PDF documents with adjustable page rendering quality. Compress audio in WAV, MP3, OGG, M4A, FLAC, or OPUS formats into space-saving MP3 files with bitrate controls and optional mono mixdown. Compress video in MP4, WebM, MOV, MKV, AVI, or M4V formats into compact MP4 files. All files are processed locally on your machine and are never uploaded to an external server.</p>
 
             <h2 class="content-heading">How it works</h2>
             <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
@@ -369,17 +369,17 @@
                 <li style="margin-bottom: 8px;">Adjust compression controls such as quality level, target file size, audio bitrate, or video compression mode.</li>
                 <li style="margin-bottom: 8px;">Click Compress, preview your file size reduction, and download the finished output.</li>
             </ol>
-            <p>Compression operates locally using modern web standards. Photos and graphic images are compressed through your browser's 2D rendering pipeline with customizable output format and quality settings. PDF documents are processed by rendering pages with pdf.js and rebuilding a compact document using pdf-lib. Audio tracks are encoded in a background Web Worker using lamejs to output MP3 files at your chosen bitrate. Video clips are compressed locally using WebAssembly FFmpeg. The video compression engine is about 31 MB and downloads only when you start your first video compression, for the first time only.</p>
+            <p>Compression operates locally using modern web standards. Photos and graphic images are compressed through your browser's 2D rendering pipeline with customizable output format and quality settings. PNG output is lossless, so it can be larger than the original; choose WebP or JPG for smaller files. PDF documents are processed by rendering pages with pdf.js and rebuilding a compact document using pdf-lib. Audio tracks are encoded in a background Web Worker using lamejs to output MP3 files at your chosen bitrate. Video clips are compressed locally using WebAssembly FFmpeg. The video compression engine is about 31 MB and downloads only when you start your first video compression, for the first time only.</p>
 
             <h2 class="content-heading">Limits</h2>
-            <p>There is no fixed size limit for images, but very large images use substantial browser memory and may fail on low-memory devices. PDF documents have no strict page cap in code, processing pages sequentially, but text-based PDFs can become larger because pages are rebuilt as compressed images. Audio files are limited to 50 MB and 10 minutes maximum duration. Video files are limited to 100 MB, 5 minutes maximum duration, and 1080p resolution. Reduce to 720p applies only to videos with resolution above 720p: clips 60 seconds or shorter can be processed at full resolution, while clips longer than 60 seconds are locked to 720p to preserve device memory.</p>
+            <p>There is no fixed size limit for images, but very large images use substantial browser memory and may fail on low-memory devices. PNG output is lossless, so it can be larger than the original; choose WebP or JPG for smaller files. PDF documents have no strict page cap in code, processing pages sequentially, but text-based PDFs can become larger because pages are rebuilt as compressed images. Compressed PDF pages are image-based, so text can no longer be selected or searched. Audio files are limited to 50 MB and 10 minutes maximum duration. Video files are limited to 100 MB, 5 minutes maximum duration, and 1080p resolution. Reduce to 720p applies only to videos with resolution above 720p: clips 60 seconds or shorter can be processed at full resolution, while clips longer than 60 seconds are locked to 720p to preserve device memory.</p>
 
             <h2 class="content-heading">Frequently asked questions</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Is the compressor free and do you upload my files?</h3>
             <p>Yes, the compressor is completely free with no subscriptions, account requirements, or added watermarks. Everything runs inside your browser, meaning your files are never uploaded, stored, or viewed by remote servers.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Which file types can I compress?</h3>
-            <p>You can compress images in PNG, JPG, WebP, GIF, BMP, and AVIF formats into WebP, JPG, or PNG. You can compress PDF documents into optimized PDF files. You can compress audio in WAV, MP3, OGG, M4A, FLAC, and OPUS formats into MP3. You can compress videos in MP4, WebM, MOV, MKV, AVI, and M4V formats into MP4.</p>
+            <p>You can compress images in PNG, JPG, WebP, GIF, BMP, and AVIF formats into WebP, JPG, or PNG. You can compress PDF documents into compressed PDF files that work best for scanned or image-heavy documents. Compressed PDF pages are image-based, so text can no longer be selected or searched. You can compress audio in WAV, MP3, OGG, M4A, FLAC, and OPUS formats into MP3. You can compress videos in MP4, WebM, MOV, MKV, AVI, and M4V formats into MP4.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">How much smaller will the file get and what controls change it?</h3>
             <p>Final file size depends on your file and chosen settings: image-heavy files shrink significantly, but text-based PDFs can become larger because pages are rebuilt as compressed images. For images, PDF documents, and audio tracks, you can set a Target File Size to guide output weight. For images and PDF documents, lowering the Quality slider also reduces size. For audio, selecting a lower bitrate or checking Mix down to mono decreases file size. For video, Target File Size is not available, but choosing the Strong compression level or checking Reduce to 720p produces smaller files.</p>
