@@ -24,19 +24,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Free online watermark adder. Add custom text watermarks to your photos, images, and PDF documents. Control font size, position, opacity, and color right in your browser. 100% private.">
+        content="Add custom text watermarks to images, PDF documents, and video recordings in your browser. Fast, private branding with zero server uploads.">
     <meta name="keywords" content="watermarkly">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:title" content="Free Watermark Adder Online — Protect Your Photos">
+    <meta property="og:title" content="Free Watermark Tool: Image, PDF &amp; Video - ImageResizer">
     <meta property="og:description"
-        content="Add watermarks to your photos online for free. Customize watermark text, opacity, and position in your browser with zero server uploads.">
+        content="Add custom text watermarks to images, PDF documents, and video recordings in your browser. Fast, private branding with zero server uploads.">
+    <meta property="og:url" content="https://www.freeeimageresizer.com/watermark">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ImageResizer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free Watermark Adder Online — Protect Your Photos">
+    <meta name="twitter:title" content="Free Watermark Tool: Image, PDF &amp; Video - ImageResizer">
     <meta name="twitter:description"
-        content="Add watermarks to your photos online for free. Customize watermark text, opacity, and position in your browser.">
-    <title>Free Watermark Adder Online — Protect Your Photos — ImageResizer</title>
+        content="Add custom text watermarks to images, PDF documents, and video recordings in your browser. Fast, private branding with zero server uploads.">
+    <title>Free Watermark Tool: Image, PDF &amp; Video - ImageResizer</title>
     <link rel="canonical" href="https://www.freeeimageresizer.com/watermark" />
     <link rel="alternate" hreflang="x-default" href="https://www.freeeimageresizer.com/watermark" />
     <link rel="alternate" hreflang="en" href="https://www.freeeimageresizer.com/watermark" />
@@ -59,10 +60,74 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Watermark Adder",
+      "name": "Free Watermark Tool",
       "url": "https://www.freeeimageresizer.com/watermark",
+      "description": "Add custom text watermarks to images, PDF documents, and video recordings in your browser. Fast, private branding with zero server uploads.",
       "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "All"
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires a modern web browser with JavaScript and WebAssembly",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Overlay custom text watermarks across images, PDFs, and video files",
+        "Customize text placement across five positions with slider-controlled font size and opacity",
+        "Select text colors including presets and custom hex color picker",
+        "Apply watermarks to all pages or custom page ranges in multi-page PDF documents",
+        "Export watermarked videos with High, Medium, or Low quality settings",
+        "100% private in-browser watermarking with zero server uploads"
+      ],
+      "inLanguage": "en"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is the watermark tool free and do you upload my files?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, the watermark tool is completely free to use without subscriptions, account signups, or extra platform watermarks. All files stay private on your local computer or phone because no data is uploaded, saved, or analyzed on external servers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which files can I watermark?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can watermark image files in PNG, JPG, WebP, GIF, BMP, and AVIF formats. You can watermark multi-page PDF documents. You can also watermark video recordings in MP4, WebM, MOV, MKV, AVI, and M4V formats and download them as MP4."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What can I customize?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can customize the watermark text content, choose between Center, Top-Left, Top-Right, Bottom-Left, or Bottom-Right placement, adjust font size with a slider, tune text opacity from 5% to 100%, and choose text color including White, Black, or a custom color picker. For PDF files, you can choose All Pages or specify custom page numbers. For video, you can choose High, Medium, or Low output quality."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are the limits for images, PDF, and video?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Images have no fixed file size limit, though very large images require adequate browser memory. PDF documents have no strict page cap in code and are processed page-by-page. Video files are limited to 100 MB, 5 minutes duration, and 1080p resolution. Reduce to 720p applies only to videos with resolution above 720p: clips 60 seconds or shorter can be processed at full resolution, while clips longer than 60 seconds are locked to 720p to preserve device memory."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is video watermarked and why is it slower?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Video watermarking requires decoding every frame, overlaying your text mark, and re-encoding the entire stream locally using WebAssembly. This computation runs directly on your computer rather than cloud servers. In addition, the video processing engine of about 31 MB downloads when you watermark your first video, for the first time only."
+          }
+        }
+      ]
     }
     </script>
     <style>
@@ -268,7 +333,7 @@
                             <label class="setting-label" style="font-size:14px; font-weight:600; color:var(--text-primary);">Opacity</label>
                             <span id="opacityValue" style="font-size:14px; font-weight:700; color:var(--primary);">70%</span>
                         </div>
-                        <input type="range" id="opacitySlider" min="10" max="100" value="70" style="width:100%; accent-color:var(--primary);">
+                        <input type="range" id="opacitySlider" min="5" max="100" value="70" style="width:100%; accent-color:var(--primary);">
                     </div>
 
                     <!-- Color Selector -->
@@ -349,9 +414,35 @@
     <!-- SEO Content Section -->
     <section class="content-section">
         <div class="content-container">
-            <h2 class="content-heading">Free Online Watermark Adder</h2>
-            <p>Protect your visual content, photography, and brand identity with our free online watermark tool. Easily overlay custom copyright text, logos, or brand marks on your images before sharing them on social media, portfolio websites, or client previews.</p>
-            <p>Unlike third-party watermark tools that upload your sensitive photographs to external servers, ImageResizer renders <strong>watermarks 100% locally in your browser</strong> via HTML5 Canvas. Your original photos never leave your device.</p>
+            <h2 class="content-heading">What can this watermark tool do?</h2>
+            <p>ImageResizer's watermark tool applies custom text watermarks to images, PDF documents, and video clips directly inside your web browser. Overlay personalized copyright notices, creator names, or brand marks across photos in PNG, JPG, WebP, GIF, BMP, or AVIF formats. Add consistent watermarks across all pages or custom page ranges of multi-page PDF documents. Stamp text overlays onto video recordings in MP4, WebM, MOV, MKV, AVI, or M4V formats to export protected MP4 files. All watermarking takes place on your device with complete privacy, and no media is ever uploaded to a remote server.</p>
+
+            <h2 class="content-heading">How it works</h2>
+            <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
+                <li style="margin-bottom: 8px;">Select or drop an image, PDF document, or video file from your computer or phone.</li>
+                <li style="margin-bottom: 8px;">Type your watermark text and customize its placement, text color, font size, and transparency.</li>
+                <li style="margin-bottom: 8px;">Click Watermark, review the real-time preview, and download your branded file.</li>
+            </ol>
+            <p>Watermarks are rendered locally on your device without server communication. Image watermarking draws text overlays directly onto your picture using your browser's 2D canvas pipeline. PDF watermarking modifies document streams directly in the browser using pdf-lib and pdf.js, positioning vector text across each chosen page. Video watermarking renders your custom text into an overlay frame and merges it frame-by-frame using WebAssembly FFmpeg. The video watermarking engine is about 31 MB and downloads only when you start your first video watermarking, for the first time only.</p>
+
+            <h2 class="content-heading">Limits</h2>
+            <p>There is no fixed size limit for images, although extremely large dimensions demand adequate device memory. PDF files have no strict page cap in code, but rendering extensive page counts takes additional processing time. Video files must be 100 MB or smaller, 5 minutes or shorter, and cannot exceed 1080p resolution (1920x1080). Reduce to 720p applies only to videos with resolution above 720p: clips 60 seconds or shorter can be processed at full resolution, while clips longer than 60 seconds are locked to 720p to preserve device memory. Because rendering runs on your device, processing duration reflects your hardware capacity.</p>
+
+            <h2 class="content-heading">Frequently asked questions</h2>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Is the watermark tool free and do you upload my files?</h3>
+            <p>Yes, the watermark tool is completely free to use without subscriptions, account signups, or extra platform watermarks. All files stay private on your local computer or phone because no data is uploaded, saved, or analyzed on external servers.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Which files can I watermark?</h3>
+            <p>You can watermark image files in PNG, JPG, WebP, GIF, BMP, and AVIF formats. You can watermark multi-page PDF documents. You can also watermark video recordings in MP4, WebM, MOV, MKV, AVI, and M4V formats and download them as MP4.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">What can I customize?</h3>
+            <p>You can customize the watermark text content, choose between Center, Top-Left, Top-Right, Bottom-Left, or Bottom-Right placement, adjust font size with a slider, tune text opacity from 5% to 100%, and choose text color including White, Black, or a custom color picker. For PDF files, you can choose All Pages or specify custom page numbers. For video, you can choose High, Medium, or Low output quality.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">What are the limits for images, PDF, and video?</h3>
+            <p>Images have no fixed file size limit, though very large images require adequate browser memory. PDF documents have no strict page cap in code and are processed page-by-page. Video files are limited to 100 MB, 5 minutes duration, and 1080p resolution. Reduce to 720p applies only to videos with resolution above 720p: clips 60 seconds or shorter can be processed at full resolution, while clips longer than 60 seconds are locked to 720p to preserve device memory.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">How is video watermarked and why is it slower?</h3>
+            <p>Video watermarking requires decoding every frame, overlaying your text mark, and re-encoding the entire stream locally using WebAssembly. This computation runs directly on your computer rather than cloud servers. In addition, the video processing engine of about 31 MB downloads when you watermark your first video, for the first time only.</p>
         </div>
     </section>
 

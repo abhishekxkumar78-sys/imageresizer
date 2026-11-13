@@ -24,19 +24,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Free online image compressor. Compress JPEG, PNG, and WebP images to reduce file size without losing quality. 100% private, browser-based compression.">
+        content="Compress images, PDF documents, audio tracks, and videos free in your browser. Reduce file size privately with zero server uploads.">
     <meta name="keywords" content="image compressor, pic size reducer">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:title" content="Free Online Image Compressor — Reduce Image File Size">
+    <meta property="og:title" content="Free Compressor: Image, PDF, Audio &amp; Video - ImageResizer">
     <meta property="og:description"
-        content="Compress images online for free. Reduce file size of JPG, PNG, and WebP photos instantly in your browser. No signup required.">
+        content="Compress images, PDF documents, audio tracks, and videos free in your browser. Reduce file size privately with zero server uploads.">
+    <meta property="og:url" content="https://www.freeeimageresizer.com/compress">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ImageResizer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Free Online Image Compressor — Reduce Image File Size">
+    <meta name="twitter:title" content="Free Compressor: Image, PDF, Audio &amp; Video - ImageResizer">
     <meta name="twitter:description"
-        content="Compress images online for free. Reduce file size of JPG, PNG, and WebP photos instantly in your browser.">
-    <title>Free Online Image Compressor — Reduce Image File Size — ImageResizer</title>
+        content="Compress images, PDF documents, audio tracks, and videos free in your browser. Reduce file size privately with zero server uploads.">
+    <title>Free Compressor: Image, PDF, Audio &amp; Video - ImageResizer</title>
     <link rel="canonical" href="https://www.freeeimageresizer.com/compress" />
     <link rel="alternate" hreflang="x-default" href="https://www.freeeimageresizer.com/compress" />
     <link rel="alternate" hreflang="en" href="https://www.freeeimageresizer.com/compress" />
@@ -59,10 +60,74 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Image Compressor",
+      "name": "Free File Compressor",
       "url": "https://www.freeeimageresizer.com/compress",
+      "description": "Compress images, PDF documents, audio tracks, and videos free in your browser. Reduce file size privately with zero server uploads.",
       "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "All"
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires a modern web browser with JavaScript and WebAssembly",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Compress images, PDF documents, and audio tracks with quality and target file size controls",
+        "Compress multi-page PDF documents locally in your browser",
+        "Compress audio tracks to MP3 with selectable bitrates and mono mixdown",
+        "Compress video files with three compression presets and 720p downscaling",
+        "100% private in-browser compression with zero server uploads",
+        "No file watermarks, usage limits, or account registration required"
+      ],
+      "inLanguage": "en"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is the compressor free and do you upload my files?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, the compressor is completely free with no subscriptions, account requirements, or added watermarks. Everything runs inside your browser, meaning your files are never uploaded, stored, or viewed by remote servers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which file types can I compress?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can compress images in PNG, JPG, WebP, GIF, BMP, and AVIF formats into WebP, JPG, or PNG. You can compress PDF documents into optimized PDF files. You can compress audio in WAV, MP3, OGG, M4A, FLAC, and OPUS formats into MP3. You can compress videos in MP4, WebM, MOV, MKV, AVI, and M4V formats into MP4."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much smaller will the file get and what controls change it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Final file size depends on your file and chosen settings. For images, PDF documents, and audio tracks, you can set a Target File Size to guide output weight. For images and PDF documents, lowering the Quality slider also reduces size. For audio, selecting a lower bitrate or checking Mix down to mono decreases file size. For video, Target File Size is not available, but choosing the Strong compression level or checking Reduce to 720p produces smaller files."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a size limit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There is no fixed size limit for images, though high-resolution photos require sufficient device memory. Audio files can be up to 50 MB and 10 minutes in length. Video files can be up to 100 MB, 5 minutes in length, and up to 1080p resolution."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is video slower and what is downloaded?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Video compression requires decoding and re-encoding every frame directly on your machine using WebAssembly, which depends on your processor and memory. In addition, the video engine of about 31 MB downloads when you compress your first video, for the first time only."
+          }
+        }
+      ]
     }
     </script>
 </head>
@@ -295,14 +360,35 @@
     <!-- SEO Content Section -->
     <section class="content-section">
         <div class="content-container">
-            <h2 class="content-heading">Why Use Our Free Online Image Compressor?</h2>
-            <p>Our online image compressor makes it effortless to reduce the file size of your photos, screenshots, and
-                web graphics without sacrificing visual clarity. Large image files slow down website page load times,
-                waste storage space, and often fail to send via email attachments. By reducing image byte density, you
-                can dramatically improve website SEO performance and speed up user downloads.</p>
-            <p>Unlike other compression tools that require registration or upload your sensitive photos to remote
-                servers, ImageResizer handles <strong>100% of compression inside your browser</strong>. Using modern
-                HTML5 Canvas technology, your files remain strictly private on your computer or smartphone.</p>
+            <h2 class="content-heading">What can this compressor do?</h2>
+            <p>ImageResizer's compressor reduces the file size of images, PDF documents, audio tracks, and video clips in your browser. Compress photos and graphics in PNG, JPG, WebP, GIF, BMP, or AVIF formats into WebP, JPG, or PNG. Compress multi-page PDF documents with adjustable page rendering quality. Compress audio in WAV, MP3, OGG, M4A, FLAC, or OPUS formats into space-saving MP3 files with bitrate controls and optional mono mixdown. Compress video in MP4, WebM, MOV, MKV, AVI, or M4V formats into compact MP4 files. All files are processed locally on your machine and are never uploaded to an external server.</p>
+
+            <h2 class="content-heading">How it works</h2>
+            <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
+                <li style="margin-bottom: 8px;">Select or drop an image, PDF, audio, or video file from your device.</li>
+                <li style="margin-bottom: 8px;">Adjust compression controls such as quality level, target file size, audio bitrate, or video compression mode.</li>
+                <li style="margin-bottom: 8px;">Click Compress, preview your file size reduction, and download the finished output.</li>
+            </ol>
+            <p>Compression operates locally using modern web standards. Photos and graphic images are compressed through your browser's 2D rendering pipeline with customizable output format and quality settings. PDF documents are processed by rendering pages with pdf.js and rebuilding a compact document using pdf-lib. Audio tracks are encoded in a background Web Worker using lamejs to output MP3 files at your chosen bitrate. Video clips are compressed locally using WebAssembly FFmpeg. The video compression engine is about 31 MB and downloads only when you start your first video compression, for the first time only.</p>
+
+            <h2 class="content-heading">Limits</h2>
+            <p>There is no fixed size limit for images, but very large images use substantial browser memory and may fail on low-memory devices. PDF documents have no strict page cap in code, processing pages sequentially. Audio files are limited to 50 MB and 10 minutes maximum duration. Video files are limited to 100 MB, 5 minutes maximum duration, and 1080p resolution. Reduce to 720p applies only to videos with resolution above 720p: clips 60 seconds or shorter can be processed at full resolution, while clips longer than 60 seconds are locked to 720p to preserve device memory.</p>
+
+            <h2 class="content-heading">Frequently asked questions</h2>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Is the compressor free and do you upload my files?</h3>
+            <p>Yes, the compressor is completely free with no subscriptions, account requirements, or added watermarks. Everything runs inside your browser, meaning your files are never uploaded, stored, or viewed by remote servers.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Which file types can I compress?</h3>
+            <p>You can compress images in PNG, JPG, WebP, GIF, BMP, and AVIF formats into WebP, JPG, or PNG. You can compress PDF documents into optimized PDF files. You can compress audio in WAV, MP3, OGG, M4A, FLAC, and OPUS formats into MP3. You can compress videos in MP4, WebM, MOV, MKV, AVI, and M4V formats into MP4.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">How much smaller will the file get and what controls change it?</h3>
+            <p>Final file size depends on your file and chosen settings. For images, PDF documents, and audio tracks, you can set a Target File Size to guide output weight. For images and PDF documents, lowering the Quality slider also reduces size. For audio, selecting a lower bitrate or checking Mix down to mono decreases file size. For video, Target File Size is not available, but choosing the Strong compression level or checking Reduce to 720p produces smaller files.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Is there a size limit?</h3>
+            <p>There is no fixed size limit for images, though high-resolution photos require sufficient device memory. Audio files can be up to 50 MB and 10 minutes in length. Video files can be up to 100 MB, 5 minutes in length, and up to 1080p resolution.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Why is video slower and what is downloaded?</h3>
+            <p>Video compression requires decoding and re-encoding every frame directly on your machine using WebAssembly, which depends on your processor and memory. In addition, the video engine of about 31 MB downloads when you compress your first video, for the first time only.</p>
         </div>
     </section>
 
