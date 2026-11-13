@@ -1,0 +1,36 @@
+# ImageResizer (freeeimageresizer.com)
+
+> Free browser-based tools to resize, crop, compress, convert, and watermark images, PDF documents, audio tracks, and videos as supported. Files are processed locally in your browser and are never uploaded to remote servers. Available in 7 languages: English, Spanish, Portuguese, French, German, Hindi, and Indonesian.
+
+## Tools (English)
+- [Image Resizer](https://www.freeeimageresizer.com/): Resize images online for free in seconds with private browser processing.
+- [Crop Image](https://www.freeeimageresizer.com/crop): Crop and resize images online for free to custom aspect ratios with no quality loss.
+- [Image Compressor](https://www.freeeimageresizer.com/compress): Compress images, PDF documents, audio tracks, and videos free in your browser to reduce file size privately with zero server uploads.
+- [Converter](https://www.freeeimageresizer.com/convert): Convert images (PNG, JPG, WebP, AVIF, GIF, BMP), audio and video free in your browser with zero server uploads.
+- [Watermark Adder](https://www.freeeimageresizer.com/watermark): Add custom text watermarks to images, PDF documents, and video recordings in your browser with zero server uploads.
+- [Image to PDF](https://www.freeeimageresizer.com/image-to-pdf): Convert JPG, PNG, and WebP images into a single PDF document privately in your browser.
+
+## Languages
+- [Español (Spanish)](https://www.freeeimageresizer.com/es/)
+- [Português (Portuguese)](https://www.freeeimageresizer.com/pt/)
+- [Français (French)](https://www.freeeimageresizer.com/fr/)
+- [Deutsch (German)](https://www.freeeimageresizer.com/de/)
+- [हिन्दी (Hindi)](https://www.freeeimageresizer.com/hi/)
+- [Bahasa Indonesia (Indonesian)](https://www.freeeimageresizer.com/id/)
+
+## Guides
+- [Blog & Guides — Image Editing & Optimization | ImageResizer](https://www.freeeimageresizer.com/blog)
+- [Combine JPG Images into One PDF in Any Order (Free)](https://www.freeeimageresizer.com/blog/combine-jpg-into-one-pdf)
+- [How to Convert PNG to JPG Online (Free, in Browser)](https://www.freeeimageresizer.com/blog/convert-png-to-jpg)
+- [How to Resize an Image to 100 KB Online (No Upload)](https://www.freeeimageresizer.com/blog/how-to-resize-image-to-100-kb)
+- [JPG vs PNG vs WebP: Which Image Format to Choose?](https://www.freeeimageresizer.com/blog/jpg-vs-png-vs-webp)
+- [How to Reduce Image Size to 50 KB Online (No Upload)](https://www.freeeimageresizer.com/blog/reduce-image-size-to-50-kb)
+- [How to Resize an Image Without Losing Quality](https://www.freeeimageresizer.com/blog/resize-image-without-losing-quality)
+- [How to Resize Multiple Images at Once Online (Bulk Resize)](https://www.freeeimageresizer.com/blog/resize-multiple-images-at-once)
+- [Welcome to FreeeImageResizer: Free Private Image and PDF Tools](https://www.freeeimageresizer.com/blog/welcome-to-freeeimageresizer)
+
+## About
+- [About Us](https://www.freeeimageresizer.com/about)
+- [Contact Us](https://www.freeeimageresizer.com/contact)
+- [Privacy Policy](https://www.freeeimageresizer.com/privacy)
+- [Terms & Conditions](https://www.freeeimageresizer.com/terms)
