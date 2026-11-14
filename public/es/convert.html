@@ -16,18 +16,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Convierte imágenes online gratis. Cambia entre formatos JPG, PNG y WebP al instante en tu navegador sin subir archivos a ningún servidor. Rápido y privado.">
+        content="Convierte imágenes (PNG, JPG, WebP, AVIF, GIF, BMP), audio y video gratis en tu navegador. Sin subidas al servidor ni registro.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:title" content="Convertidor de Imágenes Online Gratis — Convertir JPG, PNG, WebP">
+    <meta property="og:title" content="Convertidor Gratis: Imagen, Audio y Video - ImageResizer">
     <meta property="og:description"
-        content="Convierte imágenes online gratis. Cambia entre formatos JPG, PNG y WebP al instante en tu navegador sin subir archivos a ningún servidor.">
+        content="Convierte imágenes (PNG, JPG, WebP, AVIF, GIF, BMP), audio y video gratis en tu navegador. Sin subidas al servidor ni registro.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ImageResizer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Convertidor de Imágenes Online Gratis — Convertir JPG, PNG, WebP">
+    <meta name="twitter:title" content="Convertidor Gratis: Imagen, Audio y Video - ImageResizer">
     <meta name="twitter:description"
-        content="Convierte imágenes online gratis. Cambia entre formatos JPG, PNG y WebP al instante en tu navegador.">
-    <title>Convertidor de Imágenes Online Gratis — Convertir JPG, PNG, WebP — ImageResizer</title>
+        content="Convierte imágenes (PNG, JPG, WebP, AVIF, GIF, BMP), audio y video gratis en tu navegador. Sin subidas al servidor ni registro.">
+    <title>Convertidor Gratis: Imagen, Audio y Video - ImageResizer</title>
     <link rel="canonical" href="https://www.freeeimageresizer.com/es/convert" />
     <link rel="alternate" hreflang="x-default" href="https://www.freeeimageresizer.com/convert" />
     <link rel="alternate" hreflang="en" href="https://www.freeeimageresizer.com/convert" />
@@ -50,6 +50,55 @@
       "url": "https://www.freeeimageresizer.com/es/convert",
       "applicationCategory": "MultimediaApplication",
       "operatingSystem": "All"
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿El convertidor es gratis y suben mis archivos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, el convertidor es completamente gratuito y no requiere registro de cuenta, suscripciones ni marcas de agua. Todo el procesamiento se realiza localmente en tu navegador, por lo que tus archivos nunca se suben, guardan ni inspeccionan en ningún servidor remoto."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué formatos puedo convertir?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Puedes importar imágenes en formatos PNG, JPG, WebP, GIF, BMP y AVIF para guardarlas como PNG, JPG o WebP. Puedes importar audio en formatos MP3, WAV, OGG, M4A, FLAC y OPUS para guardarlo como MP3 o WAV. Puedes importar video en formatos MP4, WebM, MOV, MKV, AVI y M4V para guardarlo como MP4 o WebM."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Existe un límite de tamaño de archivo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No existe un límite de tamaño fijo para las imágenes, pero las imágenes muy grandes consumen mucha memoria del navegador y pueden fallar en dispositivos con poca memoria. Audio de hasta 50 MB y 10 minutos. Video de hasta 100 MB, 5 minutos y 1080p."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿La conversión reducirá la calidad?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Convertir a PNG mantiene una calidad de imagen sin pérdida, mientras que convertir a JPG o WebP es con pérdida y depende del nivel de calidad que selecciones. Al convertir imágenes con fondos transparentes a JPG, las áreas transparentes se rellenan automáticamente de blanco sólido."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Por qué la conversión de video es más lenta que la de imágenes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El procesamiento de video requiere un cálculo sustancial para decodificar y codificar cada fotograma. Como la codificación se ejecuta íntegramente en tu dispositivo mediante WebAssembly en lugar de servidores remotos en la nube, la velocidad depende de tu hardware. Además, el motor de video solo se descarga en tu primera conversión de video (unos 31 MB), únicamente la primera vez."
+          }
+        }
+      ]
     }
     </script>
 </head>
@@ -123,7 +172,7 @@
             </div>
             <p class="dropzone-title" id="dropzoneTitle">Arrastra y suelta tu imagen, audio o video para convertir el formato</p>
             <p class="dropzone-formats">Formatos compatibles: Imágenes (PNG, JPG, WebP, GIF, BMP, AVIF), audio (MP3, WAV, OGG, M4A, FLAC) y video (MP4, WebM, MOV, MKV, AVI). La compatibilidad de audio y video depende de tu navegador. Si un archivo no se carga, prueba con MP3, WAV, MP4 o WebM. La primera conversión de video descarga un motor de conversión de unos 31 MB. Procesamiento de video por <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>. Codificación MP3 por <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a>.</p>
-            <p class="dropzone-limit">Tamaño máximo de archivo: 50MB para imágenes y audio, 100MB (hasta 5 minutos) para video.</p>
+            <p class="dropzone-limit">Las imágenes no tienen límite fijo de tamaño, audio 50MB (hasta 10 minutos), video 100MB (hasta 5 minutos).</p>
             <button class="btn-select" id="selectImagesBtn">Seleccionar imagen, audio o video</button>
             <input type="file" id="fileInput" accept="image/*,audio/*,video/*,.mkv,.mov,.m4v,.avi" hidden>
             <p class="dropzone-privacy">
@@ -200,12 +249,39 @@
         </div>
     </section>
 
-    <!-- SEO Content Section -->
+        <!-- SEO Content Section -->
     <section class="content-section">
         <div class="content-container">
-            <h2 class="content-heading">Convertidor de formato de imagen online gratuito</h2>
-            <p>Convierte tus fotos y gráficos al instante entre formatos PNG, JPG y WebP. Ya sea que necesites un PNG transparente para diseño de logotipos, un JPG universalmente compatible para compartir fotos o un archivo WebP altamente optimizado para la velocidad de tu sitio web, nuestra herramienta lo hace todo en segundos.</p>
-            <p>Nuestra herramienta procesa <strong>todo directamente en tu navegador</strong> utilizando tecnología HTML5 Canvas en el cliente. Tus archivos nunca se suben a ningún servidor remoto, garantizando una privacidad absoluta para tus fotos y documentos.</p>
+            <h2 class="content-heading">¿Qué puede hacer este convertidor?</h2>
+            <p>El convertidor de ImageResizer cambia el formato de imágenes, audio y video dentro de tu navegador sin necesidad de instalar programas. Convierte imágenes desde PNG, JPG, WebP, GIF, BMP o AVIF a PNG, JPG o WebP. Convierte pistas de audio desde MP3, WAV, OGG, M4A, FLAC u OPUS a MP3 o WAV, y convierte videos desde MP4, WebM, MOV, MKV, AVI o M4V a MP4 o WebM. Tus archivos se procesan completamente en tu dispositivo y nunca se suben a ningún servidor.</p>
+
+            <h2 class="content-heading">Cómo funciona</h2>
+            <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
+                <li style="margin-bottom: 8px;">Elige o arrastra un archivo desde tu dispositivo.</li>
+                <li style="margin-bottom: 8px;">Selecciona el formato de salida y ajusta la calidad o la tasa de bits.</li>
+                <li style="margin-bottom: 8px;">Haz clic en Convertir y descarga el resultado.</li>
+            </ol>
+            <p>Las conversiones se ejecutan localmente en tu dispositivo mediante estándares web. Las imágenes se procesan con el Canvas de tu navegador. El audio se codifica en un Web Worker en segundo plano usando lamejs para MP3 y PCM sin comprimir para WAV. El video se convierte mediante FFmpeg ejecutado en WebAssembly. El motor de video se descarga solo cuando inicias una conversión de video, una descarga de aproximadamente 31 MB que ocurre únicamente la primera vez.</p>
+
+            <h2 class="content-heading">Límites</h2>
+            <p>No existe un límite de tamaño fijo para las imágenes, pero las imágenes muy grandes consumen bastante memoria del navegador y pueden fallar en dispositivos con poca memoria. Audio de hasta 50 MB y 10 minutos. Video de hasta 100 MB, 5 minutos y 1080p. Como la conversión de video se ejecuta en tu equipo y no en un servidor en la nube, procesar archivos grandes depende de la velocidad y memoria de tu dispositivo, así que mantén la pestaña abierta hasta terminar.</p>
+
+            <h2 class="content-heading">Preguntas frecuentes</h2>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿El convertidor es gratis y suben mis archivos?</h3>
+            <p>Sí, el convertidor es completamente gratuito y no requiere registro de cuenta, suscripciones ni marcas de agua. Todo el procesamiento se realiza localmente en tu navegador, por lo que tus archivos nunca se suben, guardan ni inspeccionan en ningún servidor remoto.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Qué formatos puedo convertir?</h3>
+            <p>Puedes importar imágenes en formatos PNG, JPG, WebP, GIF, BMP y AVIF para guardarlas como PNG, JPG o WebP. Puedes importar audio en formatos MP3, WAV, OGG, M4A, FLAC y OPUS para guardarlo como MP3 o WAV. Puedes importar video en formatos MP4, WebM, MOV, MKV, AVI y M4V para guardarlo como MP4 o WebM.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Existe un límite de tamaño de archivo?</h3>
+            <p>No existe un límite de tamaño fijo para las imágenes, pero las imágenes muy grandes consumen mucha memoria del navegador y pueden fallar en dispositivos con poca memoria. Audio de hasta 50 MB y 10 minutos. Video de hasta 100 MB, 5 minutos y 1080p.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿La conversión reducirá la calidad?</h3>
+            <p>Convertir a PNG mantiene una calidad de imagen sin pérdida, mientras que convertir a JPG o WebP es con pérdida y depende del nivel de calidad que selecciones. Al convertir imágenes con fondos transparentes a JPG, las áreas transparentes se rellenan automáticamente de blanco sólido.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Por qué la conversión de video es más lenta que la de imágenes?</h3>
+            <p>El procesamiento de video requiere un cálculo sustancial para decodificar y codificar cada fotograma. Como la codificación se ejecuta íntegramente en tu dispositivo mediante WebAssembly en lugar de servidores remotos en la nube, la velocidad depende de tu hardware. Además, el motor de video solo se descarga en tu primera conversión de video (unos 31 MB), únicamente la primera vez.</p>
+
         </div>
     </section>
 

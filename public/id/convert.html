@@ -15,16 +15,19 @@
      crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Konversi gambar online gratis antara JPG, PNG, WebP, dan AVIF dalam hitungan detik. Cepat, aman, dan tanpa perlu instalasi aplikasi.">
+    <meta name="description"
+        content="Konversi gambar (PNG, JPG, WebP, AVIF, GIF, BMP), audio, dan video gratis di browser Anda. Tanpa unggah ke server, tanpa daftar.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:title" content="Konverter Gambar Online Gratis — Ubah JPG, PNG, WebP, AVIF">
-    <meta property="og:description" content="Konversi gambar online gratis antara JPG, PNG, WebP, dan AVIF dalam hitungan detik. Cepat, aman, dan tanpa perlu instalasi aplikasi.">
+    <meta property="og:title" content="Konverter Gratis: Gambar, Audio &amp; Video - ImageResizer">
+    <meta property="og:description"
+        content="Konversi gambar (PNG, JPG, WebP, AVIF, GIF, BMP), audio, dan video gratis di browser Anda. Tanpa unggah ke server, tanpa daftar.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ImageResizer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Konverter Gambar Online Gratis — Ubah JPG, PNG, WebP, AVIF">
-    <meta name="twitter:description" content="Konversi gambar online gratis antara JPG, PNG, WebP, dan AVIF dalam hitungan detik. Cepat, aman, dan tanpa perlu instalasi aplikasi.">
-    <title>Konverter Gambar Online Gratis — Ubah JPG, PNG, WebP, AVIF</title>
+    <meta name="twitter:title" content="Konverter Gratis: Gambar, Audio &amp; Video - ImageResizer">
+    <meta name="twitter:description"
+        content="Konversi gambar (PNG, JPG, WebP, AVIF, GIF, BMP), audio, dan video gratis di browser Anda. Tanpa unggah ke server, tanpa daftar.">
+    <title>Konverter Gratis: Gambar, Audio &amp; Video - ImageResizer</title>
     <link rel="canonical" href="https://www.freeeimageresizer.com/id/convert" />
     <link rel="alternate" hreflang="x-default" href="https://www.freeeimageresizer.com/convert" />
     <link rel="alternate" hreflang="en" href="https://www.freeeimageresizer.com/convert" />
@@ -39,6 +42,55 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/style.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Apakah konverter ini gratis dan apakah berkas saya diunggah?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ya, konverter ini sepenuhnya gratis tanpa perlu pendaftaran akun, langganan, atau watermark tambahan. Semua pemrosesan berlangsung lokal di browser Anda, sehingga berkas Anda tidak pernah diunggah, disimpan, atau diperiksa oleh server jarak jauh."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Format apa saja yang dapat saya konversi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Anda dapat mengimpor gambar dalam format PNG, JPG, WebP, GIF, BMP, dan AVIF lalu menyimpannya sebagai PNG, JPG, atau WebP. Anda dapat mengimpor audio dalam format MP3, WAV, OGG, M4A, FLAC, dan OPUS lalu menyimpannya sebagai MP3 atau WAV. Anda dapat mengimpor video dalam format MP4, WebM, MOV, MKV, AVI, dan M4V lalu menyimpannya sebagai MP4 atau WebM."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Apakah ada batasan ukuran berkas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tidak ada batasan ukuran tetap untuk gambar, tetapi gambar sangat besar memakan banyak memori browser dan bisa gagal pada perangkat berspesifikasi rendah. Audio hingga 50 MB dan 10 menit. Video hingga 100 MB, 5 menit, dan 1080p."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Apakah konversi akan mengurangi kualitas?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Mengonversi ke PNG mempertahankan kualitas gambar tanpa penurunan kualitas (lossless), sedangkan mengonversi ke JPG atau WebP bersifat lossy dan bergantung pada tingkat kualitas yang Anda pilih. Saat mengonversi gambar dengan latar belakang transparan ke JPG, area transparan otomatis diisi warna putih solid."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mengapa konversi video lebih lambat daripada gambar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pemrosesan video memerlukan beban komputasi signifikan untuk mendekode dan mengenkode setiap bingkai. Karena proses berjalan sepenuhnya di perangkat Anda melalui WebAssembly alih-alih server jarak jauh, kecepatan bergantung pada kemampuan perangkat keras Anda. Selain itu, mesin video hanya diunduh saat konversi video pertama (sekitar 31 MB), satu kali saja."
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body>
@@ -110,7 +162,7 @@
             </div>
             <p class="dropzone-title" id="dropzoneTitle">Tarik dan lepas gambar, audio, atau video untuk mengubah format</p>
             <p class="dropzone-formats">Format yang didukung: Gambar (PNG, JPG, WebP, GIF, BMP, AVIF), Audio (MP3, WAV, OGG, M4A, FLAC) &amp; Video (MP4, WebM, MOV, MKV, AVI). Dukungan audio dan video bergantung pada browser Anda. Jika file tidak dapat dimuat, coba MP3, WAV, MP4 atau WebM. Konversi video pertama mengunduh mesin konversi sekitar 31 MB. Pemrosesan video oleh <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>. Pengodean MP3 oleh <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a>.</p>
-            <p class="dropzone-limit">Ukuran file maksimum: 50MB untuk gambar dan audio, 100MB (hingga 5 menit) untuk video.</p>
+            <p class="dropzone-limit">Gambar tidak memiliki batas ukuran tetap, audio 50MB (hingga 10 menit), video 100MB (hingga 5 menit).</p>
             <button class="btn-select" id="selectImagesBtn">Pilih gambar, audio, atau video</button>
             <input type="file" id="fileInput" accept="image/*,audio/*,video/*,.mkv,.mov,.m4v,.avi" hidden>
             <p class="dropzone-privacy">
@@ -118,7 +170,7 @@
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                     <path d="M7 11V7a5 5 0 0110 0v4" />
                 </svg>
-                Format input yang didukung: PNG, JPG, WebP, GIF, BMP, AVIF, HEIC.
+                Diproses sepenuhnya di browser Anda — tidak ada yang diunggah ke server.
             </p>
             <p>Ingin mengompres gambar yang sudah dikonversi? <a href="/id/compress" style="color:var(--primary); font-weight:600;">Coba Kompresor Gambar kami</a>.</p>
         </div>
@@ -187,12 +239,39 @@
         </div>
     </section>
 
-    <!-- SEO Content Section -->
+        <!-- SEO Content Section -->
     <section class="content-section">
         <div class="content-container">
-            <h2 class="content-heading">Konverter format gambar online gratis</h2>
-            <p>Ubah foto dan grafis Anda dengan mudah antara format PNG, JPG, dan WebP. Dapatkan format yang tepat untuk kebutuhan media sosial, logo transparan, atau kecepatan situs web Anda.</p>
-            <p>Aplikasi ini memproses <strong>semuanya langsung di browser Anda</strong>. File Anda tidak pernah diunggah ke server mana pun, menjamin kerahasiaan penuh.</p>
+            <h2 class="content-heading">Apa yang bisa dilakukan konverter ini?</h2>
+            <p>Konverter ImageResizer mengubah format gambar, audio, dan video langsung di browser Anda tanpa perlu menginstal aplikasi. Konversi gambar dari PNG, JPG, WebP, GIF, BMP, atau AVIF ke PNG, JPG, atau WebP. Konversi trek audio dari MP3, WAV, OGG, M4A, FLAC, atau OPUS ke MP3 atau WAV, dan konversi video dari MP4, WebM, MOV, MKV, AVI, atau M4V ke MP4 atau WebM. Semua berkas diproses sepenuhnya di perangkat Anda dan tidak pernah diunggah ke server.</p>
+
+            <h2 class="content-heading">Cara kerja</h2>
+            <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
+                <li style="margin-bottom: 8px;">Pilih atau seret berkas dari perangkat Anda.</li>
+                <li style="margin-bottom: 8px;">Tentukan format keluaran dan atur kualitas atau bitrate.</li>
+                <li style="margin-bottom: 8px;">Klik Konversi, lalu unduh hasilnya.</li>
+            </ol>
+            <p>Konversi berjalan secara lokal di perangkat Anda menggunakan standar web. Gambar diproses dengan Canvas browser Anda. Audio dienkode di latar belakang menggunakan Web Worker dengan lamejs untuk MP3 dan PCM mentah untuk WAV. Video dikonversi oleh FFmpeg yang berjalan melalui WebAssembly. Mesin pemrosesan video hanya diunduh saat pertama kali Anda mengonversi video, yaitu unduhan sekitar 31 MB yang berlangsung sekali saja.</p>
+
+            <h2 class="content-heading">Batasan</h2>
+            <p>Tidak ada batasan ukuran tetap untuk gambar, tetapi gambar berukuran sangat besar menggunakan banyak memori browser dan dapat gagal pada perangkat dengan memori terbatas. Audio hingga 50 MB dan 10 menit. Video hingga 100 MB, 5 menit, dan 1080p. Karena konversi video berjalan langsung di perangkat Anda dan bukan di cloud server, waktu pemrosesan bergantung pada performa perangkat Anda; biarkan tab tetap terbuka hingga selesai.</p>
+
+            <h2 class="content-heading">Pertanyaan yang Sering Diajukan</h2>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Apakah konverter ini gratis dan apakah berkas saya diunggah?</h3>
+            <p>Ya, konverter ini sepenuhnya gratis tanpa perlu pendaftaran akun, langganan, atau watermark tambahan. Semua pemrosesan berlangsung lokal di browser Anda, sehingga berkas Anda tidak pernah diunggah, disimpan, atau diperiksa oleh server jarak jauh.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Format apa saja yang dapat saya konversi?</h3>
+            <p>Anda dapat mengimpor gambar dalam format PNG, JPG, WebP, GIF, BMP, dan AVIF lalu menyimpannya sebagai PNG, JPG, atau WebP. Anda dapat mengimpor audio dalam format MP3, WAV, OGG, M4A, FLAC, dan OPUS lalu menyimpannya sebagai MP3 atau WAV. Anda dapat mengimpor video dalam format MP4, WebM, MOV, MKV, AVI, dan M4V lalu menyimpannya sebagai MP4 atau WebM.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Apakah ada batasan ukuran berkas?</h3>
+            <p>Tidak ada batasan ukuran tetap untuk gambar, tetapi gambar sangat besar memakan banyak memori browser dan bisa gagal pada perangkat berspesifikasi rendah. Audio hingga 50 MB dan 10 menit. Video hingga 100 MB, 5 menit, dan 1080p.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Apakah konversi akan mengurangi kualitas?</h3>
+            <p>Mengonversi ke PNG mempertahankan kualitas gambar tanpa penurunan kualitas (lossless), sedangkan mengonversi ke JPG atau WebP bersifat lossy dan bergantung pada tingkat kualitas yang Anda pilih. Saat mengonversi gambar dengan latar belakang transparan ke JPG, area transparan otomatis diisi warna putih solid.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Mengapa konversi video lebih lambat daripada gambar?</h3>
+            <p>Pemrosesan video memerlukan beban komputasi signifikan untuk mendekode dan mengenkode setiap bingkai. Karena proses berjalan sepenuhnya di perangkat Anda melalui WebAssembly alih-alih server jarak jauh, kecepatan bergantung pada kemampuan perangkat keras Anda. Selain itu, mesin video hanya diunduh saat konversi video pertama (sekitar 31 MB), satu kali saja.</p>
+
         </div>
     </section>
 

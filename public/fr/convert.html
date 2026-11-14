@@ -15,16 +15,19 @@
      crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Convertissez des images en ligne gratuitement entre JPG, PNG, WebP et AVIF en quelques secondes. Rapide, sécurisé et directement dans le navigateur.">
+    <meta name="description"
+        content="Convertissez images (PNG, JPG, WebP, AVIF, GIF, BMP), audio et vidéo gratuitement dans votre navigateur. Aucun fichier téléversé.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:title" content="Convertisseur d'Images en Ligne Gratuit — JPG, PNG, WebP, AVIF">
-    <meta property="og:description" content="Convertissez des images en ligne gratuitement entre JPG, PNG, WebP et AVIF en quelques secondes. Rapide, sécurisé et directement dans le navigateur.">
+    <meta property="og:title" content="Convertisseur Gratuit: Image, Audio &amp; Vidéo - ImageResizer">
+    <meta property="og:description"
+        content="Convertissez images (PNG, JPG, WebP, AVIF, GIF, BMP), audio et vidéo gratuitement dans votre navigateur. Aucun fichier téléversé.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ImageResizer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Convertisseur d'Images en Ligne Gratuit — JPG, PNG, WebP, AVIF">
-    <meta name="twitter:description" content="Convertissez des images en ligne gratuitement entre JPG, PNG, WebP et AVIF en quelques secondes. Rapide, sécurisé et directement dans le navigateur.">
-    <title>Convertisseur d'Images en Ligne Gratuit — JPG, PNG, WebP, AVIF</title>
+    <meta name="twitter:title" content="Convertisseur Gratuit: Image, Audio &amp; Vidéo - ImageResizer">
+    <meta name="twitter:description"
+        content="Convertissez images (PNG, JPG, WebP, AVIF, GIF, BMP), audio et vidéo gratuitement dans votre navigateur. Aucun fichier téléversé.">
+    <title>Convertisseur Gratuit: Image, Audio &amp; Vidéo - ImageResizer</title>
     <link rel="canonical" href="https://www.freeeimageresizer.com/fr/convert" />
     <link rel="alternate" hreflang="x-default" href="https://www.freeeimageresizer.com/convert" />
     <link rel="alternate" hreflang="en" href="https://www.freeeimageresizer.com/convert" />
@@ -39,6 +42,55 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/style.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Le convertisseur est-il gratuit et téléversez-vous mes fichiers ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui, le convertisseur est totalement gratuit, sans inscription, sans abonnement et sans filigrane ajouté. Tous les traitements s'effectuent localement dans votre navigateur, vos fichiers ne sont donc jamais téléversés, stockés ni analysés par un serveur distant."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quels formats puis-je convertir ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vous pouvez importer des images aux formats PNG, JPG, WebP, GIF, BMP et AVIF et les enregistrer en PNG, JPG ou WebP. Vous pouvez importer des fichiers audio aux formats MP3, WAV, OGG, M4A, FLAC et OPUS et les enregistrer en MP3 ou WAV. Vous pouvez importer des vidéos aux formats MP4, WebM, MOV, MKV, AVI et M4V et les enregistrer en MP4 ou WebM."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Existe-t-il une limite de taille de fichier ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Il n'y a pas de limite stricte pour les images, mais de très grandes images sollicitent beaucoup de mémoire navigateur et peuvent échouer sur des appareils limités. Audio jusqu'à 50 MB et 10 minutes. Vidéo jusqu'à 100 MB, 5 minutes et 1080p."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "La conversion réduit-elle la qualité ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La conversion vers PNG conserve une qualité d'image sans perte, tandis que la conversion vers JPG ou WebP est avec perte selon le niveau de qualité choisi. Lors de la conversion d'images à fond transparent vers JPG, les zones transparentes sont automatiquement remplies d'un fond blanc uni."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Pourquoi la conversion vidéo est-elle plus lente que celle des images ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Le traitement vidéo exige une charge de calcul importante pour décoder et réencoder chaque image. L'encodage s'effectuant intégralement sur votre appareil via WebAssembly et non sur le cloud, la rapidité dépend de votre processeur. De plus, le moteur vidéo n'est téléchargé que lors de votre première conversion vidéo (environ 31 MB), une seule fois."
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body>
@@ -109,8 +161,8 @@
                 </svg>
             </div>
             <p class="dropzone-title" id="dropzoneTitle">Glissez-déposez votre image, audio ou vidéo pour convertir le format</p>
-            <p class="dropzone-formats">Formats pris en charge : Images (PNG, JPG, WebP, GIF, BMP, AVIF), audio (MP3, WAV, OGG, M4A, FLAC) et vidéo (MP4, WebM, MOV, MKV, AVI). La prise en charge de l'audio et de la vidéo dépend de votre navigateur. Si un fichier ne se charge pas, essayez MP3, WAV, MP4 ou WebM. La première conversion vidéo télécharge un moteur de conversion d'environ 31 Mo. Traitement vidéo par <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>. Encodage MP3 par <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a>.</p>
-            <p class="dropzone-limit">Taille maximale du fichier : 50MB pour les images et l'audio, 100MB (jusqu'à 5 minutes) pour la vidéo.</p>
+            <p class="dropzone-formats">Formats pris en charge : Images (PNG, JPG, WebP, GIF, BMP, AVIF), audio (MP3, WAV, OGG, M4A, FLAC) et vidéo (MP4, WebM, MOV, MKV, AVI). La prise en charge de l'audio et de la vidéo dépend de votre navigateur. Si un fichier ne se charge pas, essayez MP3, WAV, MP4 ou WebM. La première conversion vidéo télécharge un moteur de conversion d'environ 31 MB. Traitement vidéo par <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>. Encodage MP3 par <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a>.</p>
+            <p class="dropzone-limit">Les images n'ont pas de limite fixe de taille, audio 50MB (jusqu'à 10 minutes), vidéo 100MB (jusqu'à 5 minutes).</p>
             <button class="btn-select" id="selectImagesBtn">Sélectionner une image, un audio ou une vidéo</button>
             <input type="file" id="fileInput" accept="image/*,audio/*,video/*,.mkv,.mov,.m4v,.avi" hidden>
             <p class="dropzone-privacy">
@@ -118,7 +170,7 @@
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                     <path d="M7 11V7a5 5 0 0110 0v4" />
                 </svg>
-                Formats d'entrée pris en charge : PNG, JPG, WebP, GIF, BMP, AVIF, HEIC.
+                Traité entièrement dans votre navigateur — aucun fichier n'est téléversé.
             </p>
             <p>Vous souhaitez compresser votre image convertie ? <a href="/fr/compress" style="color:var(--primary); font-weight:600;">Essayez notre compresseur d'images</a>.</p>
         </div>
@@ -187,12 +239,39 @@
         </div>
     </section>
 
-    <!-- SEO Content Section -->
+        <!-- SEO Content Section -->
     <section class="content-section">
         <div class="content-container">
-            <h2 class="content-heading">Convertisseur de format d'image gratuit en ligne</h2>
-            <p>Convertissez instantanément vos photos et graphismes entre PNG, JPG et WebP. Que vous ayez besoin d'un PNG transparent ou d'un fichier WebP optimisé pour le web, tout se fait en un clic.</p>
-            <p>L'outil s'exécute <strong>directement dans votre navigateur</strong>. Vos fichiers ne sont jamais téléversés sur un serveur distant, garantissant une confidentialité totale.</p>
+            <h2 class="content-heading">Que permet ce convertisseur ?</h2>
+            <p>Le convertisseur d'ImageResizer change le format de vos images, fichiers audio et vidéos directement dans votre navigateur sans installer de logiciel. Convertissez des images depuis PNG, JPG, WebP, GIF, BMP ou AVIF vers PNG, JPG ou WebP. Convertissez des pistes audio depuis MP3, WAV, OGG, M4A, FLAC ou OPUS vers MP3 ou WAV, et des vidéos depuis MP4, WebM, MOV, MKV, AVI ou M4V vers MP4 ou WebM. Vos fichiers sont traités localement sur votre appareil et ne sont jamais envoyés vers un serveur.</p>
+
+            <h2 class="content-heading">Comment ça marche</h2>
+            <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
+                <li style="margin-bottom: 8px;">Sélectionnez ou glissez un fichier depuis votre appareil.</li>
+                <li style="margin-bottom: 8px;">Choisissez le format de sortie et ajustez les réglages de qualité ou de débit binaire.</li>
+                <li style="margin-bottom: 8px;">Cliquez sur Convertir puis téléchargez le fichier obtenu.</li>
+            </ol>
+            <p>Les conversions s'effectuent localement sur votre appareil grâce aux standards du web. Les images sont traitées via le Canvas de votre navigateur. L'audio est encodé en arrière-plan dans un Web Worker avec lamejs pour le MP3 et en PCM brut pour le WAV. La vidéo est convertie par FFmpeg exécuté en WebAssembly. Le moteur vidéo est téléchargé uniquement lors de votre première conversion vidéo, un téléchargement d'environ 31 MB qui n'a lieu qu'une seule fois.</p>
+
+            <h2 class="content-heading">Limites</h2>
+            <p>Il n'y a pas de limite de taille fixe pour les images, mais les fichiers volumineux mobilisent beaucoup de mémoire du navigateur et peuvent échouer sur les appareils peu puissants. Audio jusqu'à 50 MB et 10 minutes. Vidéo jusqu'à 100 MB, 5 minutes et 1080p. La conversion vidéo s'exécutant sur votre matériel et non sur des serveurs distants, le temps de traitement dépend des performances de votre machine ; laissez l'onglet ouvert jusqu'à la fin.</p>
+
+            <h2 class="content-heading">Foire aux questions</h2>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Le convertisseur est-il gratuit et téléversez-vous mes fichiers ?</h3>
+            <p>Oui, le convertisseur est totalement gratuit, sans inscription, sans abonnement et sans filigrane ajouté. Tous les traitements s'effectuent localement dans votre navigateur, vos fichiers ne sont donc jamais téléversés, stockés ni analysés par un serveur distant.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Quels formats puis-je convertir ?</h3>
+            <p>Vous pouvez importer des images aux formats PNG, JPG, WebP, GIF, BMP et AVIF et les enregistrer en PNG, JPG ou WebP. Vous pouvez importer des fichiers audio aux formats MP3, WAV, OGG, M4A, FLAC et OPUS et les enregistrer en MP3 ou WAV. Vous pouvez importer des vidéos aux formats MP4, WebM, MOV, MKV, AVI et M4V et les enregistrer en MP4 ou WebM.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Existe-t-il une limite de taille de fichier ?</h3>
+            <p>Il n'y a pas de limite stricte pour les images, mais de très grandes images sollicitent beaucoup de mémoire navigateur et peuvent échouer sur des appareils limités. Audio jusqu'à 50 MB et 10 minutes. Vidéo jusqu'à 100 MB, 5 minutes et 1080p.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">La conversion réduit-elle la qualité ?</h3>
+            <p>La conversion vers PNG conserve une qualité d'image sans perte, tandis que la conversion vers JPG ou WebP est avec perte selon le niveau de qualité choisi. Lors de la conversion d'images à fond transparent vers JPG, les zones transparentes sont automatiquement remplies d'un fond blanc uni.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Pourquoi la conversion vidéo est-elle plus lente que celle des images ?</h3>
+            <p>Le traitement vidéo exige une charge de calcul importante pour décoder et réencoder chaque image. L'encodage s'effectuant intégralement sur votre appareil via WebAssembly et non sur le cloud, la rapidité dépend de votre processeur. De plus, le moteur vidéo n'est téléchargé que lors de votre première conversion vidéo (environ 31 MB), une seule fois.</p>
+
         </div>
     </section>
 
