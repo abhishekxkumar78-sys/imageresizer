@@ -16,18 +16,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Añade marcas de agua a tus fotos online gratis. Personaliza texto, tamaño, posición y opacidad en tu navegador sin subir nada a servidores. Rápido y privado.">
+        content="Añade marcas de agua de texto a imágenes, documentos PDF y videos en tu navegador. Protección rápida y privada sin subir nada a servidores.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:title" content="Añadir Marca de Agua a Fotos Online Gratis — ImageResizer">
+    <meta property="og:title" content="Marca de Agua Gratis: Imagen, PDF y Video - ImageResizer">
     <meta property="og:description"
-        content="Añade marcas de agua a tus fotos online gratis. Personaliza texto, opacidad y posición en tu navegador.">
+        content="Añade marcas de agua de texto a imágenes, documentos PDF y videos en tu navegador. Protección rápida y privada sin subir nada a servidores.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ImageResizer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Añadir Marca de Agua a Fotos Online Gratis — ImageResizer">
+    <meta name="twitter:title" content="Marca de Agua Gratis: Imagen, PDF y Video - ImageResizer">
     <meta name="twitter:description"
-        content="Añade marcas de agua a tus fotos online gratis. Personaliza texto, opacidad y posición en tu navegador.">
-    <title>Añadir Marca de Agua a Fotos Online Gratis — ImageResizer</title>
+        content="Añade marcas de agua de texto a imágenes, documentos PDF y videos en tu navegador. Protección rápida y privada sin subir nada a servidores.">
+    <title>Marca de Agua Gratis: Imagen, PDF y Video - ImageResizer</title>
     <link rel="canonical" href="https://www.freeeimageresizer.com/es/watermark" />
     <link rel="alternate" hreflang="x-default" href="https://www.freeeimageresizer.com/watermark" />
     <link rel="alternate" hreflang="en" href="https://www.freeeimageresizer.com/watermark" />
@@ -42,14 +42,57 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/style.css">
+    <!-- pdf-lib CDN for client-side PDF assembly -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <!-- pdf.js CDN for client-side preview and page rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Añadir Marca de Agua",
-      "url": "https://www.freeeimageresizer.com/es/watermark",
-      "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "All"
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+                {
+                      "@type": "Question",
+                      "name": "¿La herramienta de marca de agua es gratuita y se suben mis archivos?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Sí, la herramienta de marca de agua es completamente gratuita sin suscripciones, registros ni marcas de agua adicionales de la plataforma. Todos los archivos se mantienen privados en tu computadora local o teléfono porque nunca se suben, guardan ni analizan en servidores externos."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "¿Qué archivos puedo marcar con agua?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Puedes añadir marcas de agua a archivos de imagen en formatos PNG, JPG, WebP, GIF, BMP y AVIF. Puedes marcar documentos PDF de varias páginas. También puedes marcar grabaciones de video en formatos MP4, WebM, MOV, MKV, AVI y M4V y descargarlas como MP4."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "¿Qué elementos puedo personalizar?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Puedes personalizar el texto de la marca de agua, elegir la posición entre Centro, Arriba-Izquierda, Arriba-Derecha, Abajo-Izquierda o Abajo-Derecha, ajustar el tamaño de fuente, regular la opacidad del 5% al 100% y seleccionar el color del texto, incluyendo blanco, negro o un selector personalizado. Para PDF, puedes elegir Todas las páginas o especificar números de página. Para video, puedes elegir calidad Alta, Media o Baja."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "¿Cuáles son los límites para imágenes, PDF y video?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Las imágenes no tienen límite de tamaño de archivo fijo, aunque imágenes muy grandes requieren memoria de navegador adecuada. Los documentos PDF no tienen límite de páginas en el código y se procesan página a página. Los videos están limitados a 100 MB, 5 minutos de duración y resolución 1080p. Reducir a 720p se aplica solo a videos con resolución superior a 720p: clips de 60 segundos o menos pueden procesarse a resolución completa, mientras que clips de más de 60 segundos se fijan a 720p para preservar memoria."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "¿Cómo se marca el video y por qué es más lento?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "La marca de agua en video requiere decodificar cada fotograma, superponer el texto y recodificar todo el flujo localmente mediante WebAssembly. Este cálculo se ejecuta directamente en tu equipo en lugar de servidores en la nube. Además, el motor de video de unos 31 MB se descarga al marcar tu primer video, solo la primera vez."
+                      }
+                }
+          ]
     }
     </script>
     <style>
@@ -139,12 +182,13 @@
                 </svg>
             </div>
             <p class="dropzone-title" id="dropzoneTitle">Arrastra y suelta tu imagen o video para añadir marca de agua</p>
-            <p class="dropzone-formats">Formatos compatibles: Imágenes (PNG, JPG, WebP, GIF, BMP, AVIF, HEIC) y video (MP4, WebM, MOV, MKV, AVI). La compatibilidad de video depende de tu navegador. Si un archivo no se carga, prueba con MP4 o WebM. La primera vez que apliques una marca de agua a un video se descargará un motor de procesamiento de unos 31 MB. Procesamiento de video por <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>.</p>
-            <p class="dropzone-limit">Tamaño máximo de archivo: 50MB para imágenes, 100MB (hasta 5 minutos) para video.</p>
+            <p class="dropzone-formats">Formatos compatibles: Imágenes (PNG, JPG, WebP, GIF, BMP, AVIF), PDF y video (MP4, WebM, MOV, MKV, AVI). La compatibilidad de video depende de tu navegador. Si un archivo no se carga, prueba con MP4 o WebM. La primera vez que apliques una marca de agua a un video se descargará un motor de procesamiento de unos 31 MB. Procesamiento de video por <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>.</p>
+            <p class="dropzone-limit">Las imágenes no tienen límite fijo de tamaño, PDF sin límite de páginas, video 100MB (hasta 5 minutos).</p>
             <button class="btn-select" id="selectImagesBtn">Seleccionar imagen o video</button>
             <input type="file" id="fileInput" accept="image/*,video/*,.mp4,.webm,.mov,.mkv,.avi" hidden>
             <p class="dropzone-privacy">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    aria-hidden="true">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                     <path d="M7 11V7a5 5 0 0110 0v4" />
                 </svg>
@@ -287,12 +331,38 @@
         </div>
     </section>
 
-    <!-- SEO Content Section -->
+            <!-- SEO Content Section -->
     <section class="content-section">
         <div class="content-container">
-            <h2 class="content-heading">Añade marcas de agua personalizadas a tus fotos gratis</h2>
-            <p>Protege tus fotografías, creaciones artísticas y contenido visual antes de publicarlos en redes sociales o páginas web. Nuestra herramienta online para añadir marcas de agua te permite estampar avisos de copyright personalizados, nombres de marca o logotipos con total flexibilidad.</p>
-            <p>Todo el procesamiento se lleva a cabo <strong>100% de forma local en tu navegador</strong>. A diferencia de otros editores que suben tus fotos a la nube, aquí tus imágenes nunca abandonan tu ordenador o teléfono.</p>
+            <h2 class="content-heading">¿Qué puede hacer esta herramienta de marca de agua?</h2>
+            <p>La herramienta de marca de agua de ImageResizer aplica marcas de agua de texto personalizadas a imágenes, documentos PDF y clips de video directamente en tu navegador web. Superpón avisos de derechos de autor, nombres de creadores o marcas en fotos en formatos PNG, JPG, WebP, GIF, BMP o AVIF. Añade marcas de agua homogéneas en todas las páginas o en rangos específicos de documentos PDF de varias páginas. Estampa textos sobre grabaciones de video en formatos MP4, WebM, MOV, MKV, AVI o M4V para exportar archivos MP4 protegidos. Todo el procesamiento se realiza en tu dispositivo con total privacidad y ningún archivo se sube a un servidor remoto.</p>
+
+            <h2 class="content-heading">Cómo funciona</h2>
+            <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
+                <li style="margin-bottom: 8px;">Selecciona o arrastra una imagen, documento PDF o archivo de video desde tu computadora o teléfono.</li>
+                <li style="margin-bottom: 8px;">Escribe el texto de tu marca de agua y personaliza su posición, color, tamaño de fuente y transparencia.</li>
+                <li style="margin-bottom: 8px;">Haz clic en Marca de agua, revisa la vista previa en tiempo real y descarga tu archivo protegido.</li>
+            </ol>
+            <p>Las marcas de agua se renderizan localmente en tu dispositivo sin comunicación con servidores. El marcado de imágenes dibuja textos superpuestos directamente sobre la imagen mediante el canvas 2D del navegador. En documentos PDF, se modifican los flujos del documento en el navegador usando pdf-lib y pdf.js, colocando texto vectorial en cada página seleccionada. En video, el texto se renderiza en un fotograma superpuesto y se fusiona cuadro a cuadro mediante FFmpeg en WebAssembly. El motor de video pesa unos 31 MB y se descarga solo al iniciar tu primer procesamiento de video, una sola vez.</p>
+
+            <h2 class="content-heading">Límites</h2>
+            <p>No hay un límite de tamaño fijo para imágenes, aunque dimensiones extremadamente grandes demandan suficiente memoria del dispositivo. Los archivos PDF no tienen un límite estricto de páginas en el código, pero procesar muchas páginas requiere más tiempo de procesamiento. Los videos deben ser de 100 MB o menos, 5 minutos o menos, y no pueden exceder la resolución 1080p (1920x1080). Reducir a 720p se aplica solo a videos con resolución superior a 720p: clips de 60 segundos o menos pueden procesarse a resolución completa, mientras que los superiores a 60 segundos se fijan a 720p para preservar la memoria del dispositivo. Dado que el renderizado se ejecuta en tu equipo, la duración depende de la capacidad de tu hardware.</p>
+
+            <h2 class="content-heading">Preguntas frecuentes</h2>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿La herramienta de marca de agua es gratuita y se suben mis archivos?</h3>
+            <p>Sí, la herramienta de marca de agua es completamente gratuita sin suscripciones, registros ni marcas de agua adicionales de la plataforma. Todos los archivos se mantienen privados en tu computadora local o teléfono porque nunca se suben, guardan ni analizan en servidores externos.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Qué archivos puedo marcar con agua?</h3>
+            <p>Puedes añadir marcas de agua a archivos de imagen en formatos PNG, JPG, WebP, GIF, BMP y AVIF. Puedes marcar documentos PDF de varias páginas. También puedes marcar grabaciones de video en formatos MP4, WebM, MOV, MKV, AVI y M4V y descargarlas como MP4.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Qué elementos puedo personalizar?</h3>
+            <p>Puedes personalizar el texto de la marca de agua, elegir la posición entre Centro, Arriba-Izquierda, Arriba-Derecha, Abajo-Izquierda o Abajo-Derecha, ajustar el tamaño de fuente, regular la opacidad del 5% al 100% y seleccionar el color del texto, incluyendo blanco, negro o un selector personalizado. Para PDF, puedes elegir Todas las páginas o especificar números de página. Para video, puedes elegir calidad Alta, Media o Baja.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Cuáles son los límites para imágenes, PDF y video?</h3>
+            <p>Las imágenes no tienen límite de tamaño de archivo fijo, aunque imágenes muy grandes requieren memoria de navegador adecuada. Los documentos PDF no tienen límite de páginas en el código y se procesan página a página. Los videos están limitados a 100 MB, 5 minutos de duración y resolución 1080p. Reducir a 720p se aplica solo a videos con resolución superior a 720p: clips de 60 segundos o menos pueden procesarse a resolución completa, mientras que clips de más de 60 segundos se fijan a 720p para preservar memoria.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Cómo se marca el video y por qué es más lento?</h3>
+            <p>La marca de agua en video requiere decodificar cada fotograma, superponer el texto y recodificar todo el flujo localmente mediante WebAssembly. Este cálculo se ejecuta directamente en tu equipo en lugar de servidores en la nube. Además, el motor de video de unos 31 MB se descarga al marcar tu primer video, solo la primera vez.</p>
         </div>
     </section>
 

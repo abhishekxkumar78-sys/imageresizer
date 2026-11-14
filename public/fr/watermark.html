@@ -15,16 +15,19 @@
      crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ajoutez un filigrane texte ou logo sur vos images en ligne gratuitement. Protégez vos photos avec police, couleur, opacité et position sur mesure.">
+    <meta name="description"
+        content="Ajoutez un filigrane texte personnalisé à vos images, PDF et vidéos dans votre navigateur. Rapide et privé, sans téléversement sur serveur.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:title" content="Ajouter un Filigrane sur Photo en Ligne Gratuitement">
-    <meta property="og:description" content="Ajoutez un filigrane texte ou logo sur vos images en ligne gratuitement. Protégez vos photos avec police, couleur, opacité et position sur mesure.">
+    <meta property="og:title" content="Filigrane Gratuit: Image, PDF et Vidéo - ImageResizer">
+    <meta property="og:description"
+        content="Ajoutez un filigrane texte personnalisé à vos images, PDF et vidéos dans votre navigateur. Rapide et privé, sans téléversement sur serveur.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ImageResizer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Ajouter un Filigrane sur Photo en Ligne Gratuitement">
-    <meta name="twitter:description" content="Ajoutez un filigrane texte ou logo sur vos images en ligne gratuitement. Protégez vos photos avec police, couleur, opacité et position sur mesure.">
-    <title>Ajouter un Filigrane sur Photo en Ligne Gratuitement</title>
+    <meta name="twitter:title" content="Filigrane Gratuit: Image, PDF et Vidéo - ImageResizer">
+    <meta name="twitter:description"
+        content="Ajoutez un filigrane texte personnalisé à vos images, PDF et vidéos dans votre navigateur. Rapide et privé, sans téléversement sur serveur.">
+    <title>Filigrane Gratuit: Image, PDF et Vidéo - ImageResizer</title>
     <link rel="canonical" href="https://www.freeeimageresizer.com/fr/watermark" />
     <link rel="alternate" hreflang="x-default" href="https://www.freeeimageresizer.com/watermark" />
     <link rel="alternate" hreflang="en" href="https://www.freeeimageresizer.com/watermark" />
@@ -39,6 +42,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/style.css">
+    <!-- pdf-lib CDN for client-side PDF assembly -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <!-- pdf.js CDN for client-side preview and page rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
     <style>
         #settingsSection.video-mode div[style*="grid-template-columns"] > div {
             min-width: 0;
@@ -56,6 +64,55 @@
             display: block;
         }
     </style>
+
+    <script type="application/ld+json">
+    {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+                {
+                      "@type": "Question",
+                      "name": "L'outil de filigrane est-il gratuit et téléversez-vous mes fichiers ?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Oui, l'outil de filigrane est complètement gratuit, sans abonnement, sans inscription et sans logo imposé par la plateforme. Tous les fichiers restent privés sur votre appareil car ils ne sont jamais téléversés, enregistrés ni analysés sur des serveurs distants."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Quels fichiers puis-je protéger par filigrane ?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Vous pouvez ajouter un filigrane sur des images aux formats PNG, JPG, WebP, GIF, BMP et AVIF. Vous pouvez marquer des documents PDF de plusieurs pages. Vous pouvez également marquer des vidéos aux formats MP4, WebM, MOV, MKV, AVI et M4V et les télécharger en MP4."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Que puis-je personnaliser ?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Vous pouvez personnaliser le texte, choisir la position parmi Centre, Haut Gauche, Haut Droite, Bas Gauche ou Bas Droite, régler la taille de police, ajuster l'opacité de 5% à 100% et choisir la couleur du texte, y compris blanc, noir ou palette libre. Pour le PDF, choisissez Toutes les pages ou des pages précises. Pour la vidéo, choisissez une qualité Haute, Moyenne ou Basse."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Quelles sont les limites pour les images, le PDF et la vidéo ?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Les images n'ont pas de limite fixe de taille de fichier, même si des images très lourdes nécessitent assez de mémoire navigateur. Les documents PDF n'ont pas de limite stricte de pages dans le code et sont traités page par page. Les vidéos sont limitées à 100 MB, 5 minutes de durée et résolution 1080p. Réduire en 720p s'applique uniquement aux vidéos au-dessus de 720p : les clips de 60 secondes ou moins conservent leur résolution, tandis que ceux de plus de 60 secondes sont bridés à 720p pour économiser la mémoire."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Comment la vidéo est-elle marquée et pourquoi est-ce plus lent ?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Le filigrane vidéo exige de décoder chaque image, d'y superposer votre texte et de réencoder l'ensemble du flux localement avec WebAssembly. Ce calcul s'effectue directement sur votre ordinateur et non sur des serveurs distants. De plus, le moteur vidéo d'environ 31 MB se télécharge lors de votre premier filigrane vidéo, une seule fois."
+                      }
+                }
+          ]
+    }
+    </script>
 </head>
 
 <body>
@@ -126,16 +183,17 @@
                 </svg>
             </div>
             <p class="dropzone-title" id="dropzoneTitle">Glissez-déposez votre image ou vidéo pour ajouter un filigrane</p>
-            <p class="dropzone-formats">Formats pris en charge : Images (PNG, JPG, WebP, GIF, BMP, AVIF, HEIC) et vidéo (MP4, WebM, MOV, MKV, AVI). La prise en charge de la vidéo dépend de votre navigateur. Si un fichier ne se charge pas, essayez MP4 ou WebM. Le premier filigranage vidéo télécharge un moteur de traitement d'environ 31 Mo. Traitement vidéo par <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>.</p>
-            <p class="dropzone-limit">Taille maximale du fichier : 50MB pour les images, 100MB (jusqu'à 5 minutes) pour la vidéo.</p>
+            <p class="dropzone-formats">Formats pris en charge : Images (PNG, JPG, WebP, GIF, BMP, AVIF), PDF et vidéo (MP4, WebM, MOV, MKV, AVI). La prise en charge de la vidéo dépend de votre navigateur. Si un fichier ne se charge pas, essayez MP4 ou WebM. Le premier filigranage vidéo télécharge un moteur de traitement d'environ 31 MB. Traitement vidéo par <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>.</p>
+            <p class="dropzone-limit">Les images n'ont pas de limite fixe de taille, PDF sans limite de pages, vidéo 100MB (jusqu'à 5 minutes).</p>
             <button class="btn-select" id="selectImagesBtn">Sélectionner une image ou une vidéo</button>
             <input type="file" id="fileInput" accept="image/*,video/*,.mp4,.webm,.mov,.mkv,.avi" hidden>
             <p class="dropzone-privacy">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    aria-hidden="true">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                     <path d="M7 11V7a5 5 0 0110 0v4" />
                 </svg>
-                Procesado completamente en tu navegador.
+                Traitement entièrement dans votre navigateur — aucun fichier n'est téléversé sur un serveur.
             </p>
             <p>Vous avez aussi besoin de convertir le format ? <a href="/fr/convert" style="color:var(--primary); font-weight:600;">Essayez notre convertisseur d'images</a>.</p>
         </div>
@@ -268,12 +326,38 @@
         </div>
     </section>
 
-    <!-- SEO Content Section -->
+            <!-- SEO Content Section -->
     <section class="content-section">
         <div class="content-container">
-            <h2 class="content-heading">Protégez vos photos avec un filigrane professionnel</h2>
-            <p>Ajoutez facilement des mentions de copyright, logos ou signatures sur vos photos pour éviter le vol d'images et valoriser votre marque sur le web.</p>
-            <p>Notre outil fonctionne <strong>exclusivement dans votre navigateur</strong>. Vos créations restent strictement confidentielles et ne transitent par aucun serveur distant.</p>
+            <h2 class="content-heading">Que permet cet outil de filigrane ?</h2>
+            <p>L'outil de filigrane d'ImageResizer applique des filigranes texte personnalisés sur vos images, documents PDF et clips vidéo directement dans votre navigateur web. Superposez mentions de droits d'auteur, noms d'auteur ou logos textuels sur vos photos aux formats PNG, JPG, WebP, GIF, BMP ou AVIF. Ajoutez un filigrane cohérent sur toutes les pages ou sur des plages définies de documents PDF multipages. Marquez vos vidéos aux formats MP4, WebM, MOV, MKV, AVI ou M4V pour exporter des fichiers MP4 protégés. Tout le traitement se déroule sur votre appareil en totale confidentialité, sans aucun téléversement vers un serveur distant.</p>
+
+            <h2 class="content-heading">Comment ça marche</h2>
+            <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
+                <li style="margin-bottom: 8px;">Sélectionnez ou glissez une image, un document PDF ou une vidéo depuis votre ordinateur ou smartphone.</li>
+                <li style="margin-bottom: 8px;">Saisissez le texte de votre filigrane et ajustez son emplacement, sa couleur, sa taille de police et son opacité.</li>
+                <li style="margin-bottom: 8px;">Cliquez sur Filigrane, prévisualisez le résultat en direct et téléchargez votre fichier personnalisé.</li>
+            </ol>
+            <p>Les filigranes sont appliqués localement sur votre appareil sans échange avec des serveurs. Le filigrane d'image dessine le texte directement sur l'image via le canvas 2D de votre navigateur. Le filigrane PDF modifie les flux de documents dans le navigateur avec pdf-lib et pdf.js, positionnant le texte vectoriel sur chaque page choisie. En vidéo, le texte est rendu dans un calque superposé puis fusionné image par image avec FFmpeg sous WebAssembly. Le moteur vidéo pèse environ 31 MB et se télécharge uniquement lors de votre premier filigrane vidéo, une seule fois.</p>
+
+            <h2 class="content-heading">Limites</h2>
+            <p>Il n'y a pas de limite de taille fixe pour les images, bien que les résolutions géantes demandent une mémoire vive suffisante. Les fichiers PDF n'ont pas de limite de pages dans le code, mais traiter de très nombreux feuillets prend davantage de temps. Les fichiers vidéo doivent faire 100 MB ou moins, 5 minutes ou moins, et ne peuvent dépasser la résolution 1080p (1920x1080). Réduire en 720p s'applique uniquement aux vidéos d'une résolution supérieure à 720p : les clips de 60 secondes ou moins peuvent être traités en pleine résolution, tandis que ceux de plus de 60 secondes sont limités à 720p pour préserver la mémoire de l'appareil. Le rendu s'exécutant sur votre équipement, la durée dépend des capacités de votre matériel.</p>
+
+            <h2 class="content-heading">Foire aux questions</h2>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">L'outil de filigrane est-il gratuit et téléversez-vous mes fichiers ?</h3>
+            <p>Oui, l'outil de filigrane est complètement gratuit, sans abonnement, sans inscription et sans logo imposé par la plateforme. Tous les fichiers restent privés sur votre appareil car ils ne sont jamais téléversés, enregistrés ni analysés sur des serveurs distants.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Quels fichiers puis-je protéger par filigrane ?</h3>
+            <p>Vous pouvez ajouter un filigrane sur des images aux formats PNG, JPG, WebP, GIF, BMP et AVIF. Vous pouvez marquer des documents PDF de plusieurs pages. Vous pouvez également marquer des vidéos aux formats MP4, WebM, MOV, MKV, AVI et M4V et les télécharger en MP4.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Que puis-je personnaliser ?</h3>
+            <p>Vous pouvez personnaliser le texte, choisir la position parmi Centre, Haut Gauche, Haut Droite, Bas Gauche ou Bas Droite, régler la taille de police, ajuster l'opacité de 5% à 100% et choisir la couleur du texte, y compris blanc, noir ou palette libre. Pour le PDF, choisissez Toutes les pages ou des pages précises. Pour la vidéo, choisissez une qualité Haute, Moyenne ou Basse.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Quelles sont les limites pour les images, le PDF et la vidéo ?</h3>
+            <p>Les images n'ont pas de limite fixe de taille de fichier, même si des images très lourdes nécessitent assez de mémoire navigateur. Les documents PDF n'ont pas de limite stricte de pages dans le code et sont traités page par page. Les vidéos sont limitées à 100 MB, 5 minutes de durée et résolution 1080p. Réduire en 720p s'applique uniquement aux vidéos au-dessus de 720p : les clips de 60 secondes ou moins conservent leur résolution, tandis que ceux de plus de 60 secondes sont bridés à 720p pour économiser la mémoire.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Comment la vidéo est-elle marquée et pourquoi est-ce plus lent ?</h3>
+            <p>Le filigrane vidéo exige de décoder chaque image, d'y superposer votre texte et de réencoder l'ensemble du flux localement avec WebAssembly. Ce calcul s'effectue directement sur votre ordinateur et non sur des serveurs distants. De plus, le moteur vidéo d'environ 31 MB se télécharge lors de votre premier filigrane vidéo, une seule fois.</p>
         </div>
     </section>
 

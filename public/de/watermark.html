@@ -15,16 +15,19 @@
      crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Fügen Sie Text- oder Logo-Wasserzeichen kostenlos online zu Ihren Fotos hinzu. Schützen Sie Ihre Bilder mit anpassbarer Schriftart, Deckkraft und Position.">
+    <meta name="description"
+        content="Fügen Sie Bildern, PDF-Dokumenten und Videos im Browser benutzerdefinierte Wasserzeichen hinzu. Schnell und privat ohne Server-Uploads.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:title" content="Wasserzeichen in Bilder Einfügen Online Kostenlos">
-    <meta property="og:description" content="Fügen Sie Text- oder Logo-Wasserzeichen kostenlos online zu Ihren Fotos hinzu. Schützen Sie Ihre Bilder mit anpassbarer Schriftart, Deckkraft und Position.">
+    <meta property="og:title" content="Wasserzeichen Tool: Bild, PDF und Video - ImageResizer">
+    <meta property="og:description"
+        content="Fügen Sie Bildern, PDF-Dokumenten und Videos im Browser benutzerdefinierte Wasserzeichen hinzu. Schnell und privat ohne Server-Uploads.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ImageResizer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Wasserzeichen in Bilder Einfügen Online Kostenlos">
-    <meta name="twitter:description" content="Fügen Sie Text- oder Logo-Wasserzeichen kostenlos online zu Ihren Fotos hinzu. Schützen Sie Ihre Bilder mit anpassbarer Schriftart, Deckkraft und Position.">
-    <title>Wasserzeichen in Bilder Einfügen Online Kostenlos</title>
+    <meta name="twitter:title" content="Wasserzeichen Tool: Bild, PDF und Video - ImageResizer">
+    <meta name="twitter:description"
+        content="Fügen Sie Bildern, PDF-Dokumenten und Videos im Browser benutzerdefinierte Wasserzeichen hinzu. Schnell und privat ohne Server-Uploads.">
+    <title>Wasserzeichen Tool: Bild, PDF und Video - ImageResizer</title>
     <link rel="canonical" href="https://www.freeeimageresizer.com/de/watermark" />
     <link rel="alternate" hreflang="x-default" href="https://www.freeeimageresizer.com/watermark" />
     <link rel="alternate" hreflang="en" href="https://www.freeeimageresizer.com/watermark" />
@@ -39,6 +42,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/style.css">
+    <!-- pdf-lib CDN for client-side PDF assembly -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <!-- pdf.js CDN for client-side preview and page rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
     <style>
         #settingsSection.video-mode div[style*="grid-template-columns"] > div {
             min-width: 0;
@@ -56,6 +64,55 @@
             display: block;
         }
     </style>
+
+    <script type="application/ld+json">
+    {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+                {
+                      "@type": "Question",
+                      "name": "Ist das Wasserzeichen-Tool kostenlos und laden Sie meine Dateien hoch?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Ja, das Wasserzeichen-Tool ist völlig kostenlos und ohne Abonnements, Registrierungen oder zusätzliche Plattform-Wasserzeichen nutzbar. Alle Dateien bleiben privat auf Ihrem lokalen Computer oder Smartphone, weil Ihre Dateien niemals auf externe Server hochgeladen, gespeichert oder analysiert werden."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Welche Dateien kann ich mit einem Wasserzeichen versehen?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Sie können Bilddateien in den Formaten PNG, JPG, WebP, GIF, BMP und AVIF mit Wasserzeichen versehen. Sie können mehrseitige PDF-Dokumente markieren. Ebenso können Sie Videoaufnahmen in den Formaten MP4, WebM, MOV, MKV, AVI und M4V mit Wasserzeichen versehen und als MP4 herunterladen."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Was kann ich anpassen?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Sie können den Textinhalt anpassen, die Position zwischen Mitte, Oben-Links, Oben-Rechts, Unten-Links oder Unten-Rechts wählen, die Schriftgröße einstellen, die Deckkraft von 5% bis 100% regeln und die Textfarbe bestimmen, einschließlich Weiß, Schwarz oder eigener Farbauswahl. Bei PDF können Sie Alle Seiten oder bestimmte Seiten angeben. Bei Video können Sie Hohe, Mittlere oder Niedrige Qualität wählen."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Welche Grenzen gelten für Bilder, PDF und Video?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Bilder haben kein festes Dateigrößenlimit, sehr große Bilder erfordern jedoch ausreichend Browserspeicher. PDF-Dokumente haben im Code kein striktes Seitenlimit und werden Seite für Seite verarbeitet. Videodateien sind auf 100 MB, 5 Minuten Dauer und eine Auflösung von 1080p begrenzt. Auf 720p reduzieren gilt nur für Videos über 720p: Clips von 60 Sekunden oder weniger behalten die volle Auflösung, während Clips über 60 Sekunden auf 720p fixiert werden."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Wie werden Videos mit Wasserzeichen versehen und warum dauert es länger?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Die Videoverarbeitung erfordert das Decodieren jedes Einzelbildes, das Überlagern Ihres Textes und das Neucodieren des gesamten Datenstroms lokal über WebAssembly. Diese Berechnung erfolgt direkt auf Ihrem Rechner statt auf Cloud-Servern. Zudem wird die Video-Engine von etwa 31 MB geladen, wenn Sie Ihr erstes Video mit Wasserzeichen versehen, nur ein einziges Mal."
+                      }
+                }
+          ]
+    }
+    </script>
 </head>
 
 <body>
@@ -126,16 +183,17 @@
                 </svg>
             </div>
             <p class="dropzone-title" id="dropzoneTitle">Ziehen Sie Ihr Bild oder Video hierher, um ein Wasserzeichen hinzuzufügen</p>
-            <p class="dropzone-formats">Unterstützte Formate: Bilder (PNG, JPG, WebP, GIF, BMP, AVIF, HEIC) und Video (MP4, WebM, MOV, MKV, AVI). Die Video-Unterstützung hängt von Ihrem Browser ab. Wenn eine Datei nicht geladen wird, versuchen Sie es mit MP4 oder WebM. Beim ersten Hinzufügen eines Video-Wasserzeichens wird eine Verarbeitungs-Engine von ca. 31 MB heruntergeladen. Videoverarbeitung durch <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>.</p>
-            <p class="dropzone-limit">Maximale Dateigröße: 50MB für Bilder, 100MB (bis zu 5 Minuten) für Video.</p>
+            <p class="dropzone-formats">Unterstützte Formate: Bilder (PNG, JPG, WebP, GIF, BMP, AVIF), PDF und Video (MP4, WebM, MOV, MKV, AVI). Die Video-Unterstützung hängt von Ihrem Browser ab. Wenn eine Datei nicht geladen wird, versuchen Sie es mit MP4 oder WebM. Beim ersten Hinzufügen eines Video-Wasserzeichens wird eine Verarbeitungs-Engine von ca. 31 MB heruntergeladen. Videoverarbeitung durch <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>.</p>
+            <p class="dropzone-limit">Bilder haben keine feste Größenbegrenzung, PDF ohne Seitenlimit, Video 100MB (bis zu 5 Minuten).</p>
             <button class="btn-select" id="selectImagesBtn">Bild oder Video auswählen</button>
             <input type="file" id="fileInput" accept="image/*,video/*,.mp4,.webm,.mov,.mkv,.avi" hidden>
             <p class="dropzone-privacy">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    aria-hidden="true">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                     <path d="M7 11V7a5 5 0 0110 0v4" />
                 </svg>
-                Procesado completamente en tu navegador.
+                Vollständig in Ihrem Browser verarbeitet — keine Datei wird auf einen Server hochgeladen.
             </p>
             <p>Möchten Sie auch das Dateiformat konvertieren? <a href="/de/convert" style="color:var(--primary); font-weight:600;">Probieren Sie unseren Konverter</a>.</p>
         </div>
@@ -268,12 +326,38 @@
         </div>
     </section>
 
-    <!-- SEO Content Section -->
+            <!-- SEO Content Section -->
     <section class="content-section">
         <div class="content-container">
-            <h2 class="content-heading">Fotos online mit professionellem Wasserzeichen schützen</h2>
-            <p>Schützen Sie Ihre Fotografien und Ihr Urheberrecht ganz einfach mit dezenten oder markanten Wasserzeichen vor unbefugter Nutzung im Internet.</p>
-            <p>Die Bildbearbeitung erfolgt <strong>zu 100% lokal in Ihrem Browser</strong>. Ihre Fotos bleiben stets geschützt auf Ihrem eigenen Endgerät.</p>
+            <h2 class="content-heading">Was kann dieses Wasserzeichen-Tool?</h2>
+            <p>Das Wasserzeichen-Tool von ImageResizer versieht Bilder, PDF-Dokumente und Videoclips direkt in Ihrem Webbrowser mit benutzerdefinierten Textwasserzeichen. Blenden Sie Copyright-Hinweise, Urhebernamen oder Marken über Fotos in den Formaten PNG, JPG, WebP, GIF, BMP oder AVIF ein. Versehen Sie alle Seiten oder gezielte Bereiche mehrseitiger PDF-Dokumente mit einheitlichen Wasserzeichen. Versehen Sie Videoaufnahmen in den Formaten MP4, WebM, MOV, MKV, AVI oder M4V mit Texteinblendungen, um geschützte MP4-Dateien zu exportieren. Die gesamte Verarbeitung findet mit voller Privatsphäre auf Ihrem Gerät statt und keine Mediendatei wird auf einen externen Server hochgeladen.</p>
+
+            <h2 class="content-heading">So funktioniert es</h2>
+            <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
+                <li style="margin-bottom: 8px;">Wählen Sie ein Bild, PDF-Dokument oder Video von Ihrem PC oder Smartphone aus oder ziehen Sie es hinein.</li>
+                <li style="margin-bottom: 8px;">Geben Sie Ihren Wasserzeichentext ein und passen Sie Platzierung, Schriftfarbe, Schriftgröße und Transparenz an.</li>
+                <li style="margin-bottom: 8px;">Klicken Sie auf Wasserzeichen, prüfen Sie die Live-Vorschau und laden Sie Ihre geschützte Datei herunter.</li>
+            </ol>
+            <p>Wasserzeichen werden lokal auf Ihrem Gerät ohne Serverkommunikation gerendert. Das Bildwasserzeichen zeichnet Texteinblendungen über das 2D-Canvas Ihres Browsers direkt auf Ihr Foto. Bei PDF-Dateien werden Dokumenten-Streams direkt im Browser mit pdf-lib und pdf.js geändert, wodurch Vektortext auf jeder gewählten Seite platziert wird. Bei Video wird Ihr Text in ein Overlay-Bild gerendert und Bild für Bild mit WebAssembly FFmpeg zusammengeführt. Die Video-Engine ist etwa 31 MB groß und wird nur heruntergeladen, wenn Sie Ihr erstes Video mit Wasserzeichen versehen, nur ein einziges Mal.</p>
+
+            <h2 class="content-heading">Grenzen</h2>
+            <p>Es gibt keine feste Größenbegrenzung für Bilder, allerdings erfordern extrem große Dimensionen ausreichend Gerätespeicher. PDF-Dateien haben im Code kein festes Seitenlimit, das Verarbeiten vieler Seiten beansprucht jedoch mehr Zeit. Videodateien dürfen höchstens 100 MB groß und 5 Minuten lang sein und können eine Auflösung von 1080p (1920x1080) nicht überschreiten. Auf 720p reduzieren gilt nur für Videos mit einer Auflösung über 720p: Clips von 60 Sekunden oder kürzer können in voller Auflösung verarbeitet werden, während Clips über 60 Sekunden auf 720p fixiert werden, um Gerätespeicher zu schonen. Da das Rendering auf Ihrem Gerät läuft, spiegelt die Dauer die Leistung Ihrer Hardware wider.</p>
+
+            <h2 class="content-heading">Häufig gestellte Fragen</h2>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Ist das Wasserzeichen-Tool kostenlos und laden Sie meine Dateien hoch?</h3>
+            <p>Ja, das Wasserzeichen-Tool ist völlig kostenlos und ohne Abonnements, Registrierungen oder zusätzliche Plattform-Wasserzeichen nutzbar. Alle Dateien bleiben privat auf Ihrem lokalen Computer oder Smartphone, weil Ihre Dateien niemals auf externe Server hochgeladen, gespeichert oder analysiert werden.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Welche Dateien kann ich mit einem Wasserzeichen versehen?</h3>
+            <p>Sie können Bilddateien in den Formaten PNG, JPG, WebP, GIF, BMP und AVIF mit Wasserzeichen versehen. Sie können mehrseitige PDF-Dokumente markieren. Ebenso können Sie Videoaufnahmen in den Formaten MP4, WebM, MOV, MKV, AVI und M4V mit Wasserzeichen versehen und als MP4 herunterladen.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Was kann ich anpassen?</h3>
+            <p>Sie können den Textinhalt anpassen, die Position zwischen Mitte, Oben-Links, Oben-Rechts, Unten-Links oder Unten-Rechts wählen, die Schriftgröße einstellen, die Deckkraft von 5% bis 100% regeln und die Textfarbe bestimmen, einschließlich Weiß, Schwarz oder eigener Farbauswahl. Bei PDF können Sie Alle Seiten oder bestimmte Seiten angeben. Bei Video können Sie Hohe, Mittlere oder Niedrige Qualität wählen.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Welche Grenzen gelten für Bilder, PDF und Video?</h3>
+            <p>Bilder haben kein festes Dateigrößenlimit, sehr große Bilder erfordern jedoch ausreichend Browserspeicher. PDF-Dokumente haben im Code kein striktes Seitenlimit und werden Seite für Seite verarbeitet. Videodateien sind auf 100 MB, 5 Minuten Dauer und eine Auflösung von 1080p begrenzt. Auf 720p reduzieren gilt nur für Videos über 720p: Clips von 60 Sekunden oder weniger behalten die volle Auflösung, während Clips über 60 Sekunden auf 720p fixiert werden.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Wie werden Videos mit Wasserzeichen versehen und warum dauert es länger?</h3>
+            <p>Die Videoverarbeitung erfordert das Decodieren jedes Einzelbildes, das Überlagern Ihres Textes und das Neucodieren des gesamten Datenstroms lokal über WebAssembly. Diese Berechnung erfolgt direkt auf Ihrem Rechner statt auf Cloud-Servern. Zudem wird die Video-Engine von etwa 31 MB geladen, wenn Sie Ihr erstes Video mit Wasserzeichen versehen, nur ein einziges Mal.</p>
         </div>
     </section>
 

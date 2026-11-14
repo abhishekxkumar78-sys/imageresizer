@@ -15,16 +15,19 @@
      crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tambahkan watermark teks atau logo kustom pada foto secara online gratis. Lindungi gambar Anda dengan font, warna, transparansi, dan posisi fleksibel.">
+    <meta name="description"
+        content="Tambahkan watermark teks kustom ke gambar, dokumen PDF, dan video di browser Anda. Cepat, privat tanpa pernah diunggah ke server.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:title" content="Tambah Watermark pada Foto Online Gratis — Teks & Logo">
-    <meta property="og:description" content="Tambahkan watermark teks atau logo kustom pada foto secara online gratis. Lindungi gambar Anda dengan font, warna, transparansi, dan posisi fleksibel.">
+    <meta property="og:title" content="Watermark Gratis: Gambar, PDF, dan Video - ImageResizer">
+    <meta property="og:description"
+        content="Tambahkan watermark teks kustom ke gambar, dokumen PDF, dan video di browser Anda. Cepat, privat tanpa pernah diunggah ke server.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ImageResizer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Tambah Watermark pada Foto Online Gratis — Teks & Logo">
-    <meta name="twitter:description" content="Tambahkan watermark teks atau logo kustom pada foto secara online gratis. Lindungi gambar Anda dengan font, warna, transparansi, dan posisi fleksibel.">
-    <title>Tambah Watermark pada Foto Online Gratis — Teks & Logo</title>
+    <meta name="twitter:title" content="Watermark Gratis: Gambar, PDF, dan Video - ImageResizer">
+    <meta name="twitter:description"
+        content="Tambahkan watermark teks kustom ke gambar, dokumen PDF, dan video di browser Anda. Cepat, privat tanpa pernah diunggah ke server.">
+    <title>Watermark Gratis: Gambar, PDF, dan Video - ImageResizer</title>
     <link rel="canonical" href="https://www.freeeimageresizer.com/id/watermark" />
     <link rel="alternate" hreflang="x-default" href="https://www.freeeimageresizer.com/watermark" />
     <link rel="alternate" hreflang="en" href="https://www.freeeimageresizer.com/watermark" />
@@ -39,6 +42,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/style.css">
+    <!-- pdf-lib CDN for client-side PDF assembly -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <!-- pdf.js CDN for client-side preview and page rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
     <style>
         #settingsSection.video-mode div[style*="grid-template-columns"] > div {
             min-width: 0;
@@ -56,6 +64,55 @@
             display: block;
         }
     </style>
+
+    <script type="application/ld+json">
+    {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+                {
+                      "@type": "Question",
+                      "name": "Apakah alat watermark ini gratis dan apakah file saya diunggah?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Ya, alat watermark ini sepenuhnya gratis untuk digunakan tanpa langganan, pendaftaran akun, atau watermark tambahan dari platform. Semua file tetap privat di komputer atau ponsel lokal Anda karena file Anda tidak pernah diunggah, disimpan, atau dianalisis di server eksternal."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "File apa saja yang bisa saya beri watermark?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Anda dapat memberi watermark pada file gambar dalam format PNG, JPG, WebP, GIF, BMP, dan AVIF. Anda dapat memberi watermark pada dokumen PDF banyak halaman. Anda juga dapat memberi watermark pada rekaman video dalam format MP4, WebM, MOV, MKV, AVI, dan M4V serta mengunduhnya sebagai MP4."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Apa saja yang bisa saya sesuaikan?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Anda dapat menyesuaikan konten teks watermark, memilih tata letak antara Tengah, Kiri Atas, Kanan Atas, Kiri Bawah, atau Kanan Bawah, menyesuaikan ukuran font, mengatur opasitas teks dari 5% hingga 100%, dan memilih warna teks termasuk Putih, Hitam, atau pemilih warna kustom. Untuk PDF, Anda dapat memilih Semua Halaman atau halaman tertentu. Untuk video, Anda dapat memilih kualitas Tinggi, Sedang, atau Rendah."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Apa batasan untuk gambar, PDF, dan video?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Gambar tidak memiliki batas ukuran file tetap, meskipun gambar yang sangat besar membutuhkan memori browser yang cukup. Dokumen PDF tidak memiliki batasan halaman ketat dalam kode dan diproses halaman demi halaman. File video dibatasi hingga 100 MB, durasi 5 menit, dan resolusi 1080p. Kurangi ke 720p hanya berlaku untuk video di atas 720p: klip 60 detik atau lebih pendek diproses pada resolusi penuh, sedangkan klip lebih dari 60 detik dikunci ke 720p untuk menghemat memori."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Bagaimana video diberi watermark dan mengapa lebih lambat?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Pemberian watermark video membutuhkan decoding setiap frame, menempatkan tanda teks Anda, dan mengenkode ulang seluruh stream secara lokal menggunakan WebAssembly. Pemrosesan ini berjalan langsung di komputer Anda daripada di server cloud. Selain itu, mesin pemrosesan video berukuran sekitar 31 MB diunduh saat Anda memberi watermark video pertama kali, satu kali saja."
+                      }
+                }
+          ]
+    }
+    </script>
 </head>
 
 <body>
@@ -126,16 +183,17 @@
                 </svg>
             </div>
             <p class="dropzone-title" id="dropzoneTitle">Tarik dan lepas gambar atau video untuk menambahkan watermark</p>
-            <p class="dropzone-formats">Format yang didukung: Gambar (PNG, JPG, WebP, GIF, BMP, AVIF, HEIC) &amp; Video (MP4, WebM, MOV, MKV, AVI). Dukungan video bergantung pada browser Anda. Jika file tidak dapat dimuat, coba MP4 atau WebM. Pemberian tanda air video pertama mengunduh mesin pemrosesan sekitar 31 MB. Pemrosesan video oleh <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>.</p>
-            <p class="dropzone-limit">Ukuran file maksimum: 50MB untuk gambar, 100MB (hingga 5 menit) untuk video.</p>
+            <p class="dropzone-formats">Format yang didukung: Gambar (PNG, JPG, WebP, GIF, BMP, AVIF), PDF &amp; Video (MP4, WebM, MOV, MKV, AVI). Dukungan video bergantung pada browser Anda. Jika file tidak dapat dimuat, coba MP4 atau WebM. Pemberian tanda air video pertama mengunduh mesin pemrosesan sekitar 31 MB. Pemrosesan video oleh <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>.</p>
+            <p class="dropzone-limit">Gambar tidak memiliki batas ukuran tetap, PDF tanpa batas halaman, video 100MB (hingga 5 menit).</p>
             <button class="btn-select" id="selectImagesBtn">Pilih gambar atau video</button>
             <input type="file" id="fileInput" accept="image/*,video/*,.mp4,.webm,.mov,.mkv,.avi" hidden>
             <p class="dropzone-privacy">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    aria-hidden="true">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                     <path d="M7 11V7a5 5 0 0110 0v4" />
                 </svg>
-                Procesado completamente en tu navegador.
+                Diproses sepenuhnya di browser Anda — tidak ada data yang diunggah ke server.
             </p>
             <p>Perlu mengonversi format gambar juga? <a href="/id/convert" style="color:var(--primary); font-weight:600;">Coba Konverter Format kami</a>.</p>
         </div>
@@ -268,12 +326,38 @@
         </div>
     </section>
 
-    <!-- SEO Content Section -->
+            <!-- SEO Content Section -->
     <section class="content-section">
         <div class="content-container">
-            <h2 class="content-heading">Lindungi karya foto Anda dengan watermark online</h2>
-            <p>Lindungi hak cipta foto, karya grafis, dan portofolio Anda sebelum membagikannya ke media sosial dengan tanda air teks yang elegan dan profesional.</p>
-            <p>Diproses <strong>langsung di browser Anda</strong> tanpa unggah ke server luar, menjaga privasi karya Anda 100% aman.</p>
+            <h2 class="content-heading">Apa yang bisa dilakukan alat watermark ini?</h2>
+            <p>Alat watermark ImageResizer menerapkan watermark teks kustom pada gambar, dokumen PDF, dan klip video langsung di browser web Anda. Tambahkan pemberitahuan hak cipta, nama pembuat, atau merek pada foto dalam format PNG, JPG, WebP, GIF, BMP, atau AVIF. Tambahkan watermark yang konsisten di semua halaman atau rentang halaman tertentu pada dokumen PDF banyak halaman. Cantumkan overlay teks pada rekaman video dalam format MP4, WebM, MOV, MKV, AVI, atau M4V untuk mengekspor file MP4 yang terlindungi. Semua proses pemberian watermark berlangsung di perangkat Anda dengan privasi lengkap, tanpa ada media yang diunggah ke server jarak jauh.</p>
+
+            <h2 class="content-heading">Cara kerja</h2>
+            <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
+                <li style="margin-bottom: 8px;">Pilih atau seret gambar, dokumen PDF, atau file video dari komputer atau ponsel Anda.</li>
+                <li style="margin-bottom: 8px;">Ketik teks watermark Anda dan sesuaikan tata letak, warna teks, ukuran font, serta transparansi.</li>
+                <li style="margin-bottom: 8px;">Klik Watermark, tinjau pratinjau langsung, dan unduh file Anda yang telah diberi watermark.</li>
+            </ol>
+            <p>Watermark dirender secara lokal di perangkat Anda tanpa komunikasi ke server. Pemberian watermark gambar menggambar teks langsung pada foto Anda menggunakan canvas 2D browser. Pemberian watermark PDF memodifikasi stream dokumen langsung di browser menggunakan pdf-lib dan pdf.js, menempatkan teks vektor di setiap halaman yang dipilih. Pada video, teks dirender ke dalam bingkai overlay dan digabungkan frame-demi-frame menggunakan FFmpeg di WebAssembly. Mesin pemrosesan video berukuran sekitar 31 MB dan diunduh hanya saat Anda memberi watermark video untuk pertama kali, satu kali saja.</p>
+
+            <h2 class="content-heading">Batasan</h2>
+            <p>Tidak ada batas ukuran tetap untuk gambar, meskipun dimensi yang sangat besar membutuhkan memori perangkat yang memadai. File PDF tidak memiliki batas halaman dalam kode, tetapi merender halaman dalam jumlah besar membutuhkan waktu pemrosesan tambahan. File video harus berukuran 100 MB atau lebih kecil, berdurasi 5 menit atau lebih pendek, dan tidak boleh melebihi resolusi 1080p (1920x1080). Kurangi ke 720p hanya berlaku untuk video dengan resolusi di atas 720p: klip 60 detik atau lebih pendek dapat diproses pada resolusi penuh, sedangkan klip yang lebih panjang dari 60 detik dikunci ke 720p untuk menghemat memori perangkat. Karena perenderan berjalan di perangkat Anda, durasi pemrosesan mencerminkan kapasitas perangkat keras Anda.</p>
+
+            <h2 class="content-heading">Pertanyaan yang sering diajukan</h2>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Apakah alat watermark ini gratis dan apakah file saya diunggah?</h3>
+            <p>Ya, alat watermark ini sepenuhnya gratis untuk digunakan tanpa langganan, pendaftaran akun, atau watermark tambahan dari platform. Semua file tetap privat di komputer atau ponsel lokal Anda karena file Anda tidak pernah diunggah, disimpan, atau dianalisis di server eksternal.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">File apa saja yang bisa saya beri watermark?</h3>
+            <p>Anda dapat memberi watermark pada file gambar dalam format PNG, JPG, WebP, GIF, BMP, dan AVIF. Anda dapat memberi watermark pada dokumen PDF banyak halaman. Anda juga dapat memberi watermark pada rekaman video dalam format MP4, WebM, MOV, MKV, AVI, dan M4V serta mengunduhnya sebagai MP4.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Apa saja yang bisa saya sesuaikan?</h3>
+            <p>Anda dapat menyesuaikan konten teks watermark, memilih tata letak antara Tengah, Kiri Atas, Kanan Atas, Kiri Bawah, atau Kanan Bawah, menyesuaikan ukuran font, mengatur opasitas teks dari 5% hingga 100%, dan memilih warna teks termasuk Putih, Hitam, atau pemilih warna kustom. Untuk PDF, Anda dapat memilih Semua Halaman atau halaman tertentu. Untuk video, Anda dapat memilih kualitas Tinggi, Sedang, atau Rendah.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Apa batasan untuk gambar, PDF, dan video?</h3>
+            <p>Gambar tidak memiliki batas ukuran file tetap, meskipun gambar yang sangat besar membutuhkan memori browser yang cukup. Dokumen PDF tidak memiliki batasan halaman ketat dalam kode dan diproses halaman demi halaman. File video dibatasi hingga 100 MB, durasi 5 menit, dan resolusi 1080p. Kurangi ke 720p hanya berlaku untuk video di atas 720p: klip 60 detik atau lebih pendek diproses pada resolusi penuh, sedangkan klip lebih dari 60 detik dikunci ke 720p untuk menghemat memori.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Bagaimana video diberi watermark dan mengapa lebih lambat?</h3>
+            <p>Pemberian watermark video membutuhkan decoding setiap frame, menempatkan tanda teks Anda, dan mengenkode ulang seluruh stream secara lokal menggunakan WebAssembly. Pemrosesan ini berjalan langsung di komputer Anda daripada di server cloud. Selain itu, mesin pemrosesan video berukuran sekitar 31 MB diunduh saat Anda memberi watermark video pertama kali, satu kali saja.</p>
         </div>
     </section>
 
