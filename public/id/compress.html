@@ -15,16 +15,19 @@
      crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Kompres foto JPG, PNG, dan WebP online gratis tanpa mengurangi kualitas. Perkecil ukuran file dalam KB atau MB langsung di browser Anda.">
+    <meta name="description"
+        content="Kompres gambar, PDF, trek audio, dan video gratis di browser Anda. Kurangi ukuran file secara privat tanpa unggah ke server.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:title" content="Kompres Gambar Online Gratis — Perkecil Ukuran Foto KB/MB">
-    <meta property="og:description" content="Kompres foto JPG, PNG, dan WebP online gratis tanpa mengurangi kualitas. Perkecil ukuran file dalam KB atau MB langsung di browser Anda.">
+    <meta property="og:title" content="Kompresor Gratis: Gambar, PDF, Audio, Video - ImageResizer">
+    <meta property="og:description"
+        content="Kompres gambar, PDF, trek audio, dan video gratis di browser Anda. Kurangi ukuran file secara privat tanpa unggah ke server.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ImageResizer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kompres Gambar Online Gratis — Perkecil Ukuran Foto KB/MB">
-    <meta name="twitter:description" content="Kompres foto JPG, PNG, dan WebP online gratis tanpa mengurangi kualitas. Perkecil ukuran file dalam KB atau MB langsung di browser Anda.">
-    <title>Kompres Gambar Online Gratis — Perkecil Ukuran Foto KB/MB</title>
+    <meta name="twitter:title" content="Kompresor Gratis: Gambar, PDF, Audio, Video - ImageResizer">
+    <meta name="twitter:description"
+        content="Kompres gambar, PDF, trek audio, dan video gratis di browser Anda. Kurangi ukuran file secara privat tanpa unggah ke server.">
+    <title>Kompresor Gratis: Gambar, PDF, Audio, Video - ImageResizer</title>
     <link rel="canonical" href="https://www.freeeimageresizer.com/id/compress" />
     <link rel="alternate" hreflang="x-default" href="https://www.freeeimageresizer.com/compress" />
     <link rel="alternate" hreflang="en" href="https://www.freeeimageresizer.com/compress" />
@@ -39,6 +42,60 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/style.css">
+    <!-- pdf-lib CDN for client-side PDF assembly -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <!-- pdf.js CDN for client-side preview and page rendering -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+
+    <script type="application/ld+json">
+    {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+                {
+                      "@type": "Question",
+                      "name": "Apakah kompresor ini gratis dan apakah file saya diunggah?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Ya, kompresor ini sepenuhnya gratis tanpa langganan, tanpa akun, dan tanpa watermark tambahan. Semuanya berjalan di dalam browser Anda, artinya file Anda tidak pernah diunggah, disimpan, atau dilihat oleh server jarak jauh."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Jenis file apa saja yang bisa saya kompres?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Anda dapat mengompres gambar dalam format PNG, JPG, WebP, GIF, BMP, dan AVIF menjadi WebP, JPG, atau PNG. Anda dapat mengompres dokumen PDF menjadi file PDF terkompresi yang paling cocok untuk dokumen hasil pemindaian atau kaya gambar. Halaman PDF yang dikompresi berbasis gambar, sehingga teks tidak dapat lagi dipilih atau dicari. Anda dapat mengompres audio dalam format WAV, MP3, OGG, M4A, FLAC, dan OPUS menjadi MP3. Anda dapat mengompres video dalam format MP4, WebM, MOV, MKV, AVI, dan M4V menjadi MP4."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Berapa banyak ukuran file akan berkurang dan kontrol apa yang mempengaruhinya?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Ukuran file akhir tergantung pada file dan pengaturan yang dipilih: file yang kaya gambar akan menyusut secara signifikan, tetapi PDF berbasis teks bisa menjadi lebih besar karena halaman dibangun kembali sebagai gambar terkompresi. Untuk gambar, PDF, dan trek audio, Anda dapat menetapkan Target Ukuran File. Pada gambar dan PDF, menurunkan slider Kualitas juga memperkecil ukuran. Untuk audio, memilih bitrate lebih rendah atau mencentang Gabungkan ke mono mengurangi ukuran. Untuk video, Target Ukuran File tidak tersedia, tetapi memilih tingkat Kuat atau mencentang Kurangi ke 720p menghasilkan file yang lebih kecil."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Apakah ada batasan ukuran?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Tidak ada batas ukuran tetap untuk gambar, meskipun foto beresolusi tinggi membutuhkan memori perangkat yang cukup. File audio dapat berukuran hingga 50 MB dan berdurasi hingga 10 menit. File video dapat berukuran hingga 100 MB, berdurasi hingga 5 menit, dan resolusi hingga 1080p."
+                      }
+                },
+                {
+                      "@type": "Question",
+                      "name": "Mengapa video lebih lambat dan apa yang diunduh?",
+                      "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Kompresi video membutuhkan proses decode dan re-encode setiap frame langsung di perangkat Anda menggunakan WebAssembly, yang bergantung pada prosesor dan memori. Selain itu, mesin video berukuran sekitar 31 MB diunduh saat Anda mengompres video pertama kali, satu kali saja."
+                      }
+                }
+          ]
+    }
+    </script>
 </head>
 
 <body>
@@ -110,11 +167,12 @@
             </div>
             <p class="dropzone-title" id="dropzoneTitle">Tarik dan lepas gambar, audio, atau video untuk mulai mengompres</p>
             <p class="dropzone-formats">Format yang didukung: Gambar (PNG, JPG, WebP, GIF, BMP, AVIF), Audio (MP3, WAV, OGG, M4A, FLAC) &amp; Video (MP4, WebM, MOV, MKV, AVI). Dukungan audio dan video bergantung pada browser Anda. Jika file tidak dapat dimuat, coba MP3, WAV, MP4 atau WebM. Kompresi video pertama mengunduh mesin kompresi sekitar 31 MB. Pemrosesan video oleh <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>. Pengodean MP3 oleh <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a>.</p>
-            <p class="dropzone-limit">Ukuran file maksimum: 50MB untuk gambar dan audio, 100MB (hingga 5 menit) untuk video.</p>
+            <p class="dropzone-limit">Gambar tidak memiliki batas ukuran tetap, PDF tanpa batas halaman, audio 50MB (hingga 10 menit), video 100MB (hingga 5 menit).</p>
             <button class="btn-select" id="selectImagesBtn">Pilih gambar, audio, atau video</button>
             <input type="file" id="fileInput" accept="image/*,audio/*,video/*,.mp4,.webm,.mov,.mkv,.avi" hidden>
             <p class="dropzone-privacy">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    aria-hidden="true">
                     <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                     <path d="M7 11V7a5 5 0 0110 0v4" />
                 </svg>
@@ -193,12 +251,38 @@
         </div>
     </section>
 
-    <!-- SEO Content Section -->
+            <!-- SEO Content Section -->
     <section class="content-section">
         <div class="content-container">
-            <h2 class="content-heading">Kompresor gambar online gratis dan cepat</h2>
-            <p>Perkecil ukuran foto JPG, PNG, dan WebP dengan ketajaman visual tetap terjaga. Sangat ideal untuk mempercepat loading website, upload toko online, atau kirim lampiran email.</p>
-            <p>Semua pemrosesan berjalan <strong>langsung di browser Anda</strong>. Foto-foto Anda tetap aman di perangkat tanpa pernah dikirim ke server luar.</p>
+            <h2 class="content-heading">Apa yang bisa dilakukan kompresor ini?</h2>
+            <p>Kompresor ImageResizer memadatkan gambar, dokumen PDF, trek audio, dan klip video langsung di browser Anda. Kompres foto dan grafik dalam format PNG, JPG, WebP, GIF, BMP, atau AVIF menjadi WebP, JPG, atau PNG. Kompres dokumen PDF banyak halaman dengan kualitas perenderan yang dapat disesuaikan. Kompres audio dalam format WAV, MP3, OGG, M4A, FLAC, atau OPUS menjadi file MP3 hemat ruang dengan kontrol bitrate dan mixdown mono opsional. Kompres video dalam format MP4, WebM, MOV, MKV, AVI, atau M4V menjadi file MP4 ringkas. Semua file diproses secara lokal di perangkat Anda dan tidak pernah diunggah ke server eksternal.</p>
+
+            <h2 class="content-heading">Cara kerja</h2>
+            <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
+                <li style="margin-bottom: 8px;">Pilih atau seret gambar, PDF, audio, atau video dari perangkat Anda.</li>
+                <li style="margin-bottom: 8px;">Sesuaikan kontrol kompresi seperti tingkat kualitas, target ukuran file, bitrate audio, atau mode kompresi video.</li>
+                <li style="margin-bottom: 8px;">Klik Kompres, tinjau pengurangan ukuran file, dan unduh hasilnya.</li>
+            </ol>
+            <p>Kompresi bekerja secara lokal menggunakan standar web modern. Foto dan gambar grafis dikompresi melalui pipeline 2D browser Anda dengan pengaturan format dan kualitas yang fleksibel. Output PNG bersifat lossless, sehingga ukurannya bisa lebih besar dari aslinya; pilih WebP atau JPG untuk file yang lebih kecil. Dokumen PDF diproses dengan merender halaman menggunakan pdf.js dan menyusun kembali dokumen ringkas melalui pdf-lib. Trek audio dienkode di latar belakang pada Web Worker menggunakan lamejs untuk menghasilkan file MP3 pada bitrate pilihan Anda. Video dikompresi secara lokal menggunakan FFmpeg di WebAssembly. Mesin kompresi video berukuran sekitar 31 MB dan diunduh hanya saat Anda memulai kompresi video pertama kali, satu kali saja.</p>
+
+            <h2 class="content-heading">Batasan</h2>
+            <p>Tidak ada batas ukuran tetap untuk gambar, tetapi foto beresolusi sangat tinggi menggunakan banyak memori browser dan dapat gagal pada perangkat dengan spesifikasi rendah. Dokumen PDF tidak memiliki batas jumlah halaman dalam kode dan diproses secara berurutan, tetapi PDF berbasis teks dapat menjadi lebih besar karena halaman dibangun kembali sebagai gambar terkompresi. Halaman PDF yang dikompresi berbasis gambar, sehingga teks tidak dapat lagi dipilih atau dicari. File audio dibatasi hingga 50 MB dan durasi maksimal 10 menit. File video dibatasi hingga 100 MB, durasi maksimal 5 menit, dan resolusi 1080p. Kurangi ke 720p hanya berlaku untuk video dengan resolusi di atas 720p: klip 60 detik atau lebih pendek dapat diproses pada resolusi penuh, sedangkan klip yang lebih panjang dari 60 detik dikunci ke 720p untuk menghemat memori perangkat.</p>
+
+            <h2 class="content-heading">Pertanyaan yang sering diajukan</h2>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Apakah kompresor ini gratis dan apakah file saya diunggah?</h3>
+            <p>Ya, kompresor ini sepenuhnya gratis tanpa langganan, tanpa akun, dan tanpa watermark tambahan. Semuanya berjalan di dalam browser Anda, artinya file Anda tidak pernah diunggah, disimpan, atau dilihat oleh server jarak jauh.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Jenis file apa saja yang bisa saya kompres?</h3>
+            <p>Anda dapat mengompres gambar dalam format PNG, JPG, WebP, GIF, BMP, dan AVIF menjadi WebP, JPG, atau PNG. Anda dapat mengompres dokumen PDF menjadi file PDF terkompresi yang paling cocok untuk dokumen hasil pemindaian atau kaya gambar. Halaman PDF yang dikompresi berbasis gambar, sehingga teks tidak dapat lagi dipilih atau dicari. Anda dapat mengompres audio dalam format WAV, MP3, OGG, M4A, FLAC, dan OPUS menjadi MP3. Anda dapat mengompres video dalam format MP4, WebM, MOV, MKV, AVI, dan M4V menjadi MP4.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Berapa banyak ukuran file akan berkurang dan kontrol apa yang mempengaruhinya?</h3>
+            <p>Ukuran file akhir tergantung pada file dan pengaturan yang dipilih: file yang kaya gambar akan menyusut secara signifikan, tetapi PDF berbasis teks bisa menjadi lebih besar karena halaman dibangun kembali sebagai gambar terkompresi. Untuk gambar, PDF, dan trek audio, Anda dapat menetapkan Target Ukuran File. Pada gambar dan PDF, menurunkan slider Kualitas juga memperkecil ukuran. Untuk audio, memilih bitrate lebih rendah atau mencentang Gabungkan ke mono mengurangi ukuran. Untuk video, Target Ukuran File tidak tersedia, tetapi memilih tingkat Kuat atau mencentang Kurangi ke 720p menghasilkan file yang lebih kecil.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Apakah ada batasan ukuran?</h3>
+            <p>Tidak ada batas ukuran tetap untuk gambar, meskipun foto beresolusi tinggi membutuhkan memori perangkat yang cukup. File audio dapat berukuran hingga 50 MB dan berdurasi hingga 10 menit. File video dapat berukuran hingga 100 MB, berdurasi hingga 5 menit, dan resolusi hingga 1080p.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Mengapa video lebih lambat dan apa yang diunduh?</h3>
+            <p>Kompresi video membutuhkan proses decode dan re-encode setiap frame langsung di perangkat Anda menggunakan WebAssembly, yang bergantung pada prosesor dan memori. Selain itu, mesin video berukuran sekitar 31 MB diunduh saat Anda mengompres video pertama kali, satu kali saja.</p>
         </div>
     </section>
 
