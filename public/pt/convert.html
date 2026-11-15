@@ -15,12 +15,10 @@
      crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Converta imagens (PNG, JPG, WebP, AVIF, GIF, BMP), áudio e vídeo grátis no seu navegador. Sem envio para servidores e sem cadastro.">
+    <meta name="description" content="Converta imagens (PNG, JPG, WebP, AVIF, GIF, BMP), áudio e vídeo grátis no seu navegador. Sem envio para servidores e sem cadastro.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta property="og:title" content="Conversor Grátis: Imagem, Áudio e Vídeo - ImageResizer">
-    <meta property="og:description"
-        content="Converta imagens (PNG, JPG, WebP, AVIF, GIF, BMP), áudio e vídeo grátis no seu navegador. Sem envio para servidores e sem cadastro.">
+    <meta property="og:description" content="Converta imagens (PNG, JPG, WebP, AVIF, GIF, BMP), áudio e vídeo grátis no seu navegador. Sem envio para servidores e sem cadastro.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ImageResizer">
     <meta name="twitter:card" content="summary_large_image">
@@ -39,7 +37,7 @@
     <link rel="alternate" hreflang="id" href="https://www.freeeimageresizer.com/id/convert" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/style.css">
 
@@ -53,7 +51,7 @@
           "name": "O conversor é gratuito e vocês enviam meus arquivos?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sim, o conversor é totalmente gratuito, sem necessidade de cadastro, assinaturas ou marcas d'água. Todo o processamento acontece localmente no seu navegador, portanto seus arquivos nunca são enviados, armazenados ou inspecionados por um servidor remoto."
+            "text": "Sim, o conversor é totalmente gratuito, sem assinaturas, cadastros ou marcas d'água inseridas. Todo o trabalho ocorre localmente no seu navegador, portanto seus arquivos nunca chegam a servidores remotos."
           }
         },
         {
@@ -61,7 +59,7 @@
           "name": "Quais formatos posso converter?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Você pode importar imagens nos formatos PNG, JPG, WebP, GIF, BMP e AVIF e salvar como PNG, JPG ou WebP. Você pode importar áudio nos formatos MP3, WAV, OGG, M4A, FLAC e OPUS e salvar como MP3 ou WAV. Você pode importar vídeo nos formatos MP4, WebM, MOV, MKV, AVI e M4V e salvar como MP4 ou WebM."
+            "text": "Importe imagens em PNG, JPG, WebP, GIF, BMP e AVIF para salvar em PNG, JPG ou WebP. No áudio, você pode carregar MP3, WAV, OGG, M4A, FLAC e OPUS para gerar MP3 ou WAV. Em vídeo, importe MP4, WebM, MOV, MKV, AVI e M4V para exportar em MP4 ou WebM."
           }
         },
         {
@@ -69,7 +67,7 @@
           "name": "Existe limite de tamanho de arquivo?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Não há limite de tamanho fixo para imagens, mas imagens muito pesadas consomem muita memória do navegador e podem travar em dispositivos com pouca memória. Áudio até 50 MB e 10 minutos. Vídeo até 100 MB, 5 minutos e 1080p."
+            "text": "Imagens não possuem limite fixo de tamanho em código, embora fotos imensas exijam bastante memória. Áudio até 50MB (10 minutos). Vídeo até 100MB (5 minutos e 1080p)."
           }
         },
         {
@@ -77,7 +75,7 @@
           "name": "A conversão reduz a qualidade?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Converter para PNG preserva a qualidade sem perdas, enquanto converter para JPG ou WebP aplica compressão com perda conforme o nível de qualidade selecionado. Ao converter imagens com transparência para JPG, as partes transparentes são preenchidas automaticamente com branco sólido."
+            "text": "Salvar em PNG preserva qualidade sem perdas, enquanto converter para JPG ou WebP utiliza compressão com perda conforme o nível ajustado. Ao converter imagens transparentes para JPG, as áreas vazias recebem preenchimento branco sólido."
           }
         },
         {
@@ -85,7 +83,7 @@
           "name": "Por que a conversão de vídeo demora mais do que a de imagens?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "O processamento de vídeo exige computação intensa para decodificar e recodificar cada quadro. Como a codificação roda no seu dispositivo via WebAssembly em vez de servidores em nuvem, a velocidade depende do seu hardware. Além disso, o motor de vídeo só é baixado na sua primeira conversão de vídeo (cerca de 31 MB), apenas uma única vez."
+            "text": "O processamento de vídeo precisa decodificar e recodificar cada quadro individual. Como a codificação roda no seu dispositivo via WebAssembly em vez de servidores em nuvem, a velocidade reflete seu hardware. O componente de vídeo de cerca de 31 MB também é baixado só na primeira conversão, uma única vez."
           }
         }
       ]
@@ -162,7 +160,7 @@
             </div>
             <p class="dropzone-title" id="dropzoneTitle">Arraste e solte sua imagem, áudio ou vídeo para converter o formato</p>
             <p class="dropzone-formats">Formatos suportados: Imagens (PNG, JPG, WebP, GIF, BMP, AVIF), áudio (MP3, WAV, OGG, M4A, FLAC) e vídeo (MP4, WebM, MOV, MKV, AVI). O suporte a áudio e vídeo depende do seu navegador. Se um arquivo não carregar, tente MP3, WAV, MP4 ou WebM. A primeira conversão de vídeo baixa um motor de conversão de cerca de 31 MB. Processamento de vídeo por <a href="/licenses/ffmpeg-NOTICE.txt" target="_blank" rel="noopener">ffmpeg.wasm (GPL-2.0-or-later)</a>. Codificação MP3 por <a href="/licenses/lamejs-LICENSE.txt" target="_blank" rel="noopener">lamejs (LGPL-3.0)</a>.</p>
-            <p class="dropzone-limit">Imagens não têm limite fixo de tamanho, áudio 50MB (até 10 minutos), vídeo 100MB (até 5 minutos).</p>
+            <p class="dropzone-limit">Imagens sem limite fixo, áudio 50MB (até 10 minutos), vídeo 100MB (até 5 minutos).</p>
             <button class="btn-select" id="selectImagesBtn">Selecionar imagem, áudio ou vídeo</button>
             <input type="file" id="fileInput" accept="image/*,audio/*,video/*,.mkv,.mov,.m4v,.avi" hidden>
             <p class="dropzone-privacy">
@@ -176,7 +174,7 @@
         </div>
     </section>
 
-    <!-- Settings & Interactive Format Conversion Panel -->
+    <!-- Settings and Interactive Format Conversion Panel -->
     <section class="settings-section" id="settingsSection" style="display:none; padding:40px 24px; max-width:960px; margin:0 auto;">
         <div style="background:var(--bg-white); border:1px solid var(--border); border-radius:var(--radius-xl); padding:32px; box-shadow:var(--shadow-md);">
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:32px; align-items:start;">
@@ -198,7 +196,7 @@
                             <span style="font-size:12px; color:var(--text-muted); text-transform:uppercase; font-weight:700; display:block;">Formato Original</span>
                             <strong id="originalFormat" style="font-size:16px; color:var(--text-primary);">JPG</strong>
                         </div>
-                        <div style="font-size:20px; color:var(--text-muted);">&rarr;</div>
+                        <div style="font-size:20px; color:var(--text-muted);">&#8594;</div>
                         <div>
                             <span style="font-size:12px; color:var(--text-muted); text-transform:uppercase; font-weight:700; display:block;">Formato Destino</span>
                             <strong id="targetFormat" style="font-size:16px; color:var(--primary);">PNG</strong>
@@ -239,38 +237,38 @@
         </div>
     </section>
 
-        <!-- SEO Content Section -->
+                <!-- SEO Content Section -->
     <section class="content-section">
         <div class="content-container">
             <h2 class="content-heading">O que este conversor pode fazer?</h2>
-            <p>O conversor do ImageResizer altera o formato de imagens, áudio e vídeo diretamente no seu navegador, sem necessidade de instalar programas. Converta imagens de PNG, JPG, WebP, GIF, BMP ou AVIF para PNG, JPG ou WebP. Converta faixas de áudio de MP3, WAV, OGG, M4A, FLAC ou OPUS para MP3 ou WAV, e converta vídeos de MP4, WebM, MOV, MKV, AVI ou M4V para MP4 ou WebM. Seus arquivos são processados integralmente no seu dispositivo e nunca são enviados para um servidor.</p>
+            <p>O conversor do ImageResizer altera o formato de imagens, áudio e vídeo diretamente no seu navegador sem instalar programas. Mude fotos nos formatos PNG, JPG, WebP, GIF, BMP ou AVIF para PNG, JPG ou WebP. Na parte sonora, passe faixas em MP3, WAV, OGG, M4A, FLAC ou OPUS para MP3 ou WAV. Já gravações em MP4, WebM, MOV, MKV, AVI ou M4V são convertidas para MP4 ou WebM. Todos os arquivos são processados no seu dispositivo sem envio para servidores externos.</p>
 
             <h2 class="content-heading">Como funciona</h2>
             <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
-                <li style="margin-bottom: 8px;">Escolha ou arraste um arquivo do seu dispositivo.</li>
-                <li style="margin-bottom: 8px;">Defina o formato de saída e ajuste as opções de qualidade ou taxa de bits.</li>
-                <li style="margin-bottom: 8px;">Clique em Converter e baixe o resultado.</li>
+                <li style="margin-bottom: 8px;">Selecione ou arraste um arquivo do seu computador ou celular.</li>
+                <li style="margin-bottom: 8px;">Defina o formato de saída desejado e ajuste qualidade ou bitrate.</li>
+                <li style="margin-bottom: 8px;">Clique em Converter e baixe o resultado pronto.</li>
             </ol>
-            <p>As conversões funcionam localmente no seu aparelho utilizando padrões web. As imagens são processadas pelo Canvas do navegador. O áudio é codificado em um Web Worker em segundo plano com lamejs para MP3 e PCM bruto para WAV. O vídeo é convertido pelo FFmpeg rodando em WebAssembly. O motor de vídeo é baixado apenas quando você inicia uma conversão de vídeo, um download de cerca de 31 MB que acontece exclusivamente na primeira vez.</p>
+            <p>As conversões funcionam localmente no seu computador através de tecnologias web. Imagens são processadas pelo Canvas do navegador. O áudio é codificado em segundo plano por um Web Worker usando lamejs para MP3 e PCM puro para WAV. Vídeos são convertidos via FFmpeg em WebAssembly. O módulo de vídeo tem cerca de 31 MB e o download ocorre apenas na sua primeira conversão, uma única vez.</p>
 
             <h2 class="content-heading">Limites</h2>
-            <p>Não existe um limite fixo de tamanho para imagens, mas imagens muito grandes usam bastante memória do navegador e podem falhar em aparelhos mais modestos. Áudio até 50 MB e 10 minutos. Vídeo até 100 MB, 5 minutos e 1080p. Como a conversão de vídeo roda no seu próprio computador e não na nuvem, o processamento de arquivos maiores depende da velocidade e memória do seu dispositivo; mantenha a aba aberta até concluir.</p>
+            <p>Não há limite fixo de tamanho para imagens, mas figuras gigantescas utilizam muita memória do navegador e podem falhar em aparelhos modestos. Faixas de áudio aceitam até 50 MB e 10 minutos. Arquivos de vídeo aceitam até 100 MB, 5 minutos e resolução 1080p. Como a conversão de vídeo roda no seu próprio hardware, o tempo depende do seu processador; mantenha a aba aberta até o fim.</p>
 
             <h2 class="content-heading">Perguntas frequentes</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">O conversor é gratuito e vocês enviam meus arquivos?</h3>
-            <p>Sim, o conversor é totalmente gratuito, sem necessidade de cadastro, assinaturas ou marcas d'água. Todo o processamento acontece localmente no seu navegador, portanto seus arquivos nunca são enviados, armazenados ou inspecionados por um servidor remoto.</p>
+            <p>Sim, o conversor é totalmente gratuito, sem assinaturas, cadastros ou marcas d'água inseridas. Todo o trabalho ocorre localmente no seu navegador, portanto seus arquivos nunca chegam a servidores remotos.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Quais formatos posso converter?</h3>
-            <p>Você pode importar imagens nos formatos PNG, JPG, WebP, GIF, BMP e AVIF e salvar como PNG, JPG ou WebP. Você pode importar áudio nos formatos MP3, WAV, OGG, M4A, FLAC e OPUS e salvar como MP3 ou WAV. Você pode importar vídeo nos formatos MP4, WebM, MOV, MKV, AVI e M4V e salvar como MP4 ou WebM.</p>
+            <p>Importe imagens em PNG, JPG, WebP, GIF, BMP e AVIF para salvar em PNG, JPG ou WebP. No áudio, você pode carregar MP3, WAV, OGG, M4A, FLAC e OPUS para gerar MP3 ou WAV. Em vídeo, importe MP4, WebM, MOV, MKV, AVI e M4V para exportar em MP4 ou WebM.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Existe limite de tamanho de arquivo?</h3>
-            <p>Não há limite de tamanho fixo para imagens, mas imagens muito pesadas consomem muita memória do navegador e podem travar em dispositivos com pouca memória. Áudio até 50 MB e 10 minutos. Vídeo até 100 MB, 5 minutos e 1080p.</p>
+            <p>Imagens não possuem limite fixo de tamanho em código, embora fotos imensas exijam bastante memória. Áudio até 50MB (10 minutos). Vídeo até 100MB (5 minutos e 1080p).</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">A conversão reduz a qualidade?</h3>
-            <p>Converter para PNG preserva a qualidade sem perdas, enquanto converter para JPG ou WebP aplica compressão com perda conforme o nível de qualidade selecionado. Ao converter imagens com transparência para JPG, as partes transparentes são preenchidas automaticamente com branco sólido.</p>
+            <p>Salvar em PNG preserva qualidade sem perdas, enquanto converter para JPG ou WebP utiliza compressão com perda conforme o nível ajustado. Ao converter imagens transparentes para JPG, as áreas vazias recebem preenchimento branco sólido.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Por que a conversão de vídeo demora mais do que a de imagens?</h3>
-            <p>O processamento de vídeo exige computação intensa para decodificar e recodificar cada quadro. Como a codificação roda no seu dispositivo via WebAssembly em vez de servidores em nuvem, a velocidade depende do seu hardware. Além disso, o motor de vídeo só é baixado na sua primeira conversão de vídeo (cerca de 31 MB), apenas uma única vez.</p>
+            <p>O processamento de vídeo precisa decodificar e recodificar cada quadro individual. Como a codificação roda no seu dispositivo via WebAssembly em vez de servidores em nuvem, a velocidade reflete seu hardware. O componente de vídeo de cerca de 31 MB também é baixado só na primeira conversão, uma única vez.</p>
 
         </div>
     </section>
@@ -292,7 +290,7 @@
                     <p class="footer-text">Free online image converter and resizer.</p>
                 </div>
                 <div class="footer-col">
-                    <h4 class="footer-col-title">Recortar & Redimensionar</h4>
+                    <h4 class="footer-col-title">Recortar &amp; Redimensionar</h4>
                     <a href="/pt/" class="footer-link">Redimensionar</a>
                     <a href="/pt/crop" class="footer-link">Recortar</a>
                     <a href="/pt/compress" class="footer-link">Comprimir</a>
@@ -306,7 +304,7 @@
                     <a href="/terms" class="footer-link">Termos de Uso</a>
                 </div>
             </div>
-            <p class="footer-copy">&copy; 2026 ImageResizer. All rights reserved.</p>
+            <p class="footer-copy">&#169; 2026 ImageResizer. All rights reserved.</p>
         </div>
     </footer>
 
