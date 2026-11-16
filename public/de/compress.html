@@ -80,7 +80,7 @@
           "name": "Gibt es eine Größenbeschränkung?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Für Bilder gibt es kein festes Limit im Code, sehr hohe Auflösungen verlangen aber ausreichend Arbeitsspeicher. Audiodateien unterstützen bis zu 50MB und 10 Minuten. Videodateien sind auf 100MB, 5 Minuten und 1080p begrenzt."
+            "text": "Für Bilder gibt es kein festes Limit, sehr hohe Auflösungen verlangen aber ausreichend Arbeitsspeicher. Audiodateien unterstützen bis zu 50MB und 10 Minuten. Videodateien sind auf 100MB, 5 Minuten und 1080p begrenzt."
           }
         },
         {
@@ -253,7 +253,7 @@
     <section class="content-section">
         <div class="content-container">
             <h2 class="content-heading">Was kann dieser Kompressor?</h2>
-            <p>Der Kompressor von ImageResizer verringert den Speicherbedarf von Bildern, PDF-Dokumenten, Tonspuren und Videos direkt in Ihrem Webbrowser. Verkleinern Sie Fotos der Formate PNG, JPG, WebP, GIF, BMP oder AVIF und speichern Sie diese als WebP, JPG oder PNG. Mehrseitige PDF-Dokumente lassen sich über die Bildqualität jeder Seite regulieren. Tonaufnahmen in WAV, MP3, OGG, M4A, FLAC oder OPUS wandeln Sie mit Bitrate-Kontrolle und Mono-Mixdown in sparsame MP3-Dateien um. Videodateien in MP4, WebM, MOV, MKV, AVI oder M4V schrumpfen zu handlichen MP4-Dateien. Alle Daten verbleiben lokal auf Ihrem Computer ohne Serverübertragung.</p>
+            <p>Der Kompressor von ImageResizer verringert den Speicherbedarf von Bildern, PDF-Dokumenten, Tonspuren und Videos direkt in Ihrem Webbrowser. Verkleinern Sie Fotos der Formate PNG, JPG, WebP, GIF, BMP oder AVIF und speichern Sie diese als WebP, JPG oder PNG. Mehrseitige PDF-Dokumente lassen sich über die Bildqualität jeder Seite regulieren. Tonaufnahmen in WAV, MP3, OGG, M4A, FLAC oder OPUS wandeln Sie mit Bitrate-Kontrolle und Mono-Mixdown in sparsame MP3-Dateien um. Videodateien in MP4, WebM, MOV, MKV, AVI oder M4V schrumpfen zu handlichen MP4-Dateien. Alle Dateien bleiben lokal auf Ihrem Computer und werden nicht auf einen Server hochgeladen.</p>
 
             <h2 class="content-heading">So funktioniert es</h2>
             <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
@@ -264,7 +264,7 @@
             <p>Die Komprimierung erfolgt direkt auf Ihrem Gerät über Webstandards. Bilder verarbeitet die Canvas-2D-Schnittstelle gemäß Ihren Vorgaben. Da PNG ein verlustfreies Format ist, kann das Ergebnis größer als die Quelldatei ausfallen; greifen Sie zu WebP oder JPG für kleinere Dateien. PDF-Dateien werden über pdf.js gerendert und mit pdf-lib neu aufgebaut. Audiodateien encodiert ein Web Worker im Hintergrund mit lamejs als MP3 mit der gewünschten Bitrate. Videoclips komprimiert FFmpeg über WebAssembly. Das Videomodul umfasst etwa 31 MB und lädt ausschließlich beim ersten Start einer Videokompression einmalig herunter.</p>
 
             <h2 class="content-heading">Einschränkungen</h2>
-            <p>Im Code existiert keine feste Obergrenze für Bilder, riesige Abmessungen beanspruchen jedoch viel RAM und können auf einfachen Geräten abbrechen. PDF-Dateien werden Seite für Seite ohne starre Blattbegrenzung abgearbeitet; textbasierte PDFs können jedoch wachsen, weil Seiten zu Rasterbildern ohne markierbaren Text umgebaut werden. Audiodateien sind auf 50 MB und 10 Minuten begrenzt. Videos unterstützen bis zu 100 MB, 5 Minuten Laufzeit und 1080p Auflösung. Auf 720p reduzieren greift nur bei Videos über 720p: Clips bis 60 Sekunden bleiben in Originalauflösung, während längere Clips auf 720p beschränkt werden.</p>
+            <p>Es existiert keine feste Obergrenze für Bilder, riesige Abmessungen beanspruchen jedoch viel RAM und können auf einfachen Geräten abbrechen. PDF-Dateien werden Seite für Seite ohne starre Blattbegrenzung abgearbeitet; textbasierte PDFs können jedoch wachsen, weil Seiten zu Rasterbildern ohne markierbaren Text umgebaut werden. Audiodateien sind auf 50 MB und 10 Minuten begrenzt. Videos unterstützen bis zu 100 MB, 5 Minuten Laufzeit und 1080p Auflösung. Auf 720p reduzieren greift nur bei Videos über 720p: Clips bis 60 Sekunden bleiben in Originalauflösung, während längere Clips auf 720p beschränkt werden.</p>
 
             <h2 class="content-heading">Häufig gestellte Fragen</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Ist der Kompressor kostenlos und werden Dateien hochgeladen?</h3>
@@ -277,7 +277,7 @@
             <p>Die Einsparung hängt vom Ausgangsmaterial ab. Bereits hochkomprimierte Dateien lassen sich kaum weiter verkleinern, und textlastige PDFs können sogar anwachsen. Für Bilder, PDFs und Audio können Sie eine Zielgröße festlegen. Ein geringerer Qualitätsregler spart bei Bildern und PDF Speicher. Im Audiobereich senken geringere Bitraten oder Mono-Mixdown den Verbrauch. Bei Videos liefern die Stufe Stark oder die Option Auf 720p reduzieren kleinere Resultate.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Gibt es eine Größenbeschränkung?</h3>
-            <p>Für Bilder gibt es kein festes Limit im Code, sehr hohe Auflösungen verlangen aber ausreichend Arbeitsspeicher. Audiodateien unterstützen bis zu 50MB und 10 Minuten. Videodateien sind auf 100MB, 5 Minuten und 1080p begrenzt.</p>
+            <p>Für Bilder gibt es kein festes Limit, sehr hohe Auflösungen verlangen aber ausreichend Arbeitsspeicher. Audiodateien unterstützen bis zu 50MB und 10 Minuten. Videodateien sind auf 100MB, 5 Minuten und 1080p begrenzt.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Warum dauert Video länger und was wird geladen?</h3>
             <p>Videos erfordern das Dekodieren und erneute Encodieren jedes Bildes direkt auf Ihrer CPU per WebAssembly. Zudem lädt das etwa 31 MB große Videopaket nur beim ersten Videodurchlauf einmalig herunter.</p>

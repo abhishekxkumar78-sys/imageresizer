@@ -97,7 +97,7 @@
           "name": "Quais são os limites para imagens, PDF e vídeo?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Fotos não têm limite fixo de peso, mas resoluções imensas demandam memória. Documentos PDF não contam com limite de páginas no código. Vídeos são limitados a 100MB, 5 minutos e resolução 1080p. Clipes acima de 720p com mais de 60 segundos passam para 720p."
+            "text": "Fotos não têm limite fixo de peso, mas resoluções imensas demandam memória. Documentos PDF não contam com limite fixo de páginas. Vídeos são limitados a 100MB, 5 minutos e resolução 1080p. Clipes acima de 720p com mais de 60 segundos passam para 720p."
           }
         },
         {
@@ -339,7 +339,7 @@
             <p>As marcas d'água são geradas localmente no seu computador sem comunicação externa. Em fotos, o navegador desenha o texto sobre a imagem usando Canvas 2D. Nos documentos PDF, os fluxos internos são alterados via pdf-lib e pdf.js para inserir texto vetorial nas páginas escolhidas. Em gravações de vídeo, o texto é composto quadro a quadro através do FFmpeg em WebAssembly. O pacote de vídeo ocupa cerca de 31 MB e o download acontece somente no seu primeiro uso com vídeo, uma única vez.</p>
 
             <h2 class="content-heading">Limites</h2>
-            <p>Não há limite fixo de tamanho para imagens no código, embora resoluções extremas demandem memória livre. Documentos PDF funcionam página a página sem limite de folhas, exigindo mais tempo de máquina com arquivos extensos. Vídeos devem possuir 100 MB ou menos, 5 minutos ou menos e resolução até 1080p. A opção Reduzir para 720p só atua em vídeos acima de 720p: clipes de 60 segundos ou menos preservam resolução total, enquanto vídeos com mais de 60 segundos usam 720p para economizar memória. Por rodar no seu computador, o tempo depende do hardware.</p>
+            <p>Não há limite fixo de tamanho para imagens, embora resoluções extremas demandem memória livre. Documentos PDF funcionam página a página sem limite de folhas, exigindo mais tempo de máquina com arquivos extensos. Vídeos devem possuir 100 MB ou menos, 5 minutos ou menos e resolução até 1080p. A opção Reduzir para 720p só atua em vídeos acima de 720p: clipes de 60 segundos ou menos preservam resolução total, enquanto vídeos com mais de 60 segundos usam 720p para economizar memória. Por rodar no seu computador, o tempo depende do hardware.</p>
 
             <h2 class="content-heading">Perguntas frequentes</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">A ferramenta de marca d'água é gratuita e vocês guardam meus arquivos?</h3>
@@ -352,7 +352,7 @@
             <p>É possível escolher o texto, posicionar no Centro ou cantos, ajustar o controle de tamanho da fonte, definir transparência entre 5% e 100% e selecionar cor. Em PDF, marque todas as páginas ou páginas avulsas. Em vídeo, defina qualidade Alta, Média ou Baixa.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Quais são os limites para imagens, PDF e vídeo?</h3>
-            <p>Fotos não têm limite fixo de peso, mas resoluções imensas demandam memória. Documentos PDF não contam com limite de páginas no código. Vídeos são limitados a 100MB, 5 minutos e resolução 1080p. Clipes acima de 720p com mais de 60 segundos passam para 720p.</p>
+            <p>Fotos não têm limite fixo de peso, mas resoluções imensas demandam memória. Documentos PDF não contam com limite fixo de páginas. Vídeos são limitados a 100MB, 5 minutos e resolução 1080p. Clipes acima de 720p com mais de 60 segundos passam para 720p.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Como o vídeo é marcado e por que demora mais?</h3>
             <p>A marcação de vídeo precisa decodificar cada quadro, aplicar a camada de texto e recodificar toda a mídia localmente com WebAssembly. Esse trabalho roda na sua própria CPU e não na nuvem. O pacote de processamento de cerca de 31 MB é baixado apenas no primeiro vídeo marcado, uma única vez.</p>

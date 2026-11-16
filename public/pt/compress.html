@@ -80,7 +80,7 @@
           "name": "Existe um limite de tamanho?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Imagens não possuem limite fixo no código, mas resoluções imensas exigem memória livre. Arquivos de áudio aceitam até 50MB e 10 minutos. Arquivos de vídeo aceitam até 100MB, 5 minutos e resolução até 1080p."
+            "text": "Imagens não possuem limite fixo de tamanho, mas resoluções imensas exigem memória livre. Arquivos de áudio aceitam até 50MB e 10 minutos. Arquivos de vídeo aceitam até 100MB, 5 minutos e resolução até 1080p."
           }
         },
         {
@@ -253,7 +253,7 @@
     <section class="content-section">
         <div class="content-container">
             <h2 class="content-heading">O que este compressor pode fazer?</h2>
-            <p>O compressor do ImageResizer diminui o tamanho de imagens, documentos PDF, faixas sonoras e vídeos diretamente no seu navegador. Otimize fotos em PNG, JPG, WebP, GIF, BMP ou AVIF salvando em WebP, JPG ou PNG. Documentos PDF de várias páginas são reduzidos com controle de renderização por página. Para áudio, converta gravações em WAV, MP3, OGG, M4A, FLAC ou OPUS para MP3 econômicos com controle de bitrate e mixdown mono. Em vídeo, diminua arquivos em MP4, WebM, MOV, MKV, AVI ou M4V para MP4 leves. Todo o processo roda no seu dispositivo sem envio de dados a servidores.</p>
+            <p>O compressor do ImageResizer diminui o tamanho de imagens, documentos PDF, faixas sonoras e vídeos diretamente no seu navegador. Otimize fotos em PNG, JPG, WebP, GIF, BMP ou AVIF salvando em WebP, JPG ou PNG. Documentos PDF de várias páginas são reduzidos com controle de renderização por página. Para áudio, converta gravações em WAV, MP3, OGG, M4A, FLAC ou OPUS para MP3 econômicos com controle de bitrate e mixdown mono. Em vídeo, diminua arquivos em MP4, WebM, MOV, MKV, AVI ou M4V para MP4 leves. Todo o processo roda no seu dispositivo sem enviar arquivos a servidores.</p>
 
             <h2 class="content-heading">Como funciona</h2>
             <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
@@ -264,7 +264,7 @@
             <p>A compressão opera localmente usando tecnologias web. O navegador trata imagens através do Canvas 2D conforme a qualidade e formato escolhidos. Como o formato PNG é sem perdas, ele pode ficar maior que o original; prefira WebP ou JPG para economizar espaço. No caso de PDF, as páginas são lidas pelo pdf.js e remontadas pelo pdf-lib. Áudios são codificados em segundo plano com lamejs para MP3 de acordo com o bitrate. Vídeos são comprimidos pelo FFmpeg sob WebAssembly. O módulo de vídeo tem cerca de 31 MB e o download acontece só na primeira conversão de vídeo, uma única vez.</p>
 
             <h2 class="content-heading">Limites</h2>
-            <p>Não existe limite de tamanho fixo para imagens no código, mas fotos enormes exigem bastante memória e podem travar em celulares simples. Documentos PDF são processados página a página sem limite de folhas, mas PDFs de texto podem crescer ao virar páginas rasterizadas onde o texto não pode ser selecionado. Áudio aceita até 50 MB e 10 minutos. Vídeo aceita até 100 MB, 5 minutos e resolução 1080p. Reduzir para 720p só se aplica a vídeos acima de 720p: clipes de 60 segundos ou menos rodam em resolução integral, enquanto vídeos acima de 60 segundos ficam restritos a 720p para poupar memória.</p>
+            <p>Não existe limite de tamanho fixo para imagens, mas fotos enormes exigem bastante memória e podem travar em celulares simples. Documentos PDF são processados página a página sem limite de folhas, mas PDFs de texto podem crescer ao virar páginas rasterizadas onde o texto não pode ser selecionado. Áudio aceita até 50 MB e 10 minutos. Vídeo aceita até 100 MB, 5 minutos e resolução 1080p. Reduzir para 720p só se aplica a vídeos acima de 720p: clipes de 60 segundos ou menos rodam em resolução integral, enquanto vídeos acima de 60 segundos ficam restritos a 720p para poupar memória.</p>
 
             <h2 class="content-heading">Perguntas frequentes</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">O compressor é gratuito e vocês enviam meus arquivos?</h3>
@@ -277,7 +277,7 @@
             <p>A redução depende do arquivo original. Arquivos já compactados quase não diminuem, e PDFs de texto podem até crescer. Em imagens, PDF e áudio você pode definir um tamanho de arquivo alvo. Reduzir a barra de qualidade em imagens e PDF também diminui o tamanho. Para áudio, bitrates menores ou mixar para mono geram arquivos mais leves. No vídeo, escolher compressão Forte ou ativar Reduzir para 720p produz arquivos menores.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Existe um limite de tamanho?</h3>
-            <p>Imagens não possuem limite fixo no código, mas resoluções imensas exigem memória livre. Arquivos de áudio aceitam até 50MB e 10 minutos. Arquivos de vídeo aceitam até 100MB, 5 minutos e resolução até 1080p.</p>
+            <p>Imagens não possuem limite fixo de tamanho, mas resoluções imensas exigem memória livre. Arquivos de áudio aceitam até 50MB e 10 minutos. Arquivos de vídeo aceitam até 100MB, 5 minutos e resolução até 1080p.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Por que o vídeo é mais lento e o que é baixado?</h3>
             <p>Comprimir vídeo exige decodificar e recodificar cada quadro diretamente no seu processador via WebAssembly. Além disso, o pacote de vídeo de cerca de 31 MB é baixado apenas na sua primeira compressão de vídeo, uma única vez.</p>

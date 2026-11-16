@@ -80,7 +80,7 @@
           "name": "Existe-t-il une limite de taille ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Aucun plafond fixe n'est imposé aux images en code, bien que les hautes résolutions demandent de la mémoire. Les fichiers audio acceptent jusqu'à 50MB et 10 minutes. Les fichiers vidéo supportent jusqu'à 100MB, 5 minutes et jusqu'à 1080p."
+            "text": "Aucun plafond fixe n'est imposé aux images, bien que les hautes résolutions demandent de la mémoire. Les fichiers audio acceptent jusqu'à 50MB et 10 minutes. Les fichiers vidéo supportent jusqu'à 100MB, 5 minutes et jusqu'à 1080p."
           }
         },
         {
@@ -264,7 +264,7 @@
             <p>La compression s'exécute localement grâce aux standards web récents. Votre navigateur traite les images via Canvas 2D en fonction de la qualité sélectionnée. Le format PNG étant sans perte, le fichier produit peut être plus lourd que l'original ; privilégiez WebP ou JPG pour gagner de la place. Côté PDF, les pages sont traitées par pdf.js puis réassemblées avec pdf-lib. Les pistes audio sont encodées par un Web Worker avec lamejs au débit souhaité. Les vidéos sont traitées par FFmpeg sous WebAssembly. Le composant vidéo pèse environ 31 MB et ne se télécharge qu'à votre premier traitement vidéo, une seule fois.</p>
 
             <h2 class="content-heading">Limites</h2>
-            <p>Il n'y a pas de plafond de taille fixe pour les images en code, mais les visuels très volumineux consomment la mémoire du navigateur. Les documents PDF sont traités page par page sans limite de feuilles, mais les PDF textuels peuvent grossir une fois reconstruits sous forme d'images dont le texte ne peut plus être sélectionné. L'audio accepte jusqu'à 50 MB et 10 minutes. La vidéo supporte jusqu'à 100 MB, 5 minutes et 1080p. Réduire à 720p concerne uniquement les vidéos dépassant 720p : les clips de 60 secondes ou moins conservent leur résolution, tandis que ceux de plus de 60 secondes passent en 720p pour préserver la mémoire.</p>
+            <p>Il n'y a pas de plafond de taille fixe pour les images, mais les visuels très volumineux consomment la mémoire du navigateur. Les documents PDF sont traités page par page sans limite de feuilles, mais les PDF textuels peuvent grossir une fois reconstruits sous forme d'images dont le texte ne peut plus être sélectionné. L'audio accepte jusqu'à 50 MB et 10 minutes. La vidéo supporte jusqu'à 100 MB, 5 minutes et 1080p. Réduire à 720p concerne uniquement les vidéos dépassant 720p : les clips de 60 secondes ou moins conservent leur résolution, tandis que ceux de plus de 60 secondes passent en 720p pour préserver la mémoire.</p>
 
             <h2 class="content-heading">Foire aux questions</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Le compresseur est-il gratuit et conservez-vous mes fichiers ?</h3>
@@ -277,7 +277,7 @@
             <p>Le gain dépend de la nature du fichier. Les éléments déjà optimisés ne réduisent presque pas, et les PDF de texte peuvent prendre du poids. Sur les images, les PDF et l'audio, vous pouvez fixer une taille cible. Baisser le curseur de qualité sur les images et PDF réduit aussi le poids. Pour l'audio, choisir un débit plus bas ou cocher le mixage mono allège le fichier. En vidéo, le profil Fort ou la case Réduire à 720p donnent de meilleurs résultats.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Existe-t-il une limite de taille ?</h3>
-            <p>Aucun plafond fixe n'est imposé aux images en code, bien que les hautes résolutions demandent de la mémoire. Les fichiers audio acceptent jusqu'à 50MB et 10 minutes. Les fichiers vidéo supportent jusqu'à 100MB, 5 minutes et jusqu'à 1080p.</p>
+            <p>Aucun plafond fixe n'est imposé aux images, bien que les hautes résolutions demandent de la mémoire. Les fichiers audio acceptent jusqu'à 50MB et 10 minutes. Les fichiers vidéo supportent jusqu'à 100MB, 5 minutes et jusqu'à 1080p.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Pourquoi la vidéo est-elle plus longue et que télécharge-t-on ?</h3>
             <p>La vidéo requiert de recalculer chaque image sur votre processeur via WebAssembly. De plus, le moteur vidéo d'environ 31 MB se télécharge uniquement lors de votre premier traitement vidéo, une seule fois.</p>

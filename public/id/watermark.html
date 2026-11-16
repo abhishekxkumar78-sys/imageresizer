@@ -97,7 +97,7 @@
           "name": "Apa batasan untuk gambar, PDF, dan video?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Gambar tidak memiliki batas ukuran tetap di kode, namun resolusi tinggi memerlukan memori peramban yang cukup. Berkas PDF diproses halaman demi halaman tanpa batas lembar kaku. Video dibatasi hingga 100MB, durasi 5 menit, dan resolusi 1080p. Video di atas 720p dengan durasi lebih dari 60 detik disesuaikan ke 720p."
+            "text": "Gambar tidak memiliki batas ukuran tetap, namun resolusi tinggi memerlukan memori peramban yang cukup. Berkas PDF diproses halaman demi halaman tanpa batas lembar kaku. Video dibatasi hingga 100MB, durasi 5 menit, dan resolusi 1080p. Video di atas 720p dengan durasi lebih dari 60 detik disesuaikan ke 720p."
           }
         },
         {
@@ -328,7 +328,7 @@
     <section class="content-section">
         <div class="content-container">
             <h2 class="content-heading">Apa yang bisa dilakukan alat watermark ini?</h2>
-            <p>Alat watermark ImageResizer menyematkan tanda teks kustom pada gambar, dokumen PDF, dan klip video langsung di peramban web Anda. Bubuhkan pemberitahuan hak cipta, nama kreator, atau label merek pada foto berformat PNG, JPG, WebP, GIF, BMP, atau AVIF. Untuk dokumen PDF multipage, tambahkan tanda teks pada seluruh halaman maupun rentang nomor tertentu. Rekaman video berformat MP4, WebM, MOV, MKV, AVI, atau M4V diberi hamparan teks lalu diekspor sebagai berkas MP4. Seluruh pengerjaan berlangsung di perangkat Anda dengan privasi utuh tanpa pernah mengirim berkas ke server luar.</p>
+            <p>Alat watermark ImageResizer menyematkan teks watermark kustom pada gambar, dokumen PDF, dan klip video langsung di peramban web Anda. Bubuhkan pemberitahuan hak cipta, nama kreator, atau label merek pada foto berformat PNG, JPG, WebP, GIF, BMP, atau AVIF. Untuk dokumen PDF multipage, tambahkan teks watermark pada seluruh halaman maupun rentang nomor tertentu. Rekaman video berformat MP4, WebM, MOV, MKV, AVI, atau M4V diberi teks overlay lalu diekspor sebagai berkas MP4. Seluruh pengerjaan berlangsung di perangkat Anda dengan privasi utuh tanpa pernah mengirim berkas ke server luar.</p>
 
             <h2 class="content-heading">Cara kerja</h2>
             <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
@@ -339,7 +339,7 @@
             <p>Pemberian watermark berjalan secara lokal di perangkat Anda tanpa komunikasi ke server luar. Untuk gambar, browser melukiskan teks langsung di atas foto menggunakan Canvas 2D. Di berkas PDF, struktur dokumen diolah memakai pdf-lib dan pdf.js untuk menempatkan teks vektor di setiap lembar yang dipilih. Rekaman video digabungkan bingkai demi bingkai memakai FFmpeg di WebAssembly. Modul pemrosesan video berukuran sekitar 31 MB dan hanya diunduh saat pertama kali menjalankan watermark video, sekali saja.</p>
 
             <h2 class="content-heading">Batasan</h2>
-            <p>Tidak ada batas ukuran biner tetap untuk gambar di dalam kode, tetapi dimensi foto raksasa membutuhkan alokasi memori yang memadai. Berkas PDF tidak memiliki batas halaman kaku di kode, namun dokumen tebal memerlukan waktu render lebih lama. Berkas video harus berukuran 100 MB atau kurang, durasi 5 menit atau kurang, serta resolusi tidak melebihi 1080p. Opsi perkecil ke 720p hanya berlaku pada video di atas 720p: klip 60 detik atau kurang diproses pada resolusi penuh, sedangkan klip di atas 60 detik dikunci ke 720p untuk menjaga memori. Waktu pemrosesan bergantung pada kinerja prosesor Anda.</p>
+            <p>Tidak ada batas ukuran tetap untuk gambar, tetapi dimensi foto raksasa membutuhkan alokasi memori yang memadai. Berkas PDF tidak memiliki batas halaman kaku, namun dokumen tebal memerlukan waktu render lebih lama. Berkas video harus berukuran 100 MB atau kurang, durasi 5 menit atau kurang, serta resolusi tidak melebihi 1080p. Opsi perkecil ke 720p hanya berlaku pada video di atas 720p: klip 60 detik atau kurang diproses pada resolusi penuh, sedangkan klip di atas 60 detik dikunci ke 720p untuk menjaga memori. Waktu pemrosesan bergantung pada kinerja prosesor Anda.</p>
 
             <h2 class="content-heading">Pertanyaan yang Sering Diajukan</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Apakah alat watermark ini gratis dan berkas saya diunggah?</h3>
@@ -352,7 +352,7 @@
             <p>Anda bisa menyesuaikan teks watermark, memilih posisi di Tengah atau empat sudut, mengatur ukuran font melalui slider, mengubah opasitas dari 5% hingga 100%, serta menentukan warna teks. Pada PDF, pilih Semua Halaman atau nomor lembar tertentu. Pada video, pilih mutu Tinggi, Sedang, atau Rendah.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Apa batasan untuk gambar, PDF, dan video?</h3>
-            <p>Gambar tidak memiliki batas ukuran tetap di kode, namun resolusi tinggi memerlukan memori peramban yang cukup. Berkas PDF diproses halaman demi halaman tanpa batas lembar kaku. Video dibatasi hingga 100MB, durasi 5 menit, dan resolusi 1080p. Video di atas 720p dengan durasi lebih dari 60 detik disesuaikan ke 720p.</p>
+            <p>Gambar tidak memiliki batas ukuran tetap, namun resolusi tinggi memerlukan memori peramban yang cukup. Berkas PDF diproses halaman demi halaman tanpa batas lembar kaku. Video dibatasi hingga 100MB, durasi 5 menit, dan resolusi 1080p. Video di atas 720p dengan durasi lebih dari 60 detik disesuaikan ke 720p.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Bagaimana video diberi watermark dan mengapa lebih lambat?</h3>
             <p>Pemberian watermark pada video membutuhkan penguraian setiap bingkai, pelapisan teks, dan pengodean ulang seluruh rekaman secara lokal lewat WebAssembly. Komputasi ini bekerja di komputer Anda, bukan di server cloud. Selain itu, modul video sekitar 31 MB hanya diunduh saat pertama kali menjalankan watermark video.</p>

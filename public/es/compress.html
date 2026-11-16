@@ -79,7 +79,7 @@
           "name": "¿Hay algún límite de tamaño?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Las imágenes no tienen límite fijo en código, aunque fotos de gran resolución demandan memoria del equipo. Los archivos de audio admiten hasta 50MB y 10 minutos. Los videos admiten hasta 100MB, 5 minutos y hasta 1080p de resolución."
+            "text": "Las imágenes no tienen un límite de tamaño fijo, aunque fotos de gran resolución demandan memoria del equipo. Los archivos de audio admiten hasta 50MB y 10 minutos. Los videos admiten hasta 100MB, 5 minutos y hasta 1080p de resolución."
           }
         },
         {
@@ -263,7 +263,7 @@
             <p>La compresión opera localmente mediante tecnologías web modernas. El navegador procesa imágenes y gráficos con su motor Canvas 2D según el formato y calidad elegidos. La salida en PNG es sin pérdida, por lo que puede resultar más pesada que el original; prefiere WebP o JPG para ahorrar espacio. Para PDF, se extraen las páginas con pdf.js y se recompone un documento con pdf-lib. Las pistas de audio se codifican en un Web Worker en segundo plano con lamejs a MP3 según el bitrate seleccionado. Los videos se reducen con FFmpeg ejecutado en WebAssembly. El motor de video ocupa unos 31 MB y se descarga únicamente cuando inicias tu primera compresión de video, una sola vez.</p>
 
             <h2 class="content-heading">Límites</h2>
-            <p>No existe un límite de tamaño fijo para imágenes en el código, pero dimensiones enormes demandan bastante memoria y pueden fallar en equipos modestos. Los documentos PDF se procesan página a página sin límite estricto de hojas, aunque PDFs basados en texto pueden aumentar de peso al reconstruirse como imágenes comprimidas donde el texto ya no se puede seleccionar. El audio admite hasta 50 MB y 10 minutos. Los videos admiten hasta 100 MB, 5 minutos y resolución 1080p. Reducir a 720p solo aplica a videos con resolución superior a 720p: clips de 60 segundos o menos se procesan a resolución completa, mientras que aquellos de más de 60 segundos se fijan a 720p para preservar memoria.</p>
+            <p>No existe un límite de tamaño fijo para imágenes, pero dimensiones enormes demandan bastante memoria y pueden fallar en equipos modestos. Los documentos PDF se procesan página a página sin límite estricto de hojas, aunque PDFs basados en texto pueden aumentar de peso al reconstruirse como imágenes comprimidas donde el texto ya no se puede seleccionar. El audio admite hasta 50 MB y 10 minutos. Los videos admiten hasta 100 MB, 5 minutos y resolución 1080p. Reducir a 720p solo aplica a videos con resolución superior a 720p: clips de 60 segundos o menos se procesan a resolución completa, mientras que aquellos de más de 60 segundos se fijan a 720p para preservar memoria.</p>
 
             <h2 class="content-heading">Preguntas frecuentes</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿El compresor es gratuito y se suben mis archivos?</h3>
@@ -276,7 +276,7 @@
             <p>La reducción exacta depende del tipo de contenido original. Archivos ya comprimidos apenas bajan de tamaño, y los PDF de texto pueden crecer al reconstruir páginas como imágenes. Para imágenes, PDF y audio puedes definir un tamaño objetivo. Bajar el control deslizante de calidad en imágenes y PDF reduce peso. En audio, elegir menor bitrate o marcar mezcla a mono disminuye tamaño. En video, usar compresión Fuerte o marcar Reducir a 720p produce archivos más pequeños.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Hay algún límite de tamaño?</h3>
-            <p>Las imágenes no tienen límite fijo en código, aunque fotos de gran resolución demandan memoria del equipo. Los archivos de audio admiten hasta 50MB y 10 minutos. Los videos admiten hasta 100MB, 5 minutos y hasta 1080p de resolución.</p>
+            <p>Las imágenes no tienen un límite de tamaño fijo, aunque fotos de gran resolución demandan memoria del equipo. Los archivos de audio admiten hasta 50MB y 10 minutos. Los videos admiten hasta 100MB, 5 minutos y hasta 1080p de resolución.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Por qué el video es más lento y qué se descarga?</h3>
             <p>Comprimir video exige decodificar y recodificar cada cuadro directamente en tu procesador usando WebAssembly, lo que depende de tu potencia. Además, el motor de video de unos 31 MB se descarga únicamente al comprimir tu primer video, solo la primera vez.</p>

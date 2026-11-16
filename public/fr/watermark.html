@@ -97,7 +97,7 @@
           "name": "Quelles sont les limites pour les images, PDF et vidéos ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Les visuels n'ont pas de poids limite en code, bien que les très grandes images requièrent de la mémoire. Aucun plafond de pages n'est fixé pour les PDF. Les vidéos sont restreintes à 100MB, 5 minutes et 1080p. Au-delà de 720p, les vidéos dépassant 60 secondes sont converties en 720p."
+            "text": "Les visuels n'ont pas de poids limite fixe, bien que les très grandes images requièrent de la mémoire. Aucun plafond de pages n'est fixé pour les PDF. Les vidéos sont restreintes à 100MB, 5 minutes et 1080p. Au-delà de 720p, les vidéos dépassant 60 secondes sont converties en 720p."
           }
         },
         {
@@ -328,7 +328,7 @@
     <section class="content-section">
         <div class="content-container">
             <h2 class="content-heading">Que peut faire cet outil de filigrane ?</h2>
-            <p>L'outil de filigrane ImageResizer applique un marquage textuel personnalisé sur vos images, documents PDF et séquences vidéo directement dans votre navigateur web. Superposez des mentions de droit d'auteur, noms ou logos sur vos visuels aux formats PNG, JPG, WebP, GIF, BMP ou AVIF. Dans les documents PDF multipages, insérez un marquage harmonieux sur l'ensemble des pages ou sur des pages ciblées. Vos enregistrements vidéo en MP4, WebM, MOV, MKV, AVI ou M4V reçoivent un titre incrusté pour exporter un fichier MP4 finalisé. Tous vos documents restent sur votre appareil sans téléversement sur des serveurs distants.</p>
+            <p>L'outil de filigrane ImageResizer applique un marquage textuel personnalisé sur vos images, documents PDF et séquences vidéo directement dans votre navigateur web. Superposez des mentions de droit d'auteur, noms ou logos sur vos visuels aux formats PNG, JPG, WebP, GIF, BMP ou AVIF. Dans les documents PDF multipages, ajoutez le filigrane sur toutes les pages ou sur des pages ciblées. Vos enregistrements vidéo en MP4, WebM, MOV, MKV, AVI ou M4V reçoivent un texte incrusté pour exporter un fichier MP4 finalisé. Tous vos documents restent sur votre appareil sans téléversement sur des serveurs distants.</p>
 
             <h2 class="content-heading">Comment ça marche</h2>
             <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
@@ -339,7 +339,7 @@
             <p>L'application du filigrane s'effectue localement sur votre ordinateur sans échange réseau. L'outil dessine le texte par-dessus les images via Canvas 2D. Dans les fichiers PDF, les flux vectoriels sont modifiés par pdf-lib et pdf.js pour ajouter le texte sur les pages désignées. L'incrustation sur vidéo est calculée image par image grâce à FFmpeg fonctionnant sous WebAssembly. Le composant vidéo pèse environ 31 MB et son téléchargement n'intervient qu'au premier usage vidéo, une seule fois.</p>
 
             <h2 class="content-heading">Limites</h2>
-            <p>Il n'y a pas de plafond de taille fixe pour les images en code, mais les visuels imposants nécessitent de la mémoire vive. Les fichiers PDF ne comportent pas de restriction sur le nombre de pages, le temps de calcul augmentant avec la pagination. Les vidéos doivent peser 100 MB ou moins, durer 5 minutes au maximum et ne pas dépasser 1080p. Réduire à 720p s'applique uniquement aux vidéos au-dessus de 720p : les clips de 60 secondes ou moins gardent leur résolution, tandis que les clips de plus de 60 secondes passent en 720p pour ménager la mémoire. La vitesse dépend des performances de votre matériel.</p>
+            <p>Il n'y a pas de plafond de taille fixe pour les images, mais les visuels imposants nécessitent de la mémoire vive. Les fichiers PDF ne comportent pas de restriction sur le nombre de pages, le temps de calcul augmentant avec la pagination. Les vidéos doivent peser 100 MB ou moins, durer 5 minutes au maximum et ne pas dépasser 1080p. Réduire à 720p s'applique uniquement aux vidéos au-dessus de 720p : les clips de 60 secondes ou moins gardent leur résolution, tandis que les clips de plus de 60 secondes passent en 720p pour ménager la mémoire. La vitesse dépend des performances de votre matériel.</p>
 
             <h2 class="content-heading">Foire aux questions</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">L'outil de filigrane est-il gratuit et conservez-vous mes fichiers ?</h3>
@@ -352,7 +352,7 @@
             <p>Vous pouvez modifier le texte, choisir la position au centre ou dans un angle, ajuster la taille des caractères, régler l'opacité de 5% à 100% et sélectionner la teinte. Pour un PDF, ciblez toutes les pages ou des feuillets précis. Pour la vidéo, optez pour une qualité Haute, Moyenne ou Basse.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Quelles sont les limites pour les images, PDF et vidéos ?</h3>
-            <p>Les visuels n'ont pas de poids limite en code, bien que les très grandes images requièrent de la mémoire. Aucun plafond de pages n'est fixé pour les PDF. Les vidéos sont restreintes à 100MB, 5 minutes et 1080p. Au-delà de 720p, les vidéos dépassant 60 secondes sont converties en 720p.</p>
+            <p>Les visuels n'ont pas de poids limite fixe, bien que les très grandes images requièrent de la mémoire. Aucun plafond de pages n'est fixé pour les PDF. Les vidéos sont restreintes à 100MB, 5 minutes et 1080p. Au-delà de 720p, les vidéos dépassant 60 secondes sont converties en 720p.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Comment la vidéo est-elle marquée et pourquoi est-ce plus long ?</h3>
             <p>Incruster du texte sur une vidéo demande de décoder chaque image, dessiner le filigrane et réencoder la séquence avec WebAssembly. Cet algorithme tourne sur votre processeur plutôt que sur un serveur distant. Le composant vidéo d'environ 31 MB se télécharge uniquement au premier traitement.</p>
