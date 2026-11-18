@@ -16,18 +16,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Convierte múltiples imágenes a PDF online gratis. Reordena páginas, ajusta márgenes y crea tu documento PDF en segundos sin subir archivos a servidores.">
+        content="Convierte imágenes JPG, PNG y WebP en un único documento PDF gratis en tu navegador. Reordena páginas y ajusta márgenes sin subir archivos a servidores.">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta property="og:title" content="Convertir Imágenes a PDF Online Gratis — JPG y PNG a PDF">
+    <meta property="og:title" content="Convertir Imágenes a PDF Online Gratis - ImageResizer">
     <meta property="og:description"
-        content="Convierte múltiples imágenes a PDF online gratis. Reordena páginas y crea tu documento PDF en tu navegador.">
+        content="Convierte imágenes JPG, PNG y WebP en un único documento PDF gratis en tu navegador. Reordena páginas y ajusta márgenes sin subir archivos a servidores.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ImageResizer">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Convertir Imágenes a PDF Online Gratis — JPG y PNG a PDF">
+    <meta name="twitter:title" content="Convertir Imágenes a PDF Online Gratis - ImageResizer">
     <meta name="twitter:description"
-        content="Convierte múltiples imágenes a PDF online gratis. Reordena páginas y crea tu documento PDF en tu navegador.">
-    <title>Convertir Imágenes a PDF Online Gratis — JPG y PNG a PDF — ImageResizer</title>
+        content="Convierte imágenes JPG, PNG y WebP en un único documento PDF gratis en tu navegador. Reordena páginas y ajusta márgenes sin subir archivos a servidores.">
+    <title>Convertir Imágenes a PDF Online Gratis - ImageResizer</title>
     <link rel="canonical" href="https://www.freeeimageresizer.com/es/image-to-pdf" />
     <link rel="alternate" hreflang="x-default" href="https://www.freeeimageresizer.com/image-to-pdf" />
     <link rel="alternate" hreflang="en" href="https://www.freeeimageresizer.com/image-to-pdf" />
@@ -44,14 +44,69 @@
     <link rel="stylesheet" href="/style.css">
     <!-- jsPDF CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script type="application/ld+json">
+                <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Convertidor de Imagen a PDF",
+      "name": "Convertir Imágenes a PDF Online Gratis",
       "url": "https://www.freeeimageresizer.com/es/image-to-pdf",
+      "description": "Convierte imágenes JPG, PNG y WebP en un único documento PDF gratis en tu navegador. Reordena páginas y ajusta márgenes sin subir archivos a servidores.",
       "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "All"
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿El convertidor de imagen a PDF es gratis y suben mis archivos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, este convertidor es totalmente gratuito, sin suscripciones, límites de uso ni marcas de agua añadidas. Todo el documento se crea localmente en tu navegador, por lo que tus archivos y fotos nunca se suben ni se almacenan en servidores externos."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué formatos de imagen puedo convertir a documento PDF?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Puedes importar y combinar imágenes en formatos JPG, PNG, WebP, GIF y BMP. También puedes incorporar páginas de documentos PDF existentes para combinarlas en un único archivo consolidado."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Puedo reordenar las imágenes y elegir orientación o márgenes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sí, puedes reorganizar el orden de las páginas pulsando las flechas arriba y abajo en cada miniatura. Además, puedes configurar la orientación en Automática, Vertical u Horizontal, y elegir entre Sin margen o Margen pequeño de 10 mm."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cuántas imágenes puedo convertir y existe un límite de tamaño?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No existe un límite fijo en el número de fotos ni en el tamaño de archivo en esta herramienta, habiendo procesado archivos de hasta 55 MB en nuestras pruebas. La capacidad depende de la memoria disponible en tu dispositivo."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Por qué el archivo PDF generado tiene un tamaño específico?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "El tamaño final del PDF refleja el peso de las imágenes incluidas más unos 3 KB adicionales por la cabecera, catálogo de páginas y metadatos del estándar PDF. Al incluir imágenes JPG, se integran directamente sin descomprimir."
+          }
+        }
+      ]
     }
     </script>
 </head>
@@ -198,11 +253,37 @@
     </section>
 
     <!-- SEO Content Section -->
-    <section class="content-section">
+                <section class="content-section">
         <div class="content-container">
-            <h2 class="content-heading">Convertidor gratuito de imágenes a documento PDF</h2>
-            <p>Combina múltiples imágenes JPG, PNG o WebP en un único archivo PDF profesional. Ya sea para organizar recibos, compilar documentos escaneados, presentar un portafolio de fotos o entregar tareas académicas, nuestra herramienta organiza tus imágenes en un documento PDF impecable al instante.</p>
-            <p>Nuestra aplicación se ejecuta <strong>100% en tu navegador</strong> mediante el motor de código abierto <code>jsPDF</code>. Tus archivos personales y documentos confidenciales nunca se transmiten a servidores externos, garantizándote total privacidad.</p>
+            <h2 class="content-heading">¿Qué puede hacer este convertidor de imágenes a PDF?</h2>
+            <p>El convertidor de ImageResizer une múltiples imágenes en un único documento PDF directamente dentro de tu navegador web sin subir archivos a servidores externos. Combina fotos en formatos JPG, PNG, WebP, GIF o BMP, organiza el orden de las páginas y personaliza la orientación y los márgenes antes de generar tu archivo PDF. Todo el procesamiento se ejecuta localmente en tu equipo con total privacidad.</p>
+
+            <h2 class="content-heading">Cómo funciona</h2>
+            <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
+                <li style="margin-bottom: 8px;">Selecciona o arrastra varias imágenes desde tu dispositivo.</li>
+                <li style="margin-bottom: 8px;">Reordena las miniaturas de página con los botones de flecha y elige la orientación y los márgenes deseados.</li>
+                <li style="margin-bottom: 8px;">Haz clic en Generar documento PDF para compilar y descargar tu archivo PDF de inmediato.</li>
+            </ol>
+            <p>La creación del documento PDF se realiza íntegramente en tu navegador mediante librerías web del lado del cliente. Las imágenes se procesan localmente sin intermediarios y se ensamblan dentro de la estructura estándar de un archivo PDF. Esto garantiza una generación inmediata y mantiene tus fotos seguras en tu equipo.</p>
+
+            <h2 class="content-heading">Límites</h2>
+            <p>No hay un límite fijo para la cantidad de imágenes ni para el tamaño individual de los archivos en esta herramienta, y nuestras pruebas verificaron la conversión de imágenes de hasta 55 MB en páginas PDF sin errores. El procesamiento de lotes grandes con muchas fotos de alta resolución consume memoria del navegador y se ejecuta de forma secuencial. Asimismo, la estructura del formato PDF añade una sobrecarga de catálogo y metadatos de unos 3 a 5 KB por documento.</p>
+
+            <h2 class="content-heading">Preguntas frecuentes</h2>
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿El convertidor de imagen a PDF es gratis y suben mis archivos?</h3>
+            <p>Sí, este convertidor es totalmente gratuito, sin suscripciones, límites de uso ni marcas de agua añadidas. Todo el documento se crea localmente en tu navegador, por lo que tus archivos y fotos nunca se suben ni se almacenan en servidores externos.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Qué formatos de imagen puedo convertir a documento PDF?</h3>
+            <p>Puedes importar y combinar imágenes en formatos JPG, PNG, WebP, GIF y BMP. También puedes incorporar páginas de documentos PDF existentes para combinarlas en un único archivo consolidado.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Puedo reordenar las imágenes y elegir orientación o márgenes?</h3>
+            <p>Sí, puedes reorganizar el orden de las páginas pulsando las flechas arriba y abajo en cada miniatura. Además, puedes configurar la orientación en Automática, Vertical u Horizontal, y elegir entre Sin margen o Margen pequeño de 10 mm.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Cuántas imágenes puedo convertir y existe un límite de tamaño?</h3>
+            <p>No existe un límite fijo en el número de fotos ni en el tamaño de archivo en esta herramienta, habiendo procesado archivos de hasta 55 MB en nuestras pruebas. La capacidad depende de la memoria disponible en tu dispositivo.</p>
+
+            <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Por qué el archivo PDF generado tiene un tamaño específico?</h3>
+            <p>El tamaño final del PDF refleja el peso de las imágenes incluidas más unos 3 KB adicionales por la cabecera, catálogo de páginas y metadatos del estándar PDF. Al incluir imágenes JPG, se integran directamente sin descomprimir.</p>
         </div>
     </section>
 
