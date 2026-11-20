@@ -126,7 +126,7 @@
           "name": "Why is my generated PDF large?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "PDF documents contain structural metadata, page definitions, and embedded image streams. High-resolution photos retain their full visual detail when embedded, so combining several large photos will reflect the combined weight of the source pictures."
+            "text": "A PDF made of JPG photos is about 3 to 4 KB larger than the photos together (+3,345 B measured) because JPG images are embedded directly with minimal PDF header and catalog overhead. Other formats are converted when embedded, so their PDF size can differ from the original files (for example, a 7,498 B WebP image became 118,948 B and a 4,846 B PNG image became 8,174 B). Uploaded PDF pages maintain their exact file size."
           }
         }
       ]
@@ -297,10 +297,10 @@
                 <li style="margin-bottom: 8px;">Reorder page thumbnails with up and down buttons and choose page orientation and margins.</li>
                 <li style="margin-bottom: 8px;">Click Convert to PDF &amp; Download to save your compiled document.</li>
             </ol>
-            <p>Document assembly operates locally using web standards. When you select images, the tool loads them into a client-side queue and renders thumbnail previews. Document creation uses the open-source pdf-lib library to construct a clean PDF structure in device memory, embedding each image on its own page according to your layout preferences. When set to Auto orientation, the tool selects Landscape A4 for wide images and Portrait A4 for tall images. The finished document downloads directly as converted-images.pdf with no network transfers.</p>
+            <p>Document assembly operates locally using web standards. When you select images, the tool loads them into a client-side queue and renders thumbnail previews. When only images are queued, document creation uses the open-source jsPDF library to generate the PDF file. When uploaded PDF pages are included, the tool uses the pdf-lib library to construct the document structure. When set to Auto orientation, wide images adapt to Landscape A4 and tall images adapt to Portrait A4; Portrait and Landscape force A4. Margins can be set to none or 10 mm. The finished document downloads directly as converted-images.pdf with no network transfers.</p>
 
             <h2 class="content-heading">Limits</h2>
-            <p>There is no fixed limit on image count or individual file size in this tool, and our tests verified converting large images up to 55 MB into PDF pages without errors. Processing multiple high-resolution photos requires adequate device memory, so large batches process sequentially. In addition, PDF document structure adds about 3 to 5 KB of header and metadata overhead per document, which makes the file a few kilobytes larger, mostly noticeable with tiny images.</p>
+            <p>There is no fixed limit on the number of images or overall file size, and our tests converted images up to 55 MB into PDF pages without errors. JPG photos are embedded directly without re-compression: a PDF made of JPG photos is about 3 to 4 KB larger than the photos together (+3,345 B measured). Converted formats vary when embedded, so the PDF size differs from the source files (WebP 7,498 B became 118,948 B and PNG 4,846 B became 8,174 B). Uploaded PDF pages keep their original size. Orientation and margin settings apply to image pages only.</p>
 
             <h2 class="content-heading">Frequently asked questions</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Is the image to PDF converter free and do you upload my files?</h3>
@@ -316,7 +316,7 @@
             <p>There is no hard coded cap on image count or file size, and our tests successfully processed files up to 55 MB. Because processing runs in your browser, batch capacity depends on your device memory.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Why is my generated PDF large?</h3>
-            <p>PDF documents contain structural metadata, page definitions, and embedded image streams. High-resolution photos retain their full visual detail when embedded, so combining several large photos will reflect the combined weight of the source pictures.</p>
+            <p>A PDF made of JPG photos is about 3 to 4 KB larger than the photos together (+3,345 B measured) because JPG images are embedded directly with minimal PDF header and catalog overhead. Other formats are converted when embedded, so their PDF size can differ from the original files (for example, a 7,498 B WebP image became 118,948 B and a 4,846 B PNG image became 8,174 B). Uploaded PDF pages maintain their exact file size.</p>
         </div>
     </section>
 

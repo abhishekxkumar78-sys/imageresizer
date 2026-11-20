@@ -86,7 +86,7 @@
           "name": "Kann ich die Seitenreihenfolge, Ausrichtung und Ränder anpassen?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ja, über die Pfeilschaltflächen neben den Vorschaubildern können Sie die Seiten nach Wunsch sortieren. Sie können die Ausrichtung auf Automatisch, Hochformat oder Querformat stellen und zwischen Ohne Rand und 10 mm Rand wählen."
+            "text": "Ja, über die Pfeilschaltflächen neben den Vorschaubildern können Sie die Seiten nach Wunsch sortieren. Sie können die Ausrichtung auf Automatisch, Hochformat oder Querformat stellen und zwischen Kein Rand und Schmaler Rand (10 mm) wählen."
           }
         },
         {
@@ -102,7 +102,7 @@
           "name": "Warum entsteht bei der PDF-Erstellung ein kleiner Zusatzspeicher?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Die Dateigröße des PDFs setzt sich aus den eingebetteten Bildern sowie etwa 3 KB an Strukturdaten, Seitenkatalogen und Metadaten zusammen. JPG-Fotos werden dabei ohne unnötige Neukomprimierung übernommen."
+            "text": "Ein aus JPG-Fotos erstelltes PDF ist etwa 3 bis 4 KB größer als die Fotos zusammen (+3.345 B gemessen), da JPG-Fotos direkt ohne Neukompression eingebettet werden. Andere Formate werden beim Einbetten konvertiert, sodass sich ihre Größe verändern kann (etwa ein WebP mit 7.498 B zu 118.948 B und ein PNG mit 4.846 B zu 8.174 B). Hochgeladene PDF-Seiten behalten ihre Originalgröße."
           }
         }
       ]
@@ -261,12 +261,12 @@
             <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
                 <li style="margin-bottom: 8px;">Wählen Sie mehrere Bilder von Ihrem Gerät aus oder ziehen Sie sie in den Bereich.</li>
                 <li style="margin-bottom: 8px;">Verschieben Sie die Vorschaubilder mit den Pfeiltasten und wählen Sie Ausrichtung und Ränder.</li>
-                <li style="margin-bottom: 8px;">Klicken Sie auf PDF erstellen, um das fertige Dokument direkt auf Ihrem Gerät zu speichern.</li>
+                <li style="margin-bottom: 8px;">Klicken Sie auf In PDF umwandeln und herunterladen, um das fertige Dokument direkt auf Ihrem Gerät zu speichern.</li>
             </ol>
-            <p>Die Zusammenstellung des PDF-Dokuments erfolgt vollständig im Webbrowser mithilfe moderner clientseitiger Bibliotheken. Die Bilddaten werden ohne Zwischenserver lokal verarbeitet und direkt in ein valides PDF eingebettet. Das garantiert schnelle Abläufe und schützt Ihre Dateien auf Ihrem eigenen Computer.</p>
+            <p>Die Zusammenstellung des PDF-Dokuments erfolgt vollständig im Webbrowser mithilfe moderner clientseitiger Bibliotheken. Die Bilddaten werden ohne Zwischenserver lokal verarbeitet und direkt in ein valides PDF eingebettet. Hochgeladene PDF-Seiten behalten ihre Originalgröße und Einstellungen für Ausrichtung oder Ränder gelten nur für Bildseiten.</p>
 
             <h2 class="content-heading">Einschränkungen</h2>
-            <p>In diesem Werkzeug gibt es keine feste Obergrenze für Bildanzahl oder Dateigröße. In unseren Tests wurden hochauflösende Bilder bis zu 55 MB erfolgreich verarbeitet. Bei vielen großen Fotos wird entsprechend Arbeitsspeicher benötigt, und die Verarbeitung erfolgt nacheinander. Zudem verursacht der PDF-Dateiaufbau mit Metadaten und Seitenindex etwa 3 bis 5 KB zusätzlichen Speicherbedarf.</p>
+            <p>In diesem Werkzeug gibt es keine feste Obergrenze für Bildanzahl oder Dateigröße. In unseren Tests wurden hochauflösende Bilder bis zu 55 MB erfolgreich verarbeitet. JPG-Fotos werden direkt ohne erneute Kompression eingebettet: Ein aus JPG-Fotos erstelltes PDF ist etwa 3 bis 4 KB größer als die Fotos zusammen (+3.345 B gemessen). Andere Formate werden beim Einbetten konvertiert, wodurch die Dateigröße abweicht (ein WebP mit 7.498 B wurde zu 118.948 B und ein PNG mit 4.846 B zu 8.174 B). Hochgeladene PDF-Seiten behalten ihre Originalgröße. Ausrichtung und Ränder gelten nur für Bildseiten.</p>
 
             <h2 class="content-heading">Häufig gestellte Fragen</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Ist der PDF-Konverter kostenlos und werden Dateien hochgeladen?</h3>
@@ -276,13 +276,13 @@
             <p>Sie können Bilddateien in den Formaten JPG, PNG, WebP, GIF und BMP importieren. Ebenso lassen sich Seiten bereits vorhandener PDF-Dateien einbinden und zusammenführen.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Kann ich die Seitenreihenfolge, Ausrichtung und Ränder anpassen?</h3>
-            <p>Ja, über die Pfeilschaltflächen neben den Vorschaubildern können Sie die Seiten nach Wunsch sortieren. Sie können die Ausrichtung auf Automatisch, Hochformat oder Querformat stellen und zwischen Ohne Rand und 10 mm Rand wählen.</p>
+            <p>Ja, über die Pfeilschaltflächen neben den Vorschaubildern können Sie die Seiten nach Wunsch sortieren. Sie können die Ausrichtung auf Automatisch, Hochformat oder Querformat stellen und zwischen Kein Rand und Schmaler Rand (10 mm) wählen.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Wie viele Bilder kann ich einfügen und gibt es ein Größenlimit?</h3>
             <p>Es gibt in diesem Werkzeug keine künstliche Begrenzung für die Anzahl der Bilder oder deren Größe, und Dateien bis 55 MB wurden getestet. Das Verarbeitungsvermögen richtet sich nach dem verfügbaren Arbeitsspeicher Ihres Geräts.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Warum entsteht bei der PDF-Erstellung ein kleiner Zusatzspeicher?</h3>
-            <p>Die Dateigröße des PDFs setzt sich aus den eingebetteten Bildern sowie etwa 3 KB an Strukturdaten, Seitenkatalogen und Metadaten zusammen. JPG-Fotos werden dabei ohne unnötige Neukomprimierung übernommen.</p>
+            <p>Ein aus JPG-Fotos erstelltes PDF ist etwa 3 bis 4 KB größer als die Fotos zusammen (+3.345 B gemessen), da JPG-Fotos direkt ohne Neukompression eingebettet werden. Andere Formate werden beim Einbetten konvertiert, sodass sich ihre Größe verändern kann (etwa ein WebP mit 7.498 B zu 118.948 B und ein PNG mit 4.846 B zu 8.174 B). Hochgeladene PDF-Seiten behalten ihre Originalgröße.</p>
         </div>
     </section>
 

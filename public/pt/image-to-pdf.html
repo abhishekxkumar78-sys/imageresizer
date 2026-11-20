@@ -86,7 +86,7 @@
           "name": "Posso reordenar as fotos e alterar orientação ou margens?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sim, você pode alterar a ordem das páginas usando as setas para cima e para baixo em cada miniatura. Também pode definir a orientação em Automática, Retrato ou Paisagem, e escolher entre Sem margem ou Margem pequena de 10 mm."
+            "text": "Sim, você pode alterar a ordem das páginas usando as setas para cima e para baixo em cada miniatura. Também pode definir a orientação em Automático, Retrato ou Paisagem, e escolher entre Sem margem ou Margem pequena (10 mm)."
           }
         },
         {
@@ -102,7 +102,7 @@
           "name": "Por que o documento PDF gerado tem esse tamanho?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "O tamanho do documento PDF final depende das imagens importadas, somado a cerca de 3 KB de cabeçalho, árvore de páginas e metadados do padrão PDF. Imagens em formato JPG são incorporadas mantendo sua compressão original."
+            "text": "Um PDF gerado a partir de fotos JPG fica cerca de 3 a 4 KB maior do que a soma das fotos (+3.345 B medidos) porque imagens JPG são incorporadas diretamente sem nova compressão. Outros formatos são convertidos ao serem inseridos, gerando variações no tamanho do arquivo (como um WebP de 7.498 B que passou para 118.948 B e um PNG de 4.846 B para 8.174 B). Páginas de PDF enviadas mantêm seu tamanho original."
           }
         }
       ]
@@ -261,12 +261,12 @@
             <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
                 <li style="margin-bottom: 8px;">Selecione ou arraste suas imagens para a área de envio.</li>
                 <li style="margin-bottom: 8px;">Reordene as miniaturas com os botões de seta e ajuste orientação e margens da página.</li>
-                <li style="margin-bottom: 8px;">Clique em Baixar PDF para compilar e salvar o documento no seu dispositivo.</li>
+                <li style="margin-bottom: 8px;">Clique em Converter para PDF e baixar para compilar e salvar o documento no seu dispositivo.</li>
             </ol>
-            <p>A montagem do PDF acontece no seu navegador por meio de tecnologias web do lado do cliente. As imagens são processadas localmente e incorporadas à estrutura de páginas do formato PDF sem passar por servidores, garantindo velocidade e privacidade para seus arquivos.</p>
+            <p>A montagem do PDF acontece no seu navegador por meio de tecnologias web do lado do cliente. As imagens são processadas localmente e incorporadas à estrutura de páginas do formato PDF sem passar por servidores, Páginas de PDF enviadas mantêm seu tamanho original e as opções de orientação e margem aplicam-se apenas a páginas de imagem.</p>
 
             <h2 class="content-heading">Limites</h2>
-            <p>Não há limite fixo de quantidade de imagens ou tamanho de arquivo nesta ferramenta, e nossos testes converteram imagens de até 55 MB em páginas PDF com sucesso. O processamento de muitas fotos de alta resolução consome memória do computador e roda em sequência. Além disso, a estrutura de catálogo e metadados do padrão PDF adiciona cerca de 3 a 5 KB de tamanho extra por documento.</p>
+            <p>Não há limite fixo de quantidade de imagens ou tamanho de arquivo nesta ferramenta, e nossos testes converteram imagens de até 55 MB em páginas PDF com sucesso. Fotos JPG são incorporadas diretamente sem nova compressão: um PDF gerado a partir de fotos JPG fica cerca de 3 a 4 KB maior do que a soma das fotos (+3.345 B medidos). Outros formatos variam ao serem convertidos (um WebP de 7.498 B passou para 118.948 B e um PNG de 4.846 B passou para 8.174 B). Páginas de PDF enviadas mantêm o tamanho original. Orientação e margem aplicam-se apenas a páginas de imagem.</p>
 
             <h2 class="content-heading">Perguntas frequentes</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">O conversor é gratuito e meus arquivos são enviados?</h3>
@@ -276,13 +276,13 @@
             <p>Você pode importar imagens nos formatos JPG, PNG, WebP, GIF e BMP. Também é possível inserir páginas de arquivos PDF existentes para juntar tudo em um único documento consolidado.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Posso reordenar as fotos e alterar orientação ou margens?</h3>
-            <p>Sim, você pode alterar a ordem das páginas usando as setas para cima e para baixo em cada miniatura. Também pode definir a orientação em Automática, Retrato ou Paisagem, e escolher entre Sem margem ou Margem pequena de 10 mm.</p>
+            <p>Sim, você pode alterar a ordem das páginas usando as setas para cima e para baixo em cada miniatura. Também pode definir a orientação em Automático, Retrato ou Paisagem, e escolher entre Sem margem ou Margem pequena (10 mm).</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Quantas imagens posso juntar e há limite de tamanho?</h3>
             <p>Não existe um limite rígido de fotos ou tamanho de arquivo nesta ferramenta, tendo processado arquivos de até 55 MB em nossos testes. A capacidade de processamento varia conforme a memória livre no seu sistema.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Por que o documento PDF gerado tem esse tamanho?</h3>
-            <p>O tamanho do documento PDF final depende das imagens importadas, somado a cerca de 3 KB de cabeçalho, árvore de páginas e metadados do padrão PDF. Imagens em formato JPG são incorporadas mantendo sua compressão original.</p>
+            <p>Um PDF gerado a partir de fotos JPG fica cerca de 3 a 4 KB maior do que a soma das fotos (+3.345 B medidos) porque imagens JPG são incorporadas diretamente sem nova compressão. Outros formatos são convertidos ao serem inseridos, gerando variações no tamanho do arquivo (como um WebP de 7.498 B que passou para 118.948 B e um PNG de 4.846 B para 8.174 B). Páginas de PDF enviadas mantêm seu tamanho original.</p>
         </div>
     </section>
 
