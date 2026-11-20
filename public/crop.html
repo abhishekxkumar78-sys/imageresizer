@@ -344,7 +344,7 @@
             <p>Cropping operates on your device using web standards. When you import an image, your browser renders it onto an internal 2D canvas. Moving the handles updates the crop coordinates in real time. Clicking download extracts the selected rectangular region and exports it as a PNG image file. If you set an optional target file size, the tool iteratively scales down image dimensions to approximate the target, though the resulting PNG can remain larger than the requested threshold.</p>
 
             <h2 class="content-heading">Limits</h2>
-            <p>There is no fixed file size limit for images in this tool, and our tests processed images up to 55 MB without errors. However, very large images consume significant browser memory, so performance depends on your device hardware. Output files are exported as PNG images. Because PNG is lossless, a cropped JPG or WebP photo usually becomes noticeably larger than the original (three to four times larger in our tests).</p>
+            <p>There is no fixed file size limit for images in this tool, and our tests processed images up to 55 MB without errors. However, very large images consume significant browser memory, so performance depends on your device hardware. Output files are exported as PNG images. Because PNG is lossless, a cropped JPG, WebP or GIF photo is usually larger than the original, in our tests about 2x to 18x depending on how strongly the original was compressed; a PNG original grew by about 9%.</p>
 
             <h2 class="content-heading">Frequently asked questions</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Is the cropper free and do you upload my files?</h3>
