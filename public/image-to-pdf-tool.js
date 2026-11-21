@@ -345,46 +345,121 @@ document.addEventListener('DOMContentLoaded', () => {
         renderThumbnails();
     }
 
-    function processImageFiles(imageFiles) {
-        return new Promise((resolve) => {
-            let loadedCount = 0;
-            imageFiles.forEach((file) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        imageList.push({
-                            id: Date.now() + Math.random().toString(36).substr(2, 9),
+    async function processImageFiles(imageFiles) {
+        const CONCURRENCY = 4;
+        let index = 0;
+        const results = new Array(imageFiles.length);
+
+        async function worker() {
+            while (index < imageFiles.length) {
+                const currentIdx = index++;
+                const file = imageFiles[currentIdx];
+                try {
+                    let origW = 0, origH = 0;
+                    let thumbUrl = '';
+
+                    if (typeof createImageBitmap === 'function') {
+                        let bitmap = null;
+                        try {
+                            bitmap = await createImageBitmap(file);
+                            origW = bitmap.width;
+                            origH = bitmap.height;
+
+                            const maxDim = 120;
+                            let tw = origW, th = origH;
+                            if (tw > maxDim || th > maxDim) {
+                                if (tw > th) {
+                                    th = Math.round((th * maxDim) / tw);
+                                    tw = maxDim;
+                                } else {
+                                    tw = Math.round((tw * maxDim) / th);
+                                    th = maxDim;
+                                }
+                            }
+                            tw = Math.max(1, tw);
+                            th = Math.max(1, th);
+
+                            const canvas = document.createElement('canvas');
+                            canvas.width = tw;
+                            canvas.height = th;
+                            const ctx = canvas.getContext('2d');
+                            ctx.drawImage(bitmap, 0, 0, tw, th);
+                            thumbUrl = canvas.toDataURL('image/jpeg', 0.7);
+                            canvas.width = 0;
+                            canvas.height = 0;
+                            bitmap.close();
+                        } catch (e) {
+                            if (bitmap) try { bitmap.close(); } catch (_) {}
+                        }
+                    }
+
+                    if (!thumbUrl) {
+                        thumbUrl = await new Promise((resolve) => {
+                            const objUrl = URL.createObjectURL(file);
+                            const img = new Image();
+                            img.onload = () => {
+                                origW = img.naturalWidth;
+                                origH = img.naturalHeight;
+                                const maxDim = 120;
+                                let tw = origW, th = origH;
+                                if (tw > maxDim || th > maxDim) {
+                                    if (tw > th) {
+                                        th = Math.round((th * maxDim) / tw);
+                                        tw = maxDim;
+                                    } else {
+                                        tw = Math.round((tw * maxDim) / th);
+                                        th = maxDim;
+                                    }
+                                }
+                                tw = Math.max(1, tw);
+                                th = Math.max(1, th);
+                                const canvas = document.createElement('canvas');
+                                canvas.width = tw;
+                                canvas.height = th;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0, tw, th);
+                                const res = canvas.toDataURL('image/jpeg', 0.7);
+                                canvas.width = 0;
+                                canvas.height = 0;
+                                URL.revokeObjectURL(objUrl);
+                                resolve(res);
+                            };
+                            img.onerror = () => {
+                                URL.revokeObjectURL(objUrl);
+                                resolve('');
+                            };
+                            img.src = objUrl;
+                        });
+                    }
+
+                    if (origW > 0 && origH > 0) {
+                        results[currentIdx] = {
+                            id: Date.now() + '_' + currentIdx + '_' + Math.random().toString(36).substr(2, 9),
                             name: file.name,
                             file: file,
                             type: 'image',
-                            dataUrl: e.target.result,
-                            width: img.naturalWidth,
-                            height: img.naturalHeight
-                        });
-
-                        loadedCount++;
-                        if (loadedCount === imageFiles.length) {
-                            resolve();
-                        }
-                    };
-                    img.onerror = () => {
-                        loadedCount++;
-                        if (loadedCount === imageFiles.length) {
-                            resolve();
-                        }
-                    };
-                    img.src = e.target.result;
-                };
-                reader.onerror = () => {
-                    loadedCount++;
-                    if (loadedCount === imageFiles.length) {
-                        resolve();
+                            dataUrl: thumbUrl,
+                            width: origW,
+                            height: origH
+                        };
                     }
-                };
-                reader.readAsDataURL(file);
-            });
-        });
+                } catch (err) {
+                    console.error('Error processing image:', file.name, err);
+                }
+            }
+        }
+
+        const workers = [];
+        for (let c = 0; c < Math.min(CONCURRENCY, imageFiles.length); c++) {
+            workers.push(worker());
+        }
+        await Promise.all(workers);
+
+        for (let i = 0; i < results.length; i++) {
+            if (results[i]) {
+                imageList.push(results[i]);
+            }
+        }
     }
 
     async function expandPdfIntoQueue(file) {
@@ -827,10 +902,83 @@ document.addEventListener('DOMContentLoaded', () => {
             if (imageList.length === 0) return;
 
             const hasPdfPages = imageList.some(item => item.type === 'pdf-page');
+            const isLargeBatch = imageList.length > LARGE_BATCH_THRESHOLD;
 
-            // PURE IMAGE MODE: Use existing jsPDF path completely unchanged
-            if (!hasPdfPages) {
-                if (!window.jspdf || !window.jspdf.jsPDF) {
+            const originalBtnText = downloadPdfBtn.textContent;
+            downloadPdfBtn.disabled = true;
+            downloadPdfBtn.textContent = 'Generating PDF...';
+
+            try {
+                // PURE IMAGE MODE (Small Batch <= 30): Use jsPDF path
+                if (!hasPdfPages && !isLargeBatch) {
+                    if (!window.jspdf || !window.jspdf.jsPDF) {
+                        alert('PDF library is loading. Please try again in a moment.');
+                        return;
+                    }
+
+                    const targetBytes = getTargetBytes();
+
+                    if (!targetBytes) {
+                        const doc = await createPdfDoc(null, 1.0);
+                        if (doc) doc.save('converted-images.pdf');
+                        return;
+                    }
+
+                    // Target size optimization (jsPDF)
+                    let bestDoc = null;
+                    let bestBlob = null;
+                    let bestDiff = Infinity;
+
+                    let low = 0.05, high = 0.95;
+                    for (let iter = 0; iter < 6; iter++) {
+                        const midQ = (low + high) / 2;
+                        const doc = await createPdfDoc(midQ, 1.0);
+                        const blob = doc.output('blob');
+                        const diff = Math.abs(blob.size - targetBytes);
+                        if (diff < bestDiff) {
+                            bestDiff = diff;
+                            bestBlob = blob;
+                            bestDoc = doc;
+                        }
+                        if (blob.size > targetBytes) {
+                            high = midQ;
+                        } else {
+                            low = midQ;
+                        }
+                    }
+
+                    if (bestBlob && bestBlob.size > targetBytes * 1.15) {
+                        let scale = Math.min(0.9, Math.sqrt(targetBytes / bestBlob.size));
+                        for (let step = 0; step < 3; step++) {
+                            if (scale < 0.1) break;
+                            let sLow = 0.05, sHigh = 0.9;
+                            for (let j = 0; j < 4; j++) {
+                                const midQ = (sLow + sHigh) / 2;
+                                const doc = await createPdfDoc(midQ, scale);
+                                const blob = doc.output('blob');
+                                const diff = Math.abs(blob.size - targetBytes);
+                                if (diff < bestDiff) {
+                                    bestDiff = diff;
+                                    bestBlob = blob;
+                                    bestDoc = doc;
+                                }
+                                if (blob.size > targetBytes) sHigh = midQ;
+                                else sLow = midQ;
+                            }
+                            if (bestBlob && bestBlob.size <= targetBytes * 1.05) break;
+                            scale *= 0.85;
+                        }
+                    }
+
+                    if (bestDoc) {
+                        const pdfBlob = bestDoc.output('blob');
+                        downloadBlob(pdfBlob, 'converted-images.pdf');
+                    }
+                    return;
+                }
+
+                // LARGE BATCH OR MIXED PDF MODE: Use pdf-lib sequential assembly
+                if (!window.PDFLib) {
                     alert('PDF library is loading. Please try again in a moment.');
                     return;
                 }
@@ -838,86 +986,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const targetBytes = getTargetBytes();
 
                 if (!targetBytes) {
-                    // Default behavior when no target size specified
-                    const doc = await createPdfDoc(null, 1.0);
-                    if (doc) doc.save('converted-images.pdf');
-                    return;
-                }
-
-                // Target size optimization (jsPDF)
-                let bestDoc = null;
-                let bestBlob = null;
-                let bestDiff = Infinity;
-
-                let low = 0.05, high = 0.95;
-                for (let iter = 0; iter < 6; iter++) {
-                    const midQ = (low + high) / 2;
-                    const doc = await createPdfDoc(midQ, 1.0);
-                    const blob = doc.output('blob');
-                    const diff = Math.abs(blob.size - targetBytes);
-                    if (diff < bestDiff) {
-                        bestDiff = diff;
-                        bestBlob = blob;
-                        bestDoc = doc;
-                    }
-                    if (blob.size > targetBytes) {
-                        high = midQ;
-                    } else {
-                        low = midQ;
-                    }
-                }
-
-                if (bestBlob && bestBlob.size > targetBytes * 1.15) {
-                    let scale = Math.min(0.9, Math.sqrt(targetBytes / bestBlob.size));
-                    for (let step = 0; step < 3; step++) {
-                        if (scale < 0.1) break;
-                        let sLow = 0.05, sHigh = 0.9;
-                        for (let j = 0; j < 4; j++) {
-                            const midQ = (sLow + sHigh) / 2;
-                            const doc = await createPdfDoc(midQ, scale);
-                            const blob = doc.output('blob');
-                            const diff = Math.abs(blob.size - targetBytes);
-                            if (diff < bestDiff) {
-                                bestDiff = diff;
-                                bestBlob = blob;
-                                bestDoc = doc;
-                            }
-                            if (blob.size > targetBytes) sHigh = midQ;
-                            else sLow = midQ;
-                        }
-                        if (bestBlob && bestBlob.size <= targetBytes * 1.05) break;
-                        scale *= 0.85;
-                    }
-                }
-
-                if (bestDoc) {
-                    const pdfBlob = bestDoc.output('blob');
-                    downloadBlob(pdfBlob, 'converted-images.pdf');
-                }
-                return;
-            }
-
-            // MIXED PDF MODE: Use pdf-lib for lossless page copying and image embedding
-            if (!window.PDFLib) {
-                alert('PDF library is loading. Please try again in a moment.');
-                return;
-            }
-
-            const originalBtnText = downloadPdfBtn.textContent;
-            downloadPdfBtn.disabled = true;
-            downloadPdfBtn.textContent = 'Generating PDF...';
-
-            try {
-                const targetBytes = getTargetBytes();
-
-                if (!targetBytes) {
                     const outDoc = await createMixedPdfDoc(null, 1.0);
+                    downloadPdfBtn.textContent = 'Saving PDF...';
+                    await new Promise(r => setTimeout(r, 0));
                     const pdfBytes = await outDoc.save();
                     downloadBlob(new Blob([pdfBytes], { type: 'application/pdf' }), 'converted-images.pdf');
                     return;
                 }
 
-                // Target size optimization (pdf-lib mixed mode)
+                // Target size optimization (pdf-lib)
                 let bestBytes = null;
                 let bestDiff = Infinity;
 
@@ -964,8 +1041,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     downloadBlob(new Blob([bestBytes], { type: 'application/pdf' }), 'converted-images.pdf');
                 }
             } catch (err) {
-                console.error('Error generating mixed PDF:', err);
-                alert('Could not generate PDF: ' + (err && err.message ? err.message : 'Unknown error'));
+                console.error('Error generating PDF:', err);
+                const isMemError = err && (
+                    /out of memory/i.test(err.message) ||
+                    /invalid string length/i.test(err.message) ||
+                    /allocation failed/i.test(err.message) ||
+                    /heap/i.test(err.message) ||
+                    err.name === 'RangeError'
+                );
+                if (isMemError) {
+                    alert("The selection is too large for this device's memory. Please convert fewer images at a time.");
+                } else {
+                    alert('Could not generate PDF: ' + (err && err.message ? err.message : 'Unknown error'));
+                }
             } finally {
                 downloadPdfBtn.disabled = false;
                 downloadPdfBtn.textContent = originalBtnText;
@@ -981,7 +1069,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
     }
 
     function getTargetBytes() {
@@ -994,7 +1082,41 @@ document.addEventListener('DOMContentLoaded', () => {
         return Math.round(val * multiplier);
     }
 
-    function getImageDataUrl(item, quality, scale = 1.0) {
+    const LARGE_BATCH_THRESHOLD = 30;
+
+    function getFullDataUrl(item) {
+        if (item.file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(item.file);
+            });
+        }
+        return Promise.resolve(item.dataUrl);
+    }
+
+    async function getImageDataUrl(item, quality, scale = 1.0) {
+        if (typeof createImageBitmap === 'function' && item.file) {
+            try {
+                const bitmap = await createImageBitmap(item.file);
+                const w = Math.max(10, Math.round(bitmap.width * scale));
+                const h = Math.max(10, Math.round(bitmap.height * scale));
+                const canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, w, h);
+                ctx.drawImage(bitmap, 0, 0, w, h);
+                bitmap.close();
+                const res = canvas.toDataURL('image/jpeg', quality !== null ? quality : 0.92);
+                canvas.width = 0;
+                canvas.height = 0;
+                return res;
+            } catch (e) {}
+        }
+        const fullDataUrl = await getFullDataUrl(item);
         return new Promise((resolve) => {
             const img = new Image();
             img.onload = () => {
@@ -1007,14 +1129,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, w, h);
                 ctx.drawImage(img, 0, 0, w, h);
-                resolve(canvas.toDataURL('image/jpeg', quality));
+                const res = canvas.toDataURL('image/jpeg', quality !== null ? quality : 0.92);
+                canvas.width = 0;
+                canvas.height = 0;
+                resolve(res);
             };
-            img.onerror = () => resolve(item.dataUrl);
-            img.src = item.dataUrl;
+            img.onerror = () => resolve(fullDataUrl);
+            img.src = fullDataUrl;
         });
     }
 
-    // Pure image assembly using jsPDF (kept 100% intact)
+    // Pure image assembly using jsPDF (kept 100% intact for small batches <= 30)
     async function createPdfDoc(quality, scale = 1.0) {
         const { jsPDF } = window.jspdf;
         const orientationMode = orientationSelect.value;
@@ -1052,18 +1177,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = margin + (printableWidth - drawWidth) / 2;
             const y = margin + (printableHeight - drawHeight) / 2;
 
-            let dataUrl = item.dataUrl;
+            let dataUrl;
             let format = item.file && item.file.type === 'image/png' ? 'PNG' : 'JPEG';
             if (quality !== null) {
                 dataUrl = await getImageDataUrl(item, quality, scale);
                 format = 'JPEG';
+            } else {
+                dataUrl = await getFullDataUrl(item);
             }
             doc.addImage(dataUrl, format, x, y, drawWidth, drawHeight);
         }
         return doc;
     }
 
-    // Mixed mode assembly using pdf-lib: lossless PDF page copies + aspect-fit image embeds
+    // Mixed & large batch assembly using pdf-lib: lossless PDF page copies + sequential direct image embeds
     async function createMixedPdfDoc(quality, scale = 1.0) {
         const { PDFDocument } = window.PDFLib;
         const outPdf = await PDFDocument.create();
@@ -1082,6 +1209,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         for (let index = 0; index < imageList.length; index++) {
             const item = imageList[index];
+
+            if (index % 5 === 0 && downloadPdfBtn) {
+                downloadPdfBtn.textContent = `Generating PDF (${index + 1}/${imageList.length})...`;
+                await new Promise(r => setTimeout(r, 0));
+            }
 
             if (item.type === 'pdf-page') {
                 let srcDoc = loadedSourceDocs.get(item.sourceId);
@@ -1124,19 +1256,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 const x = marginPt + (printableWidth - drawWidth) / 2;
                 const y = marginPt + (printableHeight - drawHeight) / 2;
 
-                let dataUrl = item.dataUrl;
-                let isPng = item.file && item.file.type === 'image/png';
-                if (quality !== null) {
-                    dataUrl = await getImageDataUrl(item, quality, scale);
-                    isPng = false;
-                }
-
-                const res = await fetch(dataUrl);
-                const imgBytes = await res.arrayBuffer();
                 let embeddedImage;
-                if (isPng) {
-                    embeddedImage = await outPdf.embedPng(imgBytes);
+                const file = item.file;
+                const mime = file ? (file.type || '').toLowerCase() : '';
+                const name = file ? (file.name || '').toLowerCase() : '';
+                const isJpg = mime === 'image/jpeg' || name.endsWith('.jpg') || name.endsWith('.jpeg');
+                const isPng = mime === 'image/png' || name.endsWith('.png');
+
+                if (quality === null && scale === 1.0 && (isJpg || isPng) && file) {
+                    const imgBytes = await file.arrayBuffer();
+                    if (isJpg) {
+                        embeddedImage = await outPdf.embedJpg(imgBytes);
+                    } else {
+                        embeddedImage = await outPdf.embedPng(imgBytes);
+                    }
                 } else {
+                    const dataUrl = await getImageDataUrl(item, quality !== null ? quality : 0.92, scale);
+                    const res = await fetch(dataUrl);
+                    const imgBytes = await res.arrayBuffer();
                     embeddedImage = await outPdf.embedJpg(imgBytes);
                 }
 
