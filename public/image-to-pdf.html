@@ -102,7 +102,7 @@
           "name": "Which image formats can I convert to PDF?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "You can convert images in JPG, PNG, WebP, and BMP formats. You can also mix different image formats together in a single conversion batch."
+            "text": "You can convert images in JPG, PNG, WebP, GIF, and BMP formats. You can also add pages from existing PDF files. You can also mix different image formats together in a single conversion batch."
           }
         },
         {
@@ -126,7 +126,7 @@
           "name": "Why is my generated PDF large?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "A PDF made of JPG photos is about 3 to 4 KB larger than the photos together (+3,345 B measured) because JPG images are embedded directly with minimal PDF header and catalog overhead. Other formats are converted when embedded, so their PDF size can differ from the original files (for example, a 7,498 B WebP image became 118,948 B and a 4,846 B PNG image became 8,174 B). Uploaded PDF pages maintain their exact file size."
+            "text": "A PDF made of JPG photos is about 3 to 4 KB larger than the photos together (+3,345 B measured) because JPG images are embedded directly with minimal PDF header and catalog overhead. Other formats are converted when embedded, so their PDF size can differ from the original files (for example, a 7,498 B WebP image became 118,948 B and a 4,846 B PNG image became 8,174 B). Uploaded PDF pages keep their original page size."
           }
         }
       ]
@@ -289,7 +289,7 @@
     <section class="content-section">
         <div class="content-container">
             <h2 class="content-heading">What can this image to PDF converter do?</h2>
-            <p>ImageResizer's image to PDF converter combines pictures into a single document directly inside your web browser. Import multiple photos in JPG, PNG, WebP, or BMP formats, arrange page order, customize page orientation and margins, and download your consolidated PDF file. Everything processes privately on your device without server uploads.</p>
+            <p>ImageResizer's image to PDF converter combines pictures into a single document directly inside your web browser. Import multiple photos in JPG, PNG, WebP, GIF, or BMP formats, arrange page order, customize page orientation and margins, and download your consolidated PDF file. Everything processes privately on your device without server uploads.</p>
 
             <h2 class="content-heading">How it works</h2>
             <ol style="padding-left: 20px; margin-bottom: 20px; color: var(--text-secondary); line-height: 1.75;">
@@ -297,7 +297,7 @@
                 <li style="margin-bottom: 8px;">Reorder page thumbnails with up and down buttons and choose page orientation and margins.</li>
                 <li style="margin-bottom: 8px;">Click Convert to PDF &amp; Download to save your compiled document.</li>
             </ol>
-            <p>Document assembly operates locally using web standards. When you select images, the tool loads them into a client-side queue and renders thumbnail previews. When only images are queued, document creation uses the open-source jsPDF library to generate the PDF file. When uploaded PDF pages are included, the tool uses the pdf-lib library to construct the document structure. When set to Auto orientation, wide images adapt to Landscape A4 and tall images adapt to Portrait A4; Portrait and Landscape force A4. Margins can be set to none or 10 mm. The finished document downloads directly as converted-images.pdf with no network transfers.</p>
+            <p>Document assembly operates locally using web standards. When you select images, the tool loads them into a client-side queue and renders thumbnail previews. When only images are queued, document creation uses the open-source jsPDF library to generate the PDF file. When uploaded PDF pages are included, the tool uses the pdf-lib library to construct the document structure. When set to Auto orientation, wide images adapt to Landscape A4 and tall images adapt to Portrait A4; Portrait and Landscape force A4. Margins can be set to none or 10 mm. The finished document downloads directly as converted-images.pdf without uploading your files.</p>
 
             <h2 class="content-heading">Limits</h2>
             <p>There is no fixed limit on the number of images or overall file size, and our tests converted images up to 55 MB into PDF pages without errors. JPG photos are embedded directly without re-compression: a PDF made of JPG photos is about 3 to 4 KB larger than the photos together (+3,345 B measured). Converted formats vary when embedded, so the PDF size differs from the source files (WebP 7,498 B became 118,948 B and PNG 4,846 B became 8,174 B). Uploaded PDF pages keep their original size. Orientation and margin settings apply to image pages only.</p>
@@ -307,7 +307,7 @@
             <p>Yes, the converter is completely free to use with no subscriptions, usage limits, or platform watermarks. All document compilation occurs locally in your browser, so your files and photos are never uploaded or stored on remote servers.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Which image formats can I convert to PDF?</h3>
-            <p>You can convert images in JPG, PNG, WebP, and BMP formats. You can also mix different image formats together in a single conversion batch.</p>
+            <p>You can convert images in JPG, PNG, WebP, GIF, and BMP formats. You can also add pages from existing PDF files. You can also mix different image formats together in a single conversion batch.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Can I reorder images and choose page orientation or margins?</h3>
             <p>Yes, you can reorder pages using the up and down arrow buttons next to each thumbnail preview. You can set page orientation to Auto, Portrait (Standard A4 Vertical), or Landscape, and choose between No Margin and Small Margin (10mm padding).</p>
@@ -316,7 +316,7 @@
             <p>There is no hard coded cap on image count or file size, and our tests successfully processed files up to 55 MB. Because processing runs in your browser, batch capacity depends on your device memory.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Why is my generated PDF large?</h3>
-            <p>A PDF made of JPG photos is about 3 to 4 KB larger than the photos together (+3,345 B measured) because JPG images are embedded directly with minimal PDF header and catalog overhead. Other formats are converted when embedded, so their PDF size can differ from the original files (for example, a 7,498 B WebP image became 118,948 B and a 4,846 B PNG image became 8,174 B). Uploaded PDF pages maintain their exact file size.</p>
+            <p>A PDF made of JPG photos is about 3 to 4 KB larger than the photos together (+3,345 B measured) because JPG images are embedded directly with minimal PDF header and catalog overhead. Other formats are converted when embedded, so their PDF size can differ from the original files (for example, a 7,498 B WebP image became 118,948 B and a 4,846 B PNG image became 8,174 B). Uploaded PDF pages keep their original page size.</p>
         </div>
     </section>
 
