@@ -102,7 +102,7 @@
           "name": "Pourquoi le document PDF créé présente-t-il une taille spécifique ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Un PDF généré à partir de photos JPG est environ 3 à 4 Ko plus lourd que les photos réunies (+3 345 o mesurés) car les JPG sont intégrés directement sans recompression. Les autres formats sont convertis lors de l'intégration, leur taille varie donc par rapport aux originaux (comme un WebP de 7 498 o passé à 118 948 o et un PNG de 4 846 o à 8 174 o). Les pages PDF importées conservent leur taille d'origine."
+            "text": "Un PDF généré à partir de photos JPG est seulement de quelques Ko plus lourd que les photos réunies (+3 345 o pour 3 photos et +8 291 o pour 10 photos, mesurés) car les JPG sont intégrés directement sans recompression. Les autres formats sont convertis lors de l'intégration, leur taille varie donc par rapport aux originaux (comme un WebP de 7 498 o passé à 118 948 o et un PNG de 4 846 o à 8 174 o). Les pages PDF importées conservent leur taille d'origine."
           }
         }
       ]
@@ -227,9 +227,9 @@
                 </div>
 
                 <div class="setting-field">
-                    <label class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Target PDF Size (Optional)</label>
+                    <label class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Taille du PDF cible (optionnel)</label>
                     <div style="display:flex; gap:8px;">
-                        <input type="number" id="targetFileSize" class="setting-input" placeholder="e.g. 500" min="1" step="any" style="flex:1; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
+                        <input type="number" id="targetFileSize" class="setting-input" placeholder="ex. 500" min="1" step="any" style="flex:1; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
                         <select id="targetFileSizeUnit" class="setting-select" style="width:80px; flex-shrink:0; padding:10px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
                             <option value="KB">KB</option>
                             <option value="MB" selected>MB</option>
@@ -266,7 +266,7 @@
             <p>La création du document PDF s'effectue dans votre navigateur grâce à des bibliothèques JavaScript exécutées côté client. Vos images sont assemblées dans la structure standard PDF sans envoi de vos fichiers vers un serveur. Les pages PDF importées conservent leur taille d'origine et les réglages d'orientation ou de marge s'appliquent uniquement aux pages d'images.</p>
 
             <h2 class="content-heading">Limites</h2>
-            <p>Il n'y a pas de limite imposée quant au nombre d'images ou au poids individuel des fichiers dans cet outil, et nos tests ont validé la conversion d'images atteignant 55 Mo. Les photos JPG sont intégrées directement sans nouvelle compression: un PDF généré à partir de photos JPG est environ 3 à 4 Ko plus lourd que les photos réunies (+3 345 o mesurés). Les autres formats sont convertis lors de l'intégration, le poids du PDF varie donc par rapport aux originaux (un WebP de 7 498 o est passé à 118 948 o et un PNG de 4 846 o à 8 174 o). Les pages PDF importées conservent leur taille d'origine. L'orientation et la marge s'appliquent uniquement aux pages d'images.</p>
+            <p>Il n'y a pas de limite imposée quant au nombre d'images ou au poids individuel des fichiers dans cet outil, et nos tests ont validé la conversion d'images atteignant 55 Mo. Les photos JPG sont intégrées directement sans nouvelle compression: un PDF généré à partir de photos JPG est seulement de quelques Ko plus lourd que les photos réunies (+3 345 o pour 3 photos et +8 291 o pour 10 photos, mesurés). Les autres formats sont convertis lors de l'intégration, le poids du PDF varie donc par rapport aux originaux (un WebP de 7 498 o est passé à 118 948 o et un PNG de 4 846 o à 8 174 o). Les pages PDF importées conservent leur taille d'origine. L'orientation et la marge s'appliquent uniquement aux pages d'images.</p>
 
             <h2 class="content-heading">Foire aux questions</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Le convertisseur en PDF est-il gratuit et mes fichiers sont-ils téléversés ?</h3>
@@ -282,7 +282,7 @@
             <p>Aucun plafond fixe n'est appliqué au nombre de photos ou à leur taille dans cet outil, des fichiers de 55 Mo ayant été traités lors de nos tests. La capacité dépend directement de la mémoire disponible sur votre matériel.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Pourquoi le document PDF créé présente-t-il une taille spécifique ?</h3>
-            <p>Un PDF généré à partir de photos JPG est environ 3 à 4 Ko plus lourd que les photos réunies (+3 345 o mesurés) car les JPG sont intégrés directement sans recompression. Les autres formats sont convertis lors de l'intégration, leur taille varie donc par rapport aux originaux (comme un WebP de 7 498 o passé à 118 948 o et un PNG de 4 846 o à 8 174 o). Les pages PDF importées conservent leur taille d'origine.</p>
+            <p>Un PDF généré à partir de photos JPG est seulement de quelques Ko plus lourd que les photos réunies (+3 345 o pour 3 photos et +8 291 o pour 10 photos, mesurés) car les JPG sont intégrés directement sans recompression. Les autres formats sont convertis lors de l'intégration, leur taille varie donc par rapport aux originaux (comme un WebP de 7 498 o passé à 118 948 o et un PNG de 4 846 o à 8 174 o). Les pages PDF importées conservent leur taille d'origine.</p>
         </div>
     </section>
 

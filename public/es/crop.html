@@ -234,9 +234,9 @@
                 </div>
 
                 <div class="sidebar-group">
-                    <label class="sidebar-label">TARGET FILE SIZE (OPTIONAL)</label>
+                    <label class="sidebar-label">TAMAÑO DE ARCHIVO OBJETIVO (OPCIONAL)</label>
                     <div style="display:flex; gap:8px;">
-                        <input type="number" id="targetFileSize" class="field-input" placeholder="e.g. 100" min="1" step="any" style="flex:1;">
+                        <input type="number" id="targetFileSize" class="field-input" placeholder="ej. 100" min="1" step="any" style="flex:1;">
                         <select id="targetFileSizeUnit" class="sidebar-select" style="width:75px; flex-shrink:0;">
                             <option value="KB" selected>KB</option>
                             <option value="MB">MB</option>
@@ -326,7 +326,7 @@
             <p>El recorte funciona en tu navegador mediante tecnologías web estándar. Al cargar una imagen, el navegador la dibuja en un elemento Canvas 2D interno. Al mover los controles de selección, las coordenadas se actualizan en tiempo real. Al descargar, se extrae el área seleccionada y se exporta como archivo PNG. Si indicas un tamaño objetivo opcional, la herramienta reduce proporcionalmente las dimensiones para aproximarse al tamaño deseado.</p>
 
             <h2 class="content-heading">Límites</h2>
-            <p>No hay un límite de tamaño fijo para imágenes en esta herramienta, y nuestras pruebas procesaron imágenes de hasta 55 MB sin errores. Sin embargo, imágenes muy pesadas consumen memoria del navegador, por lo que el rendimiento depende del hardware de tu dispositivo. Los archivos resultantes se descargan en formato PNG. Dado que PNG no aplica pérdidas, una foto recortada a partir de JPG, WebP o GIF suele resultar entre 2x y 18x más pesada según la compresión original; una imagen PNG creció un 9% en nuestras pruebas.</p>
+            <p>No hay un límite de tamaño fijo para imágenes en esta herramienta, y nuestras pruebas procesaron imágenes de hasta 55 MB sin errores. Sin embargo, imágenes muy pesadas consumen memoria del navegador, por lo que el rendimiento depende del hardware de tu dispositivo. Los archivos resultantes se descargan en formato PNG. Como PNG no pierde calidad, una foto JPG, WebP o GIF recortada suele pesar más que el original; en nuestra prueba, un recorte 1:1 de un JPG de 4000×3000 pesó unas 3,2 veces más que el original. Si indicas un tamaño de archivo objetivo, la herramienta reduce las dimensiones de salida para acercarse a él, así que el resultado es aproximado y un objetivo pequeño como 100 KB puede quedar por encima (166 KB en nuestra prueba); para objetivos exactos en KB usa el redimensionador de la página de inicio o la herramienta Comprimir.</p>
 
             <h2 class="content-heading">Preguntas frecuentes</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿El recortador es gratis y suben mis archivos?</h3>

@@ -103,7 +103,7 @@
           "name": "¿Por qué el archivo PDF generado tiene un tamaño específico?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Un PDF creado con fotos JPG es aproximadamente entre 3 y 4 KB más grande que las fotos juntas (+3.345 B medidos) debido a la cabecera y el catálogo de páginas del formato PDF, ya que las imágenes JPG se integran directamente sin recompresión. Otros formatos se convierten al incorporarse, por lo que su tamaño final varía respecto al archivo original (un WebP de 7.498 B pasó a 118.948 B y un PNG de 4.846 B pasó a 8.174 B). Las páginas de PDF existentes conservan su tamaño original."
+            "text": "Un PDF creado con fotos JPG es solo unos pocos KB más grande que las fotos juntas (+3.345 B con 3 fotos y +8.291 B con 10 fotos, medidos) debido a la cabecera y el catálogo de páginas del formato PDF, ya que las imágenes JPG se integran directamente sin recompresión. Otros formatos se convierten al incorporarse, por lo que su tamaño final varía respecto al archivo original (un WebP de 7.498 B pasó a 118.948 B y un PNG de 4.846 B pasó a 8.174 B). Las páginas de PDF existentes conservan su tamaño original."
           }
         }
       ]
@@ -228,9 +228,9 @@
                 </div>
 
                 <div class="setting-field">
-                    <label class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Target PDF Size (Optional)</label>
+                    <label class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Tamaño de PDF objetivo (opcional)</label>
                     <div style="display:flex; gap:8px;">
-                        <input type="number" id="targetFileSize" class="setting-input" placeholder="e.g. 500" min="1" step="any" style="flex:1; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
+                        <input type="number" id="targetFileSize" class="setting-input" placeholder="ej. 500" min="1" step="any" style="flex:1; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
                         <select id="targetFileSizeUnit" class="setting-select" style="width:80px; flex-shrink:0; padding:10px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
                             <option value="KB">KB</option>
                             <option value="MB" selected>MB</option>
@@ -267,7 +267,7 @@
             <p>La creación del documento PDF se realiza íntegramente en tu navegador mediante librerías web del lado del cliente. Las imágenes se procesan localmente sin intermediarios y se ensamblan dentro de la estructura estándar de un archivo PDF. Las páginas de PDF subidas conservan su tamaño original sin pérdida. Los ajustes de orientación y margen se aplican únicamente a las páginas de imágenes.</p>
 
             <h2 class="content-heading">Límites</h2>
-            <p>No hay un límite fijo para la cantidad de imágenes ni para el tamaño individual de los archivos en esta herramienta, y nuestras pruebas verificaron la conversión de imágenes de hasta 55 MB en páginas PDF sin errores. Las fotos JPG se incorporan directamente sin recompresión: un PDF creado con fotos JPG es entre 3 y 4 KB más grande que las fotos juntas (+3.345 B medidos). Otros formatos se convierten al integrarse, por lo que el tamaño varía respecto a los archivos originales (por ejemplo, un WebP de 7.498 B pasó a 118.948 B y un PNG de 4.846 B pasó a 8.174 B). Las páginas de PDF subidas conservan su tamaño original. La orientación y el margen se aplican solo a páginas de imágenes.</p>
+            <p>No hay un límite fijo para la cantidad de imágenes ni para el tamaño individual de los archivos en esta herramienta, y nuestras pruebas verificaron la conversión de imágenes de hasta 55 MB en páginas PDF sin errores. Las fotos JPG se incorporan directamente sin recompresión: un PDF creado con fotos JPG es solo unos pocos KB más grande que las fotos juntas (+3.345 B con 3 fotos y +8.291 B con 10 fotos, medidos). Otros formatos se convierten al integrarse, por lo que el tamaño varía respecto a los archivos originales (por ejemplo, un WebP de 7.498 B pasó a 118.948 B y un PNG de 4.846 B pasó a 8.174 B). Las páginas de PDF subidas conservan su tamaño original. La orientación y el margen se aplican solo a páginas de imágenes.</p>
 
             <h2 class="content-heading">Preguntas frecuentes</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿El convertidor de imagen a PDF es gratis y suben mis archivos?</h3>
@@ -283,7 +283,7 @@
             <p>No existe un límite fijo en el número de fotos ni en el tamaño de archivo en esta herramienta, habiendo procesado archivos de hasta 55 MB en nuestras pruebas. La capacidad depende de la memoria disponible en tu dispositivo.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">¿Por qué el archivo PDF generado tiene un tamaño específico?</h3>
-            <p>Un PDF creado con fotos JPG es aproximadamente entre 3 y 4 KB más grande que las fotos juntas (+3.345 B medidos) debido a la cabecera y el catálogo de páginas del formato PDF, ya que las imágenes JPG se integran directamente sin recompresión. Otros formatos se convierten al incorporarse, por lo que su tamaño final varía respecto al archivo original (un WebP de 7.498 B pasó a 118.948 B y un PNG de 4.846 B pasó a 8.174 B). Las páginas de PDF existentes conservan su tamaño original.</p>
+            <p>Un PDF creado con fotos JPG es solo unos pocos KB más grande que las fotos juntas (+3.345 B con 3 fotos y +8.291 B con 10 fotos, medidos) debido a la cabecera y el catálogo de páginas del formato PDF, ya que las imágenes JPG se integran directamente sin recompresión. Otros formatos se convierten al incorporarse, por lo que su tamaño final varía respecto al archivo original (un WebP de 7.498 B pasó a 118.948 B y un PNG de 4.846 B pasó a 8.174 B). Las páginas de PDF existentes conservan su tamaño original.</p>
         </div>
     </section>
 

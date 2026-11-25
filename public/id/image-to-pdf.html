@@ -102,7 +102,7 @@
           "name": "Mengapa berkas PDF yang dihasilkan memiliki sedikit ukuran tambahan?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "PDF dari foto JPG berukuran sekitar 3 hingga 4 KB lebih besar dari total ukuran foto (+3.345 B terukur) karena foto JPG disematkan langsung. Format lain dikonversi saat disematkan sehingga ukurannya berubah (seperti WebP 7.498 B menjadi 118.948 B dan PNG 4.846 B menjadi 8.174 B). Halaman PDF yang diunggah mempertahankan ukuran aslinya."
+            "text": "PDF dari foto JPG berukuran hanya beberapa KB lebih besar dari total ukuran foto (+3.345 B untuk 3 foto dan +8.291 B untuk 10 foto, terukur) karena foto JPG disematkan langsung. Format lain dikonversi saat disematkan sehingga ukurannya berubah (seperti WebP 7.498 B menjadi 118.948 B dan PNG 4.846 B menjadi 8.174 B). Halaman PDF yang diunggah mempertahankan ukuran aslinya."
           }
         }
       ]
@@ -227,9 +227,9 @@
                 </div>
 
                 <div class="setting-field">
-                    <label class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Target PDF Size (Optional)</label>
+                    <label class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Ukuran PDF target (opsional)</label>
                     <div style="display:flex; gap:8px;">
-                        <input type="number" id="targetFileSize" class="setting-input" placeholder="e.g. 500" min="1" step="any" style="flex:1; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
+                        <input type="number" id="targetFileSize" class="setting-input" placeholder="cth. 500" min="1" step="any" style="flex:1; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
                         <select id="targetFileSizeUnit" class="setting-select" style="width:80px; flex-shrink:0; padding:10px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
                             <option value="KB">KB</option>
                             <option value="MB" selected>MB</option>
@@ -266,7 +266,7 @@
             <p>Pembuatan dokumen PDF dilakukan sepenuhnya di browser Anda menggunakan pustaka web sisi klien. Gambar diproses secara lokal tanpa melalui server perantara dan disusun rapi ke dalam struktur standar berkas PDF. Halaman PDF yang diunggah mempertahankan ukuran aslinya dan pengaturan orientasi serta margin hanya berlaku untuk halaman gambar.</p>
 
             <h2 class="content-heading">Batasan</h2>
-            <p>Tidak ada batasan jumlah gambar atau ukuran berkas yang kaku pada alat ini, dan pengujian kami berhasil mengonversi gambar hingga 55 MB menjadi halaman PDF tanpa kendala. Foto JPG disematkan langsung tanpa kompresi ulang: PDF dari foto JPG berukuran sekitar 3 hingga 4 KB lebih besar dari total ukuran foto (+3.345 B terukur). Format lain dikonversi saat disematkan sehingga ukuran PDF bervariasi (misalnya WebP 7.498 B menjadi 118.948 B dan PNG 4.846 B menjadi 8.174 B). Halaman PDF yang diunggah mempertahankan ukuran aslinya. Orientasi dan margin hanya berlaku untuk halaman gambar.</p>
+            <p>Tidak ada batasan jumlah gambar atau ukuran berkas yang kaku pada alat ini, dan pengujian kami berhasil mengonversi gambar hingga 55 MB menjadi halaman PDF tanpa kendala. Foto JPG disematkan langsung tanpa kompresi ulang: PDF dari foto JPG berukuran hanya beberapa KB lebih besar dari total ukuran foto (+3.345 B untuk 3 foto dan +8.291 B untuk 10 foto, terukur). Format lain dikonversi saat disematkan sehingga ukuran PDF bervariasi (misalnya WebP 7.498 B menjadi 118.948 B dan PNG 4.846 B menjadi 8.174 B). Halaman PDF yang diunggah mempertahankan ukuran aslinya. Orientasi dan margin hanya berlaku untuk halaman gambar.</p>
 
             <h2 class="content-heading">Pertanyaan umum</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Apakah konverter ini gratis dan apakah berkas saya diunggah?</h3>
@@ -282,7 +282,7 @@
             <p>Tidak ada batasan jumlah gambar atau ukuran berkas yang ditetapkan pada alat ini, dan pengujian kami berhasil memproses berkas hingga 55 MB. Kapasitas bergantung pada memori yang tersedia di perangkat Anda.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Mengapa berkas PDF yang dihasilkan memiliki sedikit ukuran tambahan?</h3>
-            <p>PDF dari foto JPG berukuran sekitar 3 hingga 4 KB lebih besar dari total ukuran foto (+3.345 B terukur) karena foto JPG disematkan langsung. Format lain dikonversi saat disematkan sehingga ukurannya berubah (seperti WebP 7.498 B menjadi 118.948 B dan PNG 4.846 B menjadi 8.174 B). Halaman PDF yang diunggah mempertahankan ukuran aslinya.</p>
+            <p>PDF dari foto JPG berukuran hanya beberapa KB lebih besar dari total ukuran foto (+3.345 B untuk 3 foto dan +8.291 B untuk 10 foto, terukur) karena foto JPG disematkan langsung. Format lain dikonversi saat disematkan sehingga ukurannya berubah (seperti WebP 7.498 B menjadi 118.948 B dan PNG 4.846 B menjadi 8.174 B). Halaman PDF yang diunggah mempertahankan ukuran aslinya.</p>
         </div>
     </section>
 

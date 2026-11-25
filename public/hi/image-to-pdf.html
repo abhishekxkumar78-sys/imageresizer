@@ -102,7 +102,7 @@
           "name": "तैयार हुए PDF फाइल का साइज कुछ किलोबाइट ज्यादा क्यों होता है?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "JPG तस्वीरों से बना PDF तस्वीरों के कुल साइज से लगभग 3 से 4 KB बड़ा होता है (+3,345 B मापा गया) क्योंकि JPG सीधे एम्बेड होती हैं। दूसरे फॉर्मेट कन्वर्ट होकर जुड़ते हैं जिससे उनका साइज बदल सकता है (जैसे 7,498 B का WebP बदलकर 118,948 B और 4,846 B का PNG बदलकर 8,174 B हो गया)। अपलोड किए गए PDF पेज अपने मूल साइज में रहते हैं।"
+            "text": "JPG तस्वीरों से बना PDF तस्वीरों के कुल साइज से सिर्फ़ कुछ KB बड़ा होता है (3 फ़ोटो पर +3,345 B और 10 फ़ोटो पर +8,291 B मापा गया) क्योंकि JPG सीधे एम्बेड होती हैं। दूसरे फॉर्मेट कन्वर्ट होकर जुड़ते हैं जिससे उनका साइज बदल सकता है (जैसे 7,498 B का WebP बदलकर 118,948 B और 4,846 B का PNG बदलकर 8,174 B हो गया)। अपलोड किए गए PDF पेज अपने मूल साइज में रहते हैं।"
           }
         }
       ]
@@ -227,9 +227,9 @@
                 </div>
 
                 <div class="setting-field">
-                    <label class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Target PDF Size (Optional)</label>
+                    <label class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">लक्षित PDF आकार (वैकल्पिक)</label>
                     <div style="display:flex; gap:8px;">
-                        <input type="number" id="targetFileSize" class="setting-input" placeholder="e.g. 500" min="1" step="any" style="flex:1; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
+                        <input type="number" id="targetFileSize" class="setting-input" placeholder="उदा. 500" min="1" step="any" style="flex:1; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
                         <select id="targetFileSizeUnit" class="setting-select" style="width:80px; flex-shrink:0; padding:10px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
                             <option value="KB">KB</option>
                             <option value="MB" selected>MB</option>
@@ -266,7 +266,7 @@
             <p>PDF डॉक्यूमेंट बनाने का पूरा काम आपके वेब ब्राउज़र में क्लाइंट-साइड तकनीक के जरिए होता है। आपकी तस्वीरें बिना किसी बाहरी सर्वर के स्थानीय तौर पर प्रोसेस होकर PDF फाइल स्ट्रक्चर में जुड़ती हैं। अपलोड किए गए PDF पेज अपने मूल साइज में रहते हैं। ओरिएंटेशन और मार्जिन केवल इमेज पेजों पर लागू होते हैं।</p>
 
             <h2 class="content-heading">सीमाएं</h2>
-            <p>इस टूल में तस्वीरों की संख्या या फाइल साइज की कोई तय सीमा नहीं है और हमारे टेस्ट में 55 MB तक की तस्वीरों को आसानी से PDF में बदला गया। JPG तस्वीरों को बिना दोबारा कंप्रेस किए सीधे जोड़ा जाता है: JPG तस्वीरों से बना PDF तस्वीरों के कुल साइज से लगभग 3 से 4 KB बड़ा होता है (+3,345 B मापा गया)। दूसरे फॉर्मेट जुड़ते समय कन्वर्ट होते हैं, इसलिए PDF का साइज मूल फाइलों से अलग हो सकता है (जैसे 7,498 B का WebP बदलकर 118,948 B और 4,846 B का PNG बदलकर 8,174 B हो गया)। अपलोड किए गए PDF पेज अपने मूल साइज में रहते हैं। ओरिएंटेशन और मार्जिन केवल इमेज पेजों पर लागू होते हैं।</p>
+            <p>इस टूल में तस्वीरों की संख्या या फाइल साइज की कोई तय सीमा नहीं है और हमारे टेस्ट में 55 MB तक की तस्वीरों को आसानी से PDF में बदला गया। JPG तस्वीरों को बिना दोबारा कंप्रेस किए सीधे जोड़ा जाता है: JPG तस्वीरों से बना PDF तस्वीरों के कुल साइज से सिर्फ़ कुछ KB बड़ा होता है (3 फ़ोटो पर +3,345 B और 10 फ़ोटो पर +8,291 B मापा गया)। दूसरे फॉर्मेट जुड़ते समय कन्वर्ट होते हैं, इसलिए PDF का साइज मूल फाइलों से अलग हो सकता है (जैसे 7,498 B का WebP बदलकर 118,948 B और 4,846 B का PNG बदलकर 8,174 B हो गया)। अपलोड किए गए PDF पेज अपने मूल साइज में रहते हैं। ओरिएंटेशन और मार्जिन केवल इमेज पेजों पर लागू होते हैं।</p>
 
             <h2 class="content-heading">अक्सर पूछे जाने वाले सवाल</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">क्या यह कन्वर्टर फ्री है और क्या मेरी तस्वीरें अपलोड होती हैं?</h3>
@@ -282,7 +282,7 @@
             <p>इस टूल में फोटो की संख्या या साइज की कोई तय सीमा नहीं है, और हमने 55 MB तक की फाइलों को सफलतापूर्वक टेस्ट किया है। क्षमता आपके डिवाइस की रैम और मेमोरी पर निर्भर करती है।</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">तैयार हुए PDF फाइल का साइज कुछ किलोबाइट ज्यादा क्यों होता है?</h3>
-            <p>JPG तस्वीरों से बना PDF तस्वीरों के कुल साइज से लगभग 3 से 4 KB बड़ा होता है (+3,345 B मापा गया) क्योंकि JPG सीधे एम्बेड होती हैं। दूसरे फॉर्मेट कन्वर्ट होकर जुड़ते हैं जिससे उनका साइज बदल सकता है (जैसे 7,498 B का WebP बदलकर 118,948 B और 4,846 B का PNG बदलकर 8,174 B हो गया)। अपलोड किए गए PDF पेज अपने मूल साइज में रहते हैं।</p>
+            <p>JPG तस्वीरों से बना PDF तस्वीरों के कुल साइज से सिर्फ़ कुछ KB बड़ा होता है (3 फ़ोटो पर +3,345 B और 10 फ़ोटो पर +8,291 B मापा गया) क्योंकि JPG सीधे एम्बेड होती हैं। दूसरे फॉर्मेट कन्वर्ट होकर जुड़ते हैं जिससे उनका साइज बदल सकता है (जैसे 7,498 B का WebP बदलकर 118,948 B और 4,846 B का PNG बदलकर 8,174 B हो गया)। अपलोड किए गए PDF पेज अपने मूल साइज में रहते हैं।</p>
         </div>
     </section>
 

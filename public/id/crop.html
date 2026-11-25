@@ -231,9 +231,9 @@
                 </div>
 
                 <div class="sidebar-group">
-                    <label class="sidebar-label">TARGET FILE SIZE (OPTIONAL)</label>
+                    <label class="sidebar-label">UKURAN FILE TARGET (OPSIONAL)</label>
                     <div style="display:flex; gap:8px;">
-                        <input type="number" id="targetFileSize" class="field-input" placeholder="e.g. 100" min="1" step="any" style="flex:1;">
+                        <input type="number" id="targetFileSize" class="field-input" placeholder="cth. 100" min="1" step="any" style="flex:1;">
                         <select id="targetFileSizeUnit" class="sidebar-select" style="width:75px; flex-shrink:0;">
                             <option value="KB" selected>KB</option>
                             <option value="MB">MB</option>
@@ -315,7 +315,7 @@
             <p>Pemotongan berjalan di perangkat Anda menggunakan standar web modern. Saat gambar dimasukkan, browser merendernya ke elemen Canvas 2D internal. Menggeser handel pemotong memperbarui koordinat secara langsung. Saat tombol unduh ditekan, area persegi panjang yang dipilih diekstrak dan disimpan sebagai berkas PNG. Jika menentukan target ukuran berkas, alat ini akan menyesuaikan dimensi gambar.</p>
 
             <h2 class="content-heading">Batasan</h2>
-            <p>Tidak ada batasan ukuran berkas yang kaku untuk gambar pada alat ini, dan pengujian kami berhasil memproses foto hingga 55 MB tanpa kendala. Namun, gambar yang sangat besar menggunakan memori browser yang cukup banyak, sehingga performa bergantung pada perangkat Anda. Hasil disimpan sebagai berkas PNG. Karena PNG merupakan format tanpa penurunan mutu, foto hasil potongan dari JPG, WebP, atau GIF biasanya memiliki ukuran berkas sekitar 2x hingga 18x tergantung kompresi berkas asli; berkas PNG bertambah sekitar 9% dalam pengujian kami.</p>
+            <p>Tidak ada batasan ukuran berkas yang kaku untuk gambar pada alat ini, dan pengujian kami berhasil memproses foto hingga 55 MB tanpa kendala. Namun, gambar yang sangat besar menggunakan memori browser yang cukup banyak, sehingga performa bergantung pada perangkat Anda. Hasil disimpan sebagai berkas PNG. Karena PNG bersifat lossless, foto JPG, WebP, atau GIF yang dipotong biasanya lebih besar dari aslinya; dalam pengujian kami, potongan 1:1 dari JPG 4000×3000 hasilnya sekitar 3,2 kali lebih besar dari sumbernya. Jika Anda mengisi ukuran file target, alat ini memperkecil dimensi output agar mendekatinya, jadi hasilnya perkiraan dan target kecil seperti 100 KB masih bisa terlampaui (166 KB dalam pengujian kami); untuk target KB yang tepat gunakan pengubah ukuran gambar di halaman utama atau alat Kompres.</p>
 
             <h2 class="content-heading">Pertanyaan umum</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Apakah alat ini gratis dan apakah berkas saya diunggah?</h3>

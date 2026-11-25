@@ -231,9 +231,9 @@
                 </div>
 
                 <div class="sidebar-group">
-                    <label class="sidebar-label">TARGET FILE SIZE (OPTIONAL)</label>
+                    <label class="sidebar-label">ZIELDATEIGRÖSSE (OPTIONAL)</label>
                     <div style="display:flex; gap:8px;">
-                        <input type="number" id="targetFileSize" class="field-input" placeholder="e.g. 100" min="1" step="any" style="flex:1;">
+                        <input type="number" id="targetFileSize" class="field-input" placeholder="z. B. 100" min="1" step="any" style="flex:1;">
                         <select id="targetFileSizeUnit" class="sidebar-select" style="width:75px; flex-shrink:0;">
                             <option value="KB" selected>KB</option>
                             <option value="MB">MB</option>
@@ -315,7 +315,7 @@
             <p>Das Zuschneiden basiert auf modernen Webstandards im Browser. Ihr Endgerät rendert das importierte Bild auf eine interne 2D-Canvas-Fläche. Wenn Sie die Anfasser verschieben, werden die Bildkoordinaten in Echtzeit neu berechnet. Beim Download wird der ausgewählte Bereich verlustfrei als PNG-Datei exportiert. Falls Sie eine optionale Zielgröße angeben, skaliert das Werkzeug die Abmessungen herunter.</p>
 
             <h2 class="content-heading">Einschränkungen</h2>
-            <p>Es gibt keine feste Begrenzung für Dateigrößen in diesem Werkzeug. Unsere Tests haben hochauflösende Bilder bis zu 55 MB fehlerfrei verarbeitet. Da sehr große Bilder Arbeitsspeicher Ihres Browsers belegen, hängt die Leistung von Ihrem Endgerät ab. Die Ausgabe erfolgt als PNG. Da PNG verlustfrei speichert, wird ein zugeschnittenes JPG-, WebP- oder GIF-Foto oft größer als das Original, in unseren Tests etwa 2x bis 18x je nach ursprünglicher Kompression; ein PNG-Original wuchs um etwa 9%.</p>
+            <p>Es gibt keine feste Begrenzung für Dateigrößen in diesem Werkzeug. Unsere Tests haben hochauflösende Bilder bis zu 55 MB fehlerfrei verarbeitet. Da sehr große Bilder Arbeitsspeicher Ihres Browsers belegen, hängt die Leistung von Ihrem Endgerät ab. Die Ausgabe erfolgt als PNG. Da PNG verlustfrei ist, ist ein zugeschnittenes JPG-, WebP- oder GIF-Foto meist größer als das Original; in unserem Test war ein 1:1-Zuschnitt eines 4000×3000-JPGs etwa 3,2-mal so groß wie die Quelle. Wenn Sie eine Zieldateigröße angeben, verkleinert das Tool die Ausgabemaße, um nahe heranzukommen; das Ergebnis ist also ungefähr, und ein kleines Ziel wie 100 KB kann trotzdem überschritten werden (166 KB in unserem Test); für genaue KB-Ziele nutzen Sie den Bildverkleinerer auf der Startseite oder das Komprimieren-Tool.</p>
 
             <h2 class="content-heading">Häufig gestellte Fragen</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Ist das Werkzeug kostenlos und werden meine Dateien hochgeladen?</h3>

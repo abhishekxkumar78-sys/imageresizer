@@ -102,7 +102,7 @@
           "name": "Warum entsteht bei der PDF-Erstellung ein kleiner Zusatzspeicher?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Ein aus JPG-Fotos erstelltes PDF ist etwa 3 bis 4 KB größer als die Fotos zusammen (+3.345 B gemessen), da JPG-Fotos direkt ohne Neukompression eingebettet werden. Andere Formate werden beim Einbetten konvertiert, sodass sich ihre Größe verändern kann (etwa ein WebP mit 7.498 B zu 118.948 B und ein PNG mit 4.846 B zu 8.174 B). Hochgeladene PDF-Seiten behalten ihre Originalgröße."
+            "text": "Ein aus JPG-Fotos erstelltes PDF ist nur wenige KB größer als die Fotos zusammen (+3.345 B bei 3 Fotos und +8.291 B bei 10 Fotos, gemessen), da JPG-Fotos direkt ohne Neukompression eingebettet werden. Andere Formate werden beim Einbetten konvertiert, sodass sich ihre Größe verändern kann (etwa ein WebP mit 7.498 B zu 118.948 B und ein PNG mit 4.846 B zu 8.174 B). Hochgeladene PDF-Seiten behalten ihre Originalgröße."
           }
         }
       ]
@@ -227,9 +227,9 @@
                 </div>
 
                 <div class="setting-field">
-                    <label class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Target PDF Size (Optional)</label>
+                    <label class="setting-label" style="display:block; font-size:14px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Ziel-PDF-Größe (optional)</label>
                     <div style="display:flex; gap:8px;">
-                        <input type="number" id="targetFileSize" class="setting-input" placeholder="e.g. 500" min="1" step="any" style="flex:1; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
+                        <input type="number" id="targetFileSize" class="setting-input" placeholder="z. B. 500" min="1" step="any" style="flex:1; padding:10px 14px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
                         <select id="targetFileSizeUnit" class="setting-select" style="width:80px; flex-shrink:0; padding:10px; border-radius:var(--radius-md); border:1px solid var(--border); font-family:inherit; font-size:14px; background:var(--bg-light); color:var(--text-primary);">
                             <option value="KB">KB</option>
                             <option value="MB" selected>MB</option>
@@ -266,7 +266,7 @@
             <p>Die Zusammenstellung des PDF-Dokuments erfolgt vollständig im Webbrowser mithilfe moderner clientseitiger Bibliotheken. Die Bilddaten werden ohne Zwischenserver lokal verarbeitet und direkt in ein valides PDF eingebettet. Hochgeladene PDF-Seiten behalten ihre Originalgröße und Einstellungen für Ausrichtung oder Ränder gelten nur für Bildseiten.</p>
 
             <h2 class="content-heading">Einschränkungen</h2>
-            <p>In diesem Werkzeug gibt es keine feste Obergrenze für Bildanzahl oder Dateigröße. In unseren Tests wurden hochauflösende Bilder bis zu 55 MB erfolgreich verarbeitet. JPG-Fotos werden direkt ohne erneute Kompression eingebettet: Ein aus JPG-Fotos erstelltes PDF ist etwa 3 bis 4 KB größer als die Fotos zusammen (+3.345 B gemessen). Andere Formate werden beim Einbetten konvertiert, wodurch die Dateigröße abweicht (ein WebP mit 7.498 B wurde zu 118.948 B und ein PNG mit 4.846 B zu 8.174 B). Hochgeladene PDF-Seiten behalten ihre Originalgröße. Ausrichtung und Ränder gelten nur für Bildseiten.</p>
+            <p>In diesem Werkzeug gibt es keine feste Obergrenze für Bildanzahl oder Dateigröße. In unseren Tests wurden hochauflösende Bilder bis zu 55 MB erfolgreich verarbeitet. JPG-Fotos werden direkt ohne erneute Kompression eingebettet: Ein aus JPG-Fotos erstelltes PDF ist nur wenige KB größer als die Fotos zusammen (+3.345 B bei 3 Fotos und +8.291 B bei 10 Fotos, gemessen). Andere Formate werden beim Einbetten konvertiert, wodurch die Dateigröße abweicht (ein WebP mit 7.498 B wurde zu 118.948 B und ein PNG mit 4.846 B zu 8.174 B). Hochgeladene PDF-Seiten behalten ihre Originalgröße. Ausrichtung und Ränder gelten nur für Bildseiten.</p>
 
             <h2 class="content-heading">Häufig gestellte Fragen</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Ist der PDF-Konverter kostenlos und werden Dateien hochgeladen?</h3>
@@ -282,7 +282,7 @@
             <p>Es gibt in diesem Werkzeug keine künstliche Begrenzung für die Anzahl der Bilder oder deren Größe, und Dateien bis 55 MB wurden getestet. Das Verarbeitungsvermögen richtet sich nach dem verfügbaren Arbeitsspeicher Ihres Geräts.</p>
 
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">Warum entsteht bei der PDF-Erstellung ein kleiner Zusatzspeicher?</h3>
-            <p>Ein aus JPG-Fotos erstelltes PDF ist etwa 3 bis 4 KB größer als die Fotos zusammen (+3.345 B gemessen), da JPG-Fotos direkt ohne Neukompression eingebettet werden. Andere Formate werden beim Einbetten konvertiert, sodass sich ihre Größe verändern kann (etwa ein WebP mit 7.498 B zu 118.948 B und ein PNG mit 4.846 B zu 8.174 B). Hochgeladene PDF-Seiten behalten ihre Originalgröße.</p>
+            <p>Ein aus JPG-Fotos erstelltes PDF ist nur wenige KB größer als die Fotos zusammen (+3.345 B bei 3 Fotos und +8.291 B bei 10 Fotos, gemessen), da JPG-Fotos direkt ohne Neukompression eingebettet werden. Andere Formate werden beim Einbetten konvertiert, sodass sich ihre Größe verändern kann (etwa ein WebP mit 7.498 B zu 118.948 B und ein PNG mit 4.846 B zu 8.174 B). Hochgeladene PDF-Seiten behalten ihre Originalgröße.</p>
         </div>
     </section>
 

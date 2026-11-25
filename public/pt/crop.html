@@ -231,9 +231,9 @@
                 </div>
 
                 <div class="sidebar-group">
-                    <label class="sidebar-label">TARGET FILE SIZE (OPTIONAL)</label>
+                    <label class="sidebar-label">TAMANHO DE ARQUIVO ALVO (OPCIONAL)</label>
                     <div style="display:flex; gap:8px;">
-                        <input type="number" id="targetFileSize" class="field-input" placeholder="e.g. 100" min="1" step="any" style="flex:1;">
+                        <input type="number" id="targetFileSize" class="field-input" placeholder="ex. 100" min="1" step="any" style="flex:1;">
                         <select id="targetFileSizeUnit" class="sidebar-select" style="width:75px; flex-shrink:0;">
                             <option value="KB" selected>KB</option>
                             <option value="MB">MB</option>
@@ -315,7 +315,7 @@
             <p>O recorte opera no seu navegador através de padrões web modernos. Ao importar uma imagem, o navegador desenha o conteúdo em um elemento Canvas 2D interno. Mover as alças atualiza as coordenadas de corte em tempo real. Ao clicar em baixar, a área retangular selecionada é extraída e exportada como imagem PNG. Se definir um tamanho de arquivo desejado, a ferramenta reduz as dimensões para aproximar o resultado.</p>
 
             <h2 class="content-heading">Limites</h2>
-            <p>Não há um limite fixo de tamanho de arquivo para imagens nesta ferramenta, e nossos testes processaram imagens de até 55 MB sem erros. Contudo, imagens muito grandes demandam memória do navegador, dependendo do hardware do seu dispositivo. As imagens são salvas em PNG. Como o formato PNG é sem perdas, fotos originárias de JPG, WebP ou GIF geralmente resultam em arquivos cerca de 2x a 18x maiores dependendo da compressão original; um PNG cresceu cerca de 9% nos testes.</p>
+            <p>Não há um limite fixo de tamanho de arquivo para imagens nesta ferramenta, e nossos testes processaram imagens de até 55 MB sem erros. Contudo, imagens muito grandes demandam memória do navegador, dependendo do hardware do seu dispositivo. As imagens são salvas em PNG. Como o PNG não perde qualidade, uma foto JPG, WebP ou GIF recortada costuma ficar maior que o original; no nosso teste, um recorte 1:1 de um JPG de 4000×3000 ficou cerca de 3,2 vezes maior que a origem. Se você definir um tamanho de arquivo alvo, a ferramenta reduz as dimensões de saída para chegar perto dele, então o resultado é aproximado e um alvo pequeno como 100 KB ainda pode ficar acima (166 KB no nosso teste); para alvos exatos em KB use o redimensionador da página inicial ou a ferramenta Comprimir.</p>
 
             <h2 class="content-heading">Perguntas frequentes</h2>
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-top: 24px; margin-bottom: 8px;">O recortador é gratuito e meus arquivos são enviados?</h3>
