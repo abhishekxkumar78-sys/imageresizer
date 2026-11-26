@@ -62,7 +62,6 @@ Ten en cuenta estos detalles prácticos al trabajar con muchas imágenes a la ve
 * **Procesamiento secuencial**: Los archivos se procesan uno tras otro para evitar picos de consumo de memoria. Un lote con veinte imágenes llevará más tiempo que uno con dos fotos. Si notas que tu equipo responde lento, prueba con un lote más pequeño.
 * **Archivos con incidencias**: Si una imagen concreta está dañada o no se puede leer, su fila mostrará el estado "Error" y la herramienta continuará procesando las demás fotos de la lista.
 * **Reiniciar la lista**: El botón "Borrar todo" vacía la lista y te devuelve al área de subida. No existe una opción para eliminar una única foto de la lista, por lo que si has añadido una imagen no deseada, puedes pulsar "Borrar todo" y empezar de nuevo, o simplemente no pulsar el icono de descarga de esa fila al terminar.
-* **Texto del tamaño de archivo**: El área de subida muestra el aviso "Tamaño máximo de archivo: 50 MB."
 
 ## Otras herramientas compatibles con varios archivos
 

@@ -62,7 +62,6 @@ Perhatikan beberapa hal penting berikut saat mengolah banyak berkas sekaligus:
 * **Pemrosesan berurutan**: Berkas diproses satu demi satu untuk menghindari lonjakan penggunaan memori. Memproses dua puluh berkas akan memakan waktu lebih lama dibanding dua berkas. Jika perangkat Anda terasa melambat, cobalah memproses dalam kelompok yang lebih sedikit.
 * **Kendala pada berkas tertentu**: Bila salah satu berkas rusak atau formatnya tidak terbaca, baris tersebut akan menampilkan status "Error", sementara berkas lainnya dalam daftar tetap diproses hingga tuntas.
 * **Mereset daftar**: Tombol "Hapus semua" akan mengosongkan daftar berkas dan mengembalikan Anda ke area unggah. Tidak tersedia pilihan untuk menghapus satu gambar saja dari daftar; jika Anda salah memasukkan gambar, Anda dapat menekan "Hapus semua" lalu memulai ulang, atau cukup abaikan baris tersebut saat proses unduh selesai.
-* **Teks ukuran berkas**: Area unggah menampilkan keterangan "Ukuran file maksimum: 50 MB."
 
 ## Alat lain yang mendukung banyak berkas
 

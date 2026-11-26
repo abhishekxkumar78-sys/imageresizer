@@ -62,7 +62,6 @@ Voici quelques points pratiques à garder en tête lors du traitement de plusieu
 * **Traitement séquentiel** : Les photos sont traitées l'une après l'autre afin d'éviter les pics d'utilisation de la mémoire. Un lot de vingt photos demandera plus de temps qu'un lot de deux. Si votre appareil semble ralentir, traitez vos images par petits lots.
 * **Gestion des erreurs** : Si un fichier est corrompu ou illisible, sa ligne affichera "Error" et l'outil continuera sans interruption le traitement des autres images de la liste.
 * **Vider la liste** : Le bouton "Tout effacer" vide la liste et vous ramène à la zone d'importation. Il n'existe pas d'option pour retirer un seul fichier de la liste ; si vous avez ajouté une image par erreur, vous pouvez cliquer sur "Tout effacer" et recommencer, ou simplement ne pas télécharger cette ligne à la fin.
-* **Texte sur la taille de fichier** : La zone de téléversement affiche la mention "Taille maximale de fichier : 50 Mo."
 
 ## Autres outils prenant en charge plusieurs fichiers
 

@@ -62,7 +62,6 @@ Keep the following details in mind when working with multiple files:
 * **Sequential processing**: Pictures are processed one after another to avoid memory spikes. A batch of twenty files will take longer than a batch of two. If your device feels slow, try a smaller batch.
 * **Errors on individual files**: If a specific file is corrupt or cannot be decoded, its row displays "Error" while the tool continues processing the remaining files in the list.
 * **Clearing the list**: The "Clear all" button empties the list and takes you back to the upload area. There is no option to remove a single file from the list, so if you added an unwanted image, you can either click "Clear all" and start over, or simply skip downloading that row when processing finishes.
-* **File size text**: The upload area displays the notice "Maximum file size: 50MB."
 
 ## Other tools supporting bulk files
 

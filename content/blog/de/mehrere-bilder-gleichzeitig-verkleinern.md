@@ -62,7 +62,6 @@ Beachten Sie bei der Arbeit mit mehreren Dateien folgende Punkte:
 * **Schrittweise verarbeiten**: Die Bilder werden nacheinander verarbeitet, um Lastspitzen beim Arbeitsspeicher zu vermeiden. Ein Stapel mit zwanzig Bildern dauert länger als zwei Bilder. Wenn Ihr Gerät langsam reagiert, probieren Sie einen kleineren Stapel aus.
 * **Dateien mit Fehlern**: Sollte eine Datei beschädigt sein oder nicht gelesen werden können, erscheint in der Zeile der Hinweis "Error", während die übrigen Bilder ohne Abbruch weiterverarbeitet werden.
 * **Liste leeren**: Die Schaltfläche "Alles löschen" leert die Liste und bringt Sie zurück zum Uploadbereich. Es gibt keine Option zum Entfernen einzelner Bilder aus der Liste; haben Sie ein Bild versehentlich hinzugefügt, können Sie über "Alles löschen" neu beginnen oder dieses Bild am Ende einfach nicht herunterladen.
-* **Text zur Dateigröße**: Im Uploadbereich steht der Hinweis "Maximale Dateigröße: 50 MB."
 
 ## Weitere Werkzeuge mit Mehrfachauswahl
 

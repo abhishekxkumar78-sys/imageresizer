@@ -62,7 +62,6 @@ Guarde estas orientações práticas ao trabalhar com múltiplos arquivos:
 * **Processamento sequencial**: As fotos são processadas uma após a outra para evitar picos de consumo de memória. Um lote com vinte fotos vai demorar mais tempo do que um com duas. Se o seu dispositivo parecer lento, experimente um lote menor.
 * **Arquivos com falhas**: Se um arquivo específico estiver corrompido ou não puder ser lido, a linha correspondente exibirá "Error" e a ferramenta continuará o processamento dos demais elementos da lista.
 * **Limpar a lista**: O botão "Limpar tudo" esvazia a lista e volta a exibir a área de envio. Não existe uma opção para remover uma única foto da lista; caso tenha adicionado um arquivo por engano, você pode clicar em "Limpar tudo" e recomeçar, ou simplesmente não baixar essa linha ao terminar.
-* **Texto do tamanho de arquivo**: A área de envio apresenta o aviso "Tamanho máximo do arquivo: 50 MB."
 
 ## Outras ferramentas que aceitam múltiplos arquivos
 
