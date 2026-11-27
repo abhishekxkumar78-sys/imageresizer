@@ -27,7 +27,7 @@ Le choix du format de fichier est crucial. Beaucoup de plateformes officielles a
 Pour obtenir le résultat le plus propre possible proche de 50 Ko, suivez cet ordre de travail dans notre outil pour [Redimensionner une image](https://www.freeeimageresizer.com/fr/):
 
 1. Commencez par recadrer l'arrière-plan inutile : si vous préparez un portrait ou une signature, utilisez notre outil pour [Recadrer une image](https://www.freeeimageresizer.com/fr/crop) afin d'ôter les marges blanches, enregistrez l'image recadrée et ouvrez ce fichier dans le Redimensionneur via Sélectionner des images pour les étapes suivantes.
-2. Dans Sortie sélectionnez JPG pour Format ; beaucoup de portails demandent du JPG, suivez les instructions de votre portail, ou convertissez en amont avec notre outil [Convertir une image](https://www.freeeimageresizer.com/fr/convert).
+2. Dans Sortie sélectionnez JPG pour Format. Beaucoup de portails demandent du JPG, alors suivez les instructions de votre portail, car les systèmes d'envoi plus anciens peuvent refuser le WebP, ou convertissez en amont avec notre outil [Convertir une image](https://www.freeeimageresizer.com/fr/convert).
 3. Diminuez manuellement la largeur en pixels vers une dimension raisonnable, par exemple entre 600 et 800 pixels, au lieu de conserver la taille brute de l'appareil photo.
 4. Dans les réglages d'exportation, indiquez 50 dans le champ Target file size (optional) en conservant l'unité KB.
 5. Cliquez sur le bouton Traiter l'image, vérifiez le poids obtenu à côté de l'aperçu, contrôlez les détails à taille réelle avec un zoom à cent pour cent, puis cliquez sur le bouton Télécharger.

@@ -27,7 +27,7 @@ Format choice makes a significant difference here. Many application portals only
 To get the cleanest possible result close to 50 KB, follow this order of work in our free [Image Resizer](https://www.freeeimageresizer.com/):
 
 1. Crop unnecessary background first: if you are preparing a portrait or a signature, use the [Crop Image](https://www.freeeimageresizer.com/crop) tool to cut away empty margins, save the cropped image, and open that file in the Image Resizer with Select Images for the next steps.
-2. Under Output set Format to JPG, because many portals ask for JPG, follow the instructions of your portal, or convert beforehand with our [Convert Image](https://www.freeeimageresizer.com/convert) tool.
+2. Under Output set Format to JPG. Many portals ask for JPG, so follow your portal's instructions, because older upload systems may reject WebP, or convert beforehand with our [Convert Image](https://www.freeeimageresizer.com/convert) tool.
 3. Lower the pixel dimensions manually to a sensible size, such as 600 to 800 pixels wide, rather than leaving the original full camera width.
 4. In the export settings, enter 50 into the Target file size (optional) field with the unit dropdown set to KB.
 5. Click the Process Image button, check the final file size next to the preview, inspect the picture at full zoom, and click the Download button.

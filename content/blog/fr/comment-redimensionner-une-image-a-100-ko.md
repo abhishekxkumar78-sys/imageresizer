@@ -23,7 +23,7 @@ Les portails administratifs fixent généralement des limites de taille pour mai
 Voici comment parvenir au poids souhaité avec notre outil pour Redimensionner une image:
 
 1. Rendez-vous sur l'outil Redimensionner une image et cliquez sur Sélectionner des images, ou glissez votre fichier dans la zone prévue.
-2. Dans Sortie, sélectionnez JPG pour Format. Beaucoup de portails demandent du JPG, suivez les instructions de votre portail, car des systèmes plus anciens peuvent refuser le WebP. Pour convertir en amont, utilisez notre outil [Convertir une image](https://www.freeeimageresizer.com/fr/convert).
+2. Dans Sortie, sélectionnez JPG pour Format. Beaucoup de portails demandent du JPG, alors suivez les instructions de votre portail, car les systèmes d'envoi plus anciens peuvent refuser le WebP. Pour convertir en amont, utilisez notre outil [Convertir une image](https://www.freeeimageresizer.com/fr/convert).
 3. Dans la section des réglages d'exportation, repérez le champ Target file size (optional). Saisissez 100 et conservez l'unité réglée sur KB.
 4. Cliquez sur le bouton Traiter l'image. Le programme calculera les réglages nécessaires pour atteindre la cible demandée.
 5. Vérifiez la taille obtenue à côté de l'aperçu, puis cliquez sur le bouton Télécharger pour enregistrer l'image sur votre appareil.
@@ -81,7 +81,7 @@ La taille cible est approximative car l'encodeur teste plusieurs paliers de qual
 
 ### Quel format choisir pour un formulaire en ligne ?
 
-Choisissez JPG dans la plupart des cas. Beaucoup de portails demandent du JPG, suivez les instructions de votre portail. Le format PNG ne permet pas de baisser la qualité de compression dans le navigateur et ne réduit le poids qu'en rétrécissant les pixels, alors que le JPG garde les visages nets près de 100 Ko.
+Choisissez JPG dans la plupart des cas. Beaucoup de portails demandent du JPG, alors suivez les instructions de votre portail, car les systèmes d'envoi plus anciens peuvent refuser le WebP. Le format PNG ne permet pas de baisser la qualité de compression dans le navigateur et ne réduit le poids qu'en rétrécissant les pixels, alors que le JPG garde les visages nets près de 100 Ko.
 
 ### Ma photo est-elle envoyée sur un serveur ?
 

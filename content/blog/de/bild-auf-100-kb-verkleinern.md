@@ -23,7 +23,7 @@ Websites mit Formularen setzen üblicherweise Begrenzungen für die Dateigröße
 So verkleinern Sie Ihre Datei mit unserem kostenlosen Werkzeug für Bildgröße ändern:
 
 1. Öffnen Sie das Werkzeug für Bildgröße ändern und klicken Sie auf Bilder auswählen oder ziehen Sie Ihr Bild in das vorgesehene Feld.
-2. Stellen Sie unter Ausgabe das Format auf JPG. Viele Portale verlangen JPG, folgen Sie den Vorgaben Ihres Portals, da ältere Systeme WebP ablehnen. Zum vorherigen Umwandeln hilft unser [Bildkonverter](https://www.freeeimageresizer.com/de/convert).
+2. Stellen Sie unter Ausgabe das Format auf JPG. Viele Portale verlangen JPG; folgen Sie daher den Vorgaben Ihres Portals, da ältere Upload-Systeme WebP ablehnen können. Zum vorherigen Umwandeln hilft unser [Bildkonverter](https://www.freeeimageresizer.com/de/convert).
 3. Scrollen Sie zu den Exporteinstellungen und tragen Sie im Feld Target file size (optional) den Wert 100 ein. Das Auswahlfeld daneben bleibt auf KB gestellt.
 4. Klicken Sie auf die Schaltfläche Bild verarbeiten. Das Werkzeug ermittelt die nötigen Anpassungen, um die gewünschte Zielgröße zu erreichen.
 5. Kontrollieren Sie die berechnete Dateigröße neben der Vorschau und klicken Sie auf die Schaltfläche Herunterladen, um das Bild auf Ihrem Gerät zu speichern.
@@ -81,7 +81,7 @@ Die Zielgröße ist ein Näherungswert, da der Encoder Qualitätsstufen und Pixe
 
 ### Welches Format sollte ich für ein Formular wählen?
 
-Wählen Sie meist JPG. Viele Portale verlangen JPG, folgen Sie den Vorgaben Ihres Portals. PNG kann im Browser keine Kompressionsqualität senken und verkleinert Dateien nur über die Pixelmaße, während JPG Gesichter nahe 100 KB klarer hält.
+Wählen Sie meist JPG. Viele Portale verlangen JPG; folgen Sie daher den Vorgaben Ihres Portals, da ältere Upload-Systeme WebP ablehnen können. PNG kann im Browser keine Kompressionsqualität senken und verkleinert Dateien nur über die Pixelmaße, während JPG Gesichter nahe 100 KB klarer hält.
 
 ### Wird mein Foto auf einen Server hochgeladen?
 

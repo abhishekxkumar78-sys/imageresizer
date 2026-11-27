@@ -27,7 +27,7 @@ Pemilihan format berkas memegang peranan penting. Sebagian besar formulir resmi 
 Untuk memperoleh hasil paling rapi mendekati 50 KB, terapkan urutan langkah ini di alat [Ubah Ukuran Gambar](https://www.freeeimageresizer.com/id/) kami:
 
 1. Pangkas latar belakang yang tidak penting terlebih dahulu: jika menyiapkan pasfoto atau tanda tangan, gunakan alat [Potong Gambar](https://www.freeeimageresizer.com/id/crop) untuk membuang tepi kosong, simpan gambar hasil potongan, lalu buka berkas tersebut lewat Pilih gambar di Pengubah Ukuran Gambar untuk langkah berikutnya.
-2. Pada Output atur Format ke JPG; banyak portal meminta format JPG, ikuti petunjuk dari portal Anda, atau konversi sebelumnya lewat alat [Konversi Gambar](https://www.freeeimageresizer.com/id/convert) kami.
+2. Pada Output atur Format ke JPG. Banyak portal meminta format JPG, jadi ikuti petunjuk portal Anda, karena sistem unggah yang lebih lama dapat menolak WebP, atau konversi sebelumnya lewat alat [Konversi Gambar](https://www.freeeimageresizer.com/id/convert) kami.
 3. Kecilkan ukuran piksel secara manual ke nilai yang wajar, misalnya lebar 600 hingga 800 piksel, daripada membiarkan resolusi asli kamera yang sangat besar.
 4. Pada bagian pengaturan ekspor, masukkan angka 50 di kolom Target file size (optional) dengan satuan tetap pada KB.
 5. Klik tombol Proses gambar, periksa ukuran akhir di dekat pratinjau, amati detail gambar pada perbesaran seratus persen, lalu klik tombol Unduh.

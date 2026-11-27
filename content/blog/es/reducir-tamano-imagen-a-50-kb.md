@@ -27,7 +27,7 @@ La elección del formato de archivo es fundamental. Muchos portales oficiales ac
 Para obtener el resultado más limpio cerca de los 50 KB, aplica este orden de pasos en nuestra herramienta de [Redimensionar imagen](https://www.freeeimageresizer.com/es/):
 
 1. Recorta el fondo innecesario antes de nada: si vas a preparar una fotografía personal o una firma, utiliza la herramienta de [Recortar imagen](https://www.freeeimageresizer.com/es/crop) para quitar márgenes vacíos, guarda la imagen recortada y abre ese archivo con Seleccionar imágenes en el Redimensionador para los siguientes pasos.
-2. En Salida selecciona JPG en Formato; muchos portales piden JPG, sigue las instrucciones de tu portal, o cambia el formato previamente con nuestro [Convertidor de imágenes](https://www.freeeimageresizer.com/es/convert).
+2. En Salida selecciona JPG en Formato. Muchos portales piden JPG, así que sigue las instrucciones de tu portal, porque los sistemas de carga más antiguos pueden rechazar WebP, o cambia el formato previamente con nuestro [Convertidor de imágenes](https://www.freeeimageresizer.com/es/convert).
 3. Reduce las dimensiones en píxeles de forma manual a un tamaño razonable, por ejemplo entre 600 y 800 píxeles de ancho, en vez de conservar la resolución completa de la cámara.
 4. En los ajustes de exportación, introduce 50 en el campo Target file size (optional) con la unidad fijada en KB.
 5. Haz clic en el botón Procesar imagen, comprueba el tamaño resultante junto a la vista previa, revisa el detalle al cien por cien de zoom y haz clic en el botón Descargar.

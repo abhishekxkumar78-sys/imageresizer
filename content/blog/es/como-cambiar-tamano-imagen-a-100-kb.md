@@ -23,7 +23,7 @@ Los portales de trámites suelen establecer límites de peso para mantener bajo 
 Sigue estos pasos en nuestra herramienta gratuita de Redimensionar imagen:
 
 1. Abre la página de Redimensionar imagen y haz clic en Seleccionar imágenes, o arrastra tu archivo directamente a la caja.
-2. En Salida, selecciona JPG en Formato. Muchos portales piden JPG, sigue las instrucciones de tu portal, ya que sistemas antiguos pueden rechazar WebP. Si prefieres cambiar el formato antes, usa nuestro [Convertidor de imágenes](https://www.freeeimageresizer.com/es/convert).
+2. En Salida, selecciona JPG en Formato. Muchos portales piden JPG, así que sigue las instrucciones de tu portal, porque los sistemas de carga más antiguos pueden rechazar WebP. Si prefieres cambiar el formato antes, usa nuestro [Convertidor de imágenes](https://www.freeeimageresizer.com/es/convert).
 3. En la sección de ajustes de exportación, busca el campo Target file size (optional). Escribe 100 y asegúrate de mantener la unidad en KB.
 4. Haz clic en el botón Procesar imagen. La herramienta calculará los ajustes necesarios para aproximarse a tu objetivo.
 5. Comprueba el tamaño final obtenido junto a la vista previa y haz clic en el botón Descargar para guardar la foto en tu dispositivo.
@@ -81,7 +81,7 @@ El peso objetivo es aproximado porque la herramienta combina pasos de calidad JP
 
 ### ¿Qué formato conviene elegir para subir a un formulario?
 
-Elige JPG en la mayoría de los casos. Muchos portales piden JPG, sigue las instrucciones de tu portal. Como PNG no permite reducir la calidad de compresión en el navegador y solo baja el peso encogiendo los píxeles, JPG conserva mejor rostros y firmas cerca de 100 KB.
+Elige JPG en la mayoría de los casos. Muchos portales piden JPG, así que sigue las instrucciones de tu portal, porque los sistemas de carga más antiguos pueden rechazar WebP. Como PNG no permite reducir la calidad de compresión en el navegador y solo baja el peso encogiendo los píxeles, JPG conserva mejor rostros y firmas cerca de 100 KB.
 
 ### ¿Se sube mi foto a algún servidor?
 

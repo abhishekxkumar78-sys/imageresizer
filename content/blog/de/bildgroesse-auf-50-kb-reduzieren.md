@@ -27,7 +27,7 @@ Das gewählte Bildformat spielt hierbei eine wesentliche Rolle. Viele offizielle
 Um das bestmögliche Ergebnis nahe 50 KB zu erzielen, empfiehlt sich dieser Ablauf in unserem Werkzeug für [Bildgröße ändern](https://www.freeeimageresizer.com/de/):
 
 1. Schneiden Sie unnötige Ränder zuerst ab: Wenn Sie ein Porträt oder eine Unterschrift vorbereiten, entfernen Sie mit unserem Werkzeug für [Bild zuschneiden](https://www.freeeimageresizer.com/de/crop) überflüssige Randflächen, speichern Sie das zugeschnittene Bild und öffnen Sie diese Datei über Bilder auswählen im Bildverkleinerer für die nächsten Schritte.
-2. Wählen Sie unter Ausgabe als Format JPG; viele Portale verlangen JPG, folgen Sie den Vorgaben Ihres Portals, oder konvertieren Sie vorab mit unserem [Bildkonverter](https://www.freeeimageresizer.com/de/convert).
+2. Wählen Sie unter Ausgabe als Format JPG. Viele Portale verlangen JPG; folgen Sie daher den Vorgaben Ihres Portals, da ältere Upload-Systeme WebP ablehnen können, oder konvertieren Sie vorab mit unserem [Bildkonverter](https://www.freeeimageresizer.com/de/convert).
 3. Senken Sie die Pixelmaße vorab manuell auf eine vernünftige Breite ab, beispielsweise 600 bis 800 Pixel, anstatt die volle Sensorauflösung der Kamera beizubehalten.
 4. Tragen Sie in den Exporteinstellungen den Wert 50 in das Feld Target file size (optional) ein und belassen Sie die Einheit auf KB.
 5. Klicken Sie auf die Schaltfläche Bild verarbeiten, prüfen Sie die ermittelte Dateigröße neben der Vorschau, begutachten Sie das Bild bei voller Zoomstufe und klicken Sie auf die Schaltfläche Herunterladen.

@@ -23,7 +23,7 @@ Portals usually set file size limits to keep their database storage and page loa
 Here is how to reach your target file size using our free Image Resizer:
 
 1. Open the Image Resizer and click Select Images, or drag your image file into the box.
-2. Under Output, set Format to JPG. Many portals ask for JPG, follow the instructions of your portal, because WebP may be rejected by older upload systems. If you prefer converting beforehand, use our [Convert Image](https://www.freeeimageresizer.com/convert) tool.
+2. Under Output, set Format to JPG. Many portals ask for JPG, so follow your portal's instructions, because older upload systems may reject WebP. If you prefer converting beforehand, use our [Convert Image](https://www.freeeimageresizer.com/convert) tool.
 3. In the export settings section, find the Target file size (optional) field. Enter 100 and keep the dropdown set to KB.
 4. Click the Process Image button. The tool will calculate the adjustments needed to match your target.
 5. Check the resulting file size next to the preview, then click the Download button to save the picture to your device.
@@ -81,7 +81,7 @@ Target file compression is approximate because the encoder tests compression lev
 
 ### Which format should I choose for a form upload?
 
-Select JPG in most cases. Many portals ask for JPG, follow the instructions of your portal. PNG cannot reduce compression quality inside the browser and can only shrink file weight by reducing pixel dimensions, whereas JPG preserves clearer faces and signatures near 100 KB.
+Select JPG in most cases. Many portals ask for JPG, so follow your portal's instructions, because older upload systems may reject WebP. PNG cannot reduce compression quality inside the browser and can only shrink file weight by reducing pixel dimensions, whereas JPG preserves clearer faces and signatures near 100 KB.
 
 ### Is my photo uploaded?
 

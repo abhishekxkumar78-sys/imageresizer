@@ -23,7 +23,7 @@ Portal pendaftaran biasanya menetapkan batas ukuran berkas untuk menjaga kapasit
 Berikut langkah mudah menggunakan alat gratis Ubah Ukuran Gambar:
 
 1. Buka halaman Ubah Ukuran Gambar lalu klik Pilih gambar, atau seret foto ke dalam kotak yang tersedia.
-2. Pada bagian Output, atur Format ke JPG. Banyak portal meminta format JPG, ikuti petunjuk dari portal Anda, karena sistem formulir lama bisa menolak WebP. Untuk mengubah format lebih awal, pakai alat [Konversi Gambar](https://www.freeeimageresizer.com/id/convert) kami.
+2. Pada bagian Output, atur Format ke JPG. Banyak portal meminta format JPG, jadi ikuti petunjuk portal Anda, karena sistem unggah yang lebih lama dapat menolak WebP. Untuk mengubah format lebih awal, pakai alat [Konversi Gambar](https://www.freeeimageresizer.com/id/convert) kami.
 3. Pada bagian pengaturan ekspor, cari kolom Target file size (optional). Masukkan angka 100 dan pastikan pilihan satuan tetap pada KB.
 4. Klik tombol Proses gambar. Alat ini akan menghitung penyesuaian yang diperlukan untuk mencapai target tersebut.
 5. Periksa ukuran akhir yang muncul di samping pratinjau, lalu klik tombol Unduh untuk menyimpan foto ke perangkat Anda.
@@ -81,7 +81,7 @@ Kompresi ukuran target bersifat perkiraan karena enkoder menguji tingkat mutu da
 
 ### Format mana yang sebaiknya dipilih untuk unggahan formulir?
 
-Pilih JPG dalam banyak situasi. Banyak portal meminta format JPG, ikuti petunjuk dari portal Anda. PNG tidak dapat mengurangi mutu kompresi di peramban dan hanya mengecilkan ukuran lewat dimensi piksel, sedangkan JPG mempertahankan detail wajah mendekati 100 KB.
+Pilih JPG dalam banyak situasi. Banyak portal meminta format JPG, jadi ikuti petunjuk portal Anda, karena sistem unggah yang lebih lama dapat menolak WebP. PNG tidak dapat mengurangi mutu kompresi di peramban dan hanya mengecilkan ukuran lewat dimensi piksel, sedangkan JPG mempertahankan detail wajah mendekati 100 KB.
 
 ### Apakah foto saya diunggah ke server?
 
